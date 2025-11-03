@@ -1,0 +1,32 @@
+h2 {
+  color:green;
+  font-size: 24px;
+}
+
+.header1 {
+  color: navy;
+  font-weight: bold;
+  background: grey;
+  font-style: oblique;
+  border-radius: 20px;
+}
+
+.header2 {
+  color: darkgreen;
+  font-weight: bold;
+  background: grey;
+  font-style: oblique;
+  border-radius: 8px;
+  border-width: 30px;
+}
+
+.content1 {
+  color: black;
+  font-weight: normal;
+  background: grey;
+  border-radius: 5px;
+}
+
+.content2 {
+	background: rgb(200, 200, 200);
+}
