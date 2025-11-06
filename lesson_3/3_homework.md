@@ -41,3 +41,11 @@
 - [Coolors](https://coolors.co/) - генератор цветовых палитр
 - [CSS Animation Rocks](https://cssanimation.rocks/) - примеры и уроки CSS анимаций
 
+
+<div class="container">
+  <div class="menu"></div>
+  <div class="content"></div>
+  <div class="footer"></div>
+  <div class="photo"></div>
+</div>
+
