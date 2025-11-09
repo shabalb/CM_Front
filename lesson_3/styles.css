@@ -33,7 +33,7 @@
   grid-auto-flow: row;
   grid-template-areas:
     "menu . photo"
-    "content content ."
+    "content content photomid"
     "footer footer footer";
 }
 
@@ -67,6 +67,11 @@
 .footer { grid-area: footer; }
 
 .photo { grid-area: photo; }
+
+.photomid { grid-area: photomid;
+			align-self: center;
+			justify-self: left;
+ }
 
 /**/
 
@@ -119,4 +124,20 @@
 
 .cv__footer {
 	background: #899E8B;
+	
 }
+
+
+.cv__photo {
+	/**/
+	max-width: 30%;
+	height: auto;
+	/**/
+}
+/*
+/*
+		width="90"
+		height="120"
+		*/
+*/
+
