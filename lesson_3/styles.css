@@ -1,107 +1,132 @@
-
-
 .grid-item {
-    background-color: #f0f0f0;
-    border: 1px solid #ddd;
-    padding: 20px;
-    text-align: center;
-    border-radius: 8px;
+  background-color: #f0f0f0;
+  border: 1px solid #ddd;
+  padding: 20px;
+  text-align: center;
+  border-radius: 8px;
 }
 
 .containergit {
-  display: grid; 
-  grid-template-columns: 1fr; 
-  grid-template-rows: 1fr 1fr 1fr 1fr 1fr 1fr; 
-  gap: 0px 0px; 
-  grid-template-areas: 
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: 1fr 1fr 1fr 1fr 1fr 1fr;
+  gap: 0px 0px;
+  grid-template-areas:
     "git1"
     "git2"
-	"git3"
+    "git3"
     "git4"
-	"git5"
+    "git5"
     "git6"
-    ; 
+  ;
 }
-.git1 { grid-area: git1; }
-.git2 { grid-area: git2; }
-.git3 { grid-area: git3; }
-.git4 { grid-area: git4; }
-.git5 { grid-area: git5; }
-.git6 { grid-area: git6; }
 
-.container {  
-  
+.git1 {
+  grid-area: git1;
+}
+
+.git2 {
+  grid-area: git2;
+}
+
+.git3 {
+  grid-area: git3;
+}
+
+.git4 {
+  grid-area: git4;
+}
+
+.git5 {
+  grid-area: git5;
+}
+
+.git6 {
+  grid-area: git6;
+}
+
+.container {
+
   display: grid;
   grid-template-columns: 1fr;
   gap: 0px 0px;
   grid-auto-flow: row;
   grid-template-areas:
     "header"
-	"menu"
-	"photo"
-    "content"
-	"photomid"
-    "footer";
-}
-
-@media (min-width:768px){
-	.container {  
-  display: grid;
-  
-  grid-template-columns: 1fr;
-  gap: 0px 0px;
-  grid-auto-flow: row;
-  grid-template-areas:
-	"header"
     "menu"
-	"photo"
+    "photo"
     "content"
-	"photomid"
+    "photomid"
     "footer";
 }
-.containergit {
-  display: grid; 
-  grid-template-columns: 1fr 1fr; 
-  grid-template-rows: 1fr 1fr 1fr ; 
-  gap: 0px 0px; 
-  grid-template-areas: 
-    "git1 git2"
-	"git3 git4"
-	"git5 git6"; 
-}
+
+@media (min-width:768px) {
+  .container {
+    display: grid;
+
+    grid-template-columns: 1fr;
+    gap: 0px 0px;
+    grid-auto-flow: row;
+    grid-template-areas:
+      "header"
+      "menu"
+      "photo"
+      "content"
+      "photomid"
+      "footer";
+  }
+
+  .containergit {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr 1fr 1fr;
+    gap: 0px 0px;
+    grid-template-areas:
+      "git1 git2"
+      "git3 git4"
+      "git5 git6";
+  }
 
 }
-@media (min-width:1024px){
-	.container {
+
+@media (min-width:1024px) {
+  .container {
+    display: grid;
+
+    grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+    gap: 0px 0px;
+    grid-auto-flow: row;
+    grid-template-areas:
+      "header . ."
+      "menu . photo"
+      "content content photomid"
+      "footer footer footer";
+  }
+
+  .containergit {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-rows: 1fr 1fr 1fr;
+    gap: 0px 0px;
+    grid-template-areas:
+      "git1 git2 git3"
+      "git4 git5 git6"
+      ". . .";
+  }
+}
+
+.cv__header_first {
+  grid-area: header;
+}
+
+.menu {
+  grid-area: menu;
+}
+
+.content {
   display: grid;
-  
-  grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
-  gap: 0px 0px;
-  grid-auto-flow: row;
-  grid-template-areas:
-    "header . ." 
-    "menu . photo"
-    "content content photomid"
-    "footer footer footer";
-}
-.containergit {
-  display: grid; 
-  grid-template-columns: 1fr 1fr 1fr; 
-  grid-template-rows: 1fr 1fr 1fr; 
-  gap: 0px 0px; 
-  grid-template-areas: 
-    "git1 git2 git3"
-    "git4 git5 git6"
-    ". . ."; 
-}
-}
-.cv__header_first { grid-area: header; }
-
-.menu { grid-area: menu; }
-
-.content {  display: grid;
   grid-template-columns: 1fr 1fr 1fr;
-  
+
   gap: 0px 0px;
   grid-auto-flow: row;
   grid-template-areas:
@@ -113,27 +138,41 @@
   grid-area: content;
 }
 
-.target { grid-area: target; }
+.target {
+  grid-area: target;
+}
 
-.about { grid-area: about; }
+.about {
+  grid-area: about;
+}
 
-.education { grid-area: education; }
+.education {
+  grid-area: education;
+}
 
-.practice { grid-area: practice; }
+.practice {
+  grid-area: practice;
+}
 
-.adds { grid-area: adds; }
+.adds {
+  grid-area: adds;
+}
 
-.footer { grid-area: footer; }
+.footer {
+  grid-area: footer;
+}
 
-.photo { grid-area: photo;
-		 min-width:100px;
- }
+.photo {
+  grid-area: photo;
+  min-width: 100px;
+}
 
-.photomid { grid-area: photomid;
-			align-self: center;
-			justify-self: left;
-			min-width:100px;
- }
+.photomid {
+  grid-area: photomid;
+  align-self: center;
+  justify-self: left;
+  min-width: 100px;
+}
 
 .cv__header__navy {
   color: navy;
@@ -169,19 +208,19 @@
 
 .cv__content__background_off {
   color: #221F18;
-  
+
 }
 
 .cv {
-	background: linear-gradient(white, #AFECE7);
+  background: linear-gradient(white, #AFECE7);
 }
 
 .cv__footer {
-	background: #899E8B;
+  background: #899E8B;
 }
 
 .cv__photo {
-	border-radius: 50%;
-	width: 30%;
-	height: auto;
+  border-radius: 50%;
+  width: 30%;
+  height: auto;
 }
