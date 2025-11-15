@@ -1,4 +1,4 @@
-.grid-item {
+.grid_item {
   background-color: #f0f0f0;
   border: 1px solid #ddd;
   padding: 20px;
@@ -6,7 +6,7 @@
   border-radius: 8px;
 }
 
-.containergit {
+.cv__container_git {
   display: grid;
   grid-template-columns: 1fr;
   grid-template-rows: 1fr 1fr 1fr 1fr 1fr 1fr;
@@ -21,31 +21,31 @@
   ;
 }
 
-.git1 {
+.container_git1 {
   grid-area: git1;
 }
 
-.git2 {
+.container_git2 {
   grid-area: git2;
 }
 
-.git3 {
+.container_git3 {
   grid-area: git3;
 }
 
-.git4 {
+.container_git4 {
   grid-area: git4;
 }
 
-.git5 {
+.container_git5 {
   grid-area: git5;
 }
 
-.git6 {
+.container_git6 {
   grid-area: git6;
 }
 
-.container {
+.cv__container {
 
   display: grid;
   grid-template-columns: 1fr;
@@ -61,7 +61,7 @@
 }
 
 @media (min-width:768px) {
-  .container {
+  .cv__container {
     display: grid;
 
     grid-template-columns: 1fr;
@@ -76,7 +76,7 @@
       "footer";
   }
 
-  .containergit {
+  .cv__container_git {
     display: grid;
     grid-template-columns: 1fr 1fr;
     grid-template-rows: 1fr 1fr 1fr;
@@ -90,7 +90,7 @@
 }
 
 @media (min-width:1024px) {
-  .container {
+  .cv__container {
     display: grid;
 
     grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
@@ -103,7 +103,7 @@
       "footer footer footer";
   }
 
-  .containergit {
+  .cv__container_git {
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
     grid-template-rows: 1fr 1fr 1fr;
@@ -119,11 +119,11 @@
   grid-area: header;
 }
 
-.menu {
+.cv__container_menu {
   grid-area: menu;
 }
 
-.content {
+.cv__container_content {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
 
@@ -138,36 +138,36 @@
   grid-area: content;
 }
 
-.target {
+.cv__container_target {
   grid-area: target;
 }
 
-.about {
+.cv__container_about {
   grid-area: about;
 }
 
-.education {
+.cv__container_education {
   grid-area: education;
 }
 
-.practice {
+.cv__container_practice {
   grid-area: practice;
 }
 
-.adds {
+.cv__container_adds {
   grid-area: adds;
 }
 
-.footer {
+.cv__container_footer {
   grid-area: footer;
 }
 
-.photo {
+.cv__container_photo {
   grid-area: photo;
   min-width: 100px;
 }
 
-.photomid {
+.cv__container_photomid {
   grid-area: photomid;
   align-self: center;
   justify-self: left;
