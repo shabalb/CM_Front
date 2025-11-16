@@ -6,7 +6,7 @@
   border-radius: 8px;
 }
 
-.cv__gitprojects{
+.cv__gitprojects {
   font-family: system-ui;
   font-weight: 200;
   text-decoration: none;
@@ -101,7 +101,7 @@
     display: grid;
 
     /*grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));*/
-	grid-template-columns: 1fr 1fr 0.5fr;
+    grid-template-columns: 1fr 1fr 0.5fr;
     gap: 0px 0px;
     grid-auto-flow: row;
     grid-template-areas:
@@ -242,7 +242,7 @@
   font-weight: 350;
 }
 
-.cv__ref{
+.cv__ref {
   text-decoration: none;
   color: black;
 }
@@ -252,3 +252,42 @@
   width: 30%;
   height: auto;
 }
+
+.cv__input {
+  color: black;
+  background: #C4C4C4;
+  font-family: system-ui;
+  font-weight: 350;
+  border-radius: 7px;
+  width: 30%;
+  display: flex;
+  justify-content: center;
+}
+
+.cv__message {
+  color: black;
+  background: #C4C4C4;
+  font-family: system-ui;
+  font-weight: 350;
+  border-radius: 7px;
+  width: 30%;
+  display: flex;
+  justify-content: center;
+  height: 100px;
+  white-space: pre-wrap;
+  word-break: break-all;
+}
+
+.cv__button {
+  color: black;
+  background: #FFB800;
+  font-family: system-ui;
+  font-weight: 350;
+  border-radius: 7px;
+  width: 30%;
+  display: block;
+  margin: 0 auto;
+
+}
+
+.cv__feedback {}
