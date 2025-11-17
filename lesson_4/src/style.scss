@@ -94,3 +94,42 @@ button:focus-visible {
     background-color: #f9f9f9;
   }
 }
+@mixin round-button($size: 50px, $bg-color: #007bff, $color: white) {
+  width: $size;
+  height: $size;
+  border-radius: 50%;
+  background-color: $bg-color;
+  color: $color;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+}
+
+@mixin rectangle-button($width: 100px,$height:50px, $bg-color: #007bff, $color: white) {
+  width: $width;
+  height: $height;
+  background-color: $bg-color;
+  color: $color;
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+}
+
+@mixin button1 {  
+   font-size: 1em;  
+   padding: 0.5em 1.0em;  
+   text-decoration: none;  
+   color: #fff;  
+   @content;  
+}
+.button-green {  
+   @include round-button(60px, #ff6b6b, white);
+}
+.button-grectangle {  
+   @include rectangle-button(200px,70px, #0919c3, rgb(9, 9, 9));
+}
