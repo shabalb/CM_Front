@@ -13,6 +13,41 @@
   color: black;
 }
 
+.navbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  background: #000000;
+  padding: 10px 0;
+  z-index: 1000;
+}
+
+.navbar ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  text-align: right;
+}
+
+.navbar li {
+  display: inline-block;
+  margin: 0 15px;
+}
+
+.navbar a {
+  color: white;
+  text-decoration: none;
+  font-size: 18px;
+  padding: 5px 10px;
+  border-bottom: 2px solid #FFB800;
+}
+
+.navbar a:hover {
+  background: #555;
+  border-radius: 4px;
+}
+
 .cv__container_git {
   display: grid;
   grid-template-columns: 1fr;
@@ -53,7 +88,8 @@
 }
 
 .cv__container {
-
+  margin: 0;
+  padding-top: 60px;
   display: grid;
   grid-template-columns: 1fr;
   gap: 0px 0px;
