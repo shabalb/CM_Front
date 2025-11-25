@@ -1,8 +1,7 @@
 @import 'https://fonts.googleapis.com/css?family=Fira+Sans:300,400';
 @import 'https://fonts.googleapis.com/icon?family=Material+Icons';
-
+$primary-color: black;
 @media screen and (max-width: 768px) {
-
 
   $black: #252525;
   $white: #fff;
@@ -28,8 +27,6 @@
   }
 
   body {
-
-
     &::after {
       content: '';
       //position: absolute;
@@ -80,7 +77,6 @@
       visibility: visible;
     }
   }
-
   // ---------------------------------------
   // important stuff starts here
 
@@ -94,7 +90,6 @@
 
   $nav-level-border-color: $primary-color;
   $nav-level-background-color: $primary-color-tint-5;
-
   $nav-level3-background-color: $primary-color-tint-4;
   $nav-level4-background-color: $primary-color-tint-3;
   $nav-level5-background-color: $primary-color-tint-2;
@@ -158,6 +153,7 @@
           background-color: $nav-level-background-color;
         }
 
+
         .nav-back-link {
           display: flex;
           align-items: center;
@@ -207,11 +203,9 @@
 
           .nav-expand-content {
             background-color: $nav-level4-background-color;
-
             .nav-link {
               background-color: $nav-level4-background-color;
             }
-
           }
         }
       }
@@ -221,6 +215,31 @@
 
 /*****************************/
 
+.send {
+  color: transparent; 
+  display: block;
+  text-decoration: none;
+  font-family: system-ui;
+  font-weight: 200;
+}
+
+.send.active {
+  padding: 0.3em;
+  color: green;
+}
+
+.error {
+  color: transparent; 
+  display: block;
+  text-decoration: none;
+  font-family: system-ui;
+  font-weight: 200;
+}
+
+.error.active {
+  padding: 0.3em;
+  color: red;
+}
 
 .cv__container_point {
   color: black;
@@ -229,9 +248,9 @@
   font-weight: 200;
 }
 
-
-
-
+.cv__container_point.active {
+  background-color: lighten($primary-color, 20%);; 
+}
 
 .grid_item {
   background-color: #C4C4C4;
@@ -247,8 +266,6 @@
   text-decoration: none;
   color: black;
 }
-
-
 
 .cv__container_git {
   display: grid;
@@ -314,7 +331,6 @@
     font-weight: 200;
   }
 
-
   .navbar {
     position: fixed;
     top: 0;
@@ -323,8 +339,6 @@
     background: #000000;
     padding: 10px 0;
     z-index: 1000;
-
-
   }
 
   .navbar ul {
@@ -377,17 +391,14 @@
       "git3 git4"
       "git5 git6";
   }
-
 }
 
 @media (min-width:1024px) {
   .hamburger {
     display: none;
   }
-
   .cv__container {
     display: grid;
-
     /*grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));*/
     grid-template-columns: 1fr 1fr 0.5fr;
     gap: 0px 0px;
@@ -419,8 +430,6 @@
   grid-area: menu;
   color: white;
 }
-
-
 
 .cv__container_content {
   display: grid;
@@ -569,7 +578,6 @@
   width: 30%;
   display: block;
   margin: 0 auto;
-
 }
 
 .cv__feedback {}

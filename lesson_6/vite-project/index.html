@@ -6,7 +6,7 @@
 	<title>Страница-портфолио</title>
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<meta name="description" content="CV HTML page">
-	<script type="module" src="/js/script.js"></script>
+
 	<script type="module" src="/src/main.js"></script>
 </head>
 
@@ -14,23 +14,20 @@
 
 	<header class="cv__header cv__header_first ">
 		<b>Страница-портфолио</b>
-		
-	</header >
-		
-	<div class=" nav-top">	
+
+	</header>
+
+	<div class=" nav-top">
 		<span class="hamburger material-icons" id="ham">menu</span>
 	</div>
 
 	<nav class="cv__container_menu navbar nav-drill">
 		<ul class="nav-items nav-level-1">
-			<li class="nav-item "><a href="#aboutMe" class="cv__container_point nav-link ">О
-					себе</a></li>
-			<li class="nav-item "><a href="#education"
-					class="cv__container_point nav-link ">Образование</a></li>
-			<li class="nav-item "><a href="#pract"
-					class="cv__container_point nav-link ">Практика</a></li>
-			<li class="nav-item "><a href="#add"
-					class="cv__container_point nav-link ">Дополнительная информация</a></li>
+			<li class="nav-item "><a href="#aboutMe" class="cv__container_point nav-link ">О себе</a></li>
+			<li class="nav-item "><a href="#education" class="cv__container_point nav-link ">Образование</a></li>
+			<li class="nav-item "><a href="#pract" class="cv__container_point nav-link ">Практика</a></li>
+			<li class="nav-item "><a href="#add" class="cv__container_point nav-link ">Дополнительная информация</a>
+			</li>
 		</ul>
 	</nav>
 
@@ -111,16 +108,33 @@
 				<b>Обратная связь</b>
 			</h2>
 
-			<p align="center"><input type="email" id="emailfeedback" name="email" placeholder="email" required
-					class="cv__input"></p>
+			<form novalidate>
+				<p align="center">
+					<label for="mail">
+						<input type="email" id="mail" name="mail" placeholder="email" required class="cv__input">
+						<span class="error" aria-live="polite"></span>
+					</label>
+				</p>
 
-			<p align="center"><input id="namefeedback" name="name" placeholder="имя" required class="cv__input"></p>
+				<p align="center">
+					<label for="name">
+						<input id="name" name="name" placeholder="имя" required class="cv__input">
+						<span class="error" aria-live="polite"></span>
+					</label>
+				</p>
 
-			<p align="center"><textarea type="text" rows="6" name="message" id="message" placeholder="сообщение"
-					class="cv__message"></textarea>
-			</p>
-			<button name="send" class="cv__button" align="center">Отправить</button>
-
+				<p align="center">
+					<label for="message">
+						<textarea type="text" rows="6" name="message" id="message" placeholder="сообщение"
+							class="cv__message"></textarea>
+						<span class="error" aria-live="polite"></span>
+					</label>
+				</p>
+				<p align="center">
+					<button name="send" class="cv__button" align="center">Отправить</button>
+					<span class="send" aria-live="polite"></span>
+				</p>
+			</form>
 		</section>
 	</div>
 
@@ -132,5 +146,6 @@
 		<p>89109416828</p>
 	</footer>
 </body>
+<script type="module" src="/js/script.js"></script>
 
 </html>
