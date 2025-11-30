@@ -1,6 +1,17 @@
 @import 'https://fonts.googleapis.com/css?family=Fira+Sans:300,400';
 @import 'https://fonts.googleapis.com/icon?family=Material+Icons';
-$primary-color: black;
+$primary-color: rgb(0, 0, 0);
+$cv_background-color: black;
+
+
+:root {
+  --cv_background-color: black;
+  --cv_content_background: #252525;
+  --cv_content_text: white;
+}
+
+
+
 @media screen and (max-width: 768px) {
 
   $black: #252525;
@@ -243,12 +254,13 @@ $primary-color: black;
   color: red;
 }
 
+
 .cv__time {
   text-decoration: none;
   font-family: system-ui;
   font-weight: 200;
-  color: white;
-  background: #252525;
+  color: var(--cv_content_text);
+  background: var(--cv_content_background);
   border-radius: 10px;
   top: 50px;
   right: 0;
@@ -259,16 +271,29 @@ $primary-color: black;
   padding: 10px 30px;
   width: 7%;
   height: 35px;
-  
+
 }
 
-.switch input {display:none;}
+@media screen and (max-width: 768px) {
+  .cv__time {
+    display: none;
+  }
+}
+
+.cv__switch_dark-theme input {
+  display: none;
+}
 
 .cv__switch_dark-theme {
   position: relative;
   display: inline-block;
   width: 60px;
   height: 34px;
+  top: 5px;
+  left: 10px;
+  display: flex;
+  position: fixed;
+  z-index: 105;
 }
 
 .cv__slider {
@@ -281,6 +306,7 @@ $primary-color: black;
   background-color: #ccc;
   -webkit-transition: .4s;
   transition: .4s;
+  border-radius: 34px;
 }
 
 .cv__slider:before {
@@ -290,21 +316,26 @@ $primary-color: black;
   width: 26px;
   left: 4px;
   bottom: 4px;
-  background-color: white;
+  background-color: rgb(53, 53, 53);
   -webkit-transition: .4s;
   transition: .4s;
+  border-radius: 50%;
 }
 
 
-input:checked + .cv__slider {
-  background-color: #2196F3;
+input:checked+.cv__slider {
+  background-color: #282828;
 }
 
-input:focus + .cv__slider {
-  box-shadow: 0 0 1px #2196F3;
+input:checked+.cv__slider:before {
+  background-color: #c3c3c3;
 }
 
-input:checked + .cv__slider:before {
+input:focus+.cv__slider {
+  box-shadow: 0 0 1px #1f1f1f;
+}
+
+input:checked+.cv__slider:before {
   -webkit-transform: translateX(26px);
   -ms-transform: translateX(26px);
   transform: translateX(26px);
@@ -408,9 +439,9 @@ input:checked + .cv__slider:before {
     top: 0;
     left: 0;
     width: 100%;
-    background: #000000;
+    background: var(--cv_content_background);
     padding: 10px 0;
-    z-index: 1000;
+    z-index: 100;
   }
 
   .navbar ul {
@@ -463,12 +494,13 @@ input:checked + .cv__slider:before {
       "git3 git4"
       "git5 git6";
   }
-}
-
-@media (min-width:1024px) {
   .hamburger {
     display: none;
   }
+}
+
+@media (min-width:1024px) {
+  
 
   .cv__container {
     display: grid;
@@ -507,7 +539,7 @@ input:checked + .cv__slider:before {
 .cv__container_content {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
-
+  margin: 0px 20px 0px;
   gap: 0px 0px;
   grid-auto-flow: row;
   grid-template-areas:
@@ -584,19 +616,29 @@ input:checked + .cv__slider:before {
 .cv__content__background {
   font-family: system-ui;
   font-weight: 200;
-  color: white;
-  background: #252525;
+  color: var(--cv_content_text);
+  background: var(--cv_content_background);
   border-radius: 5px;
+  border: 10px solid transparent;
 }
 
+
 .cv__content__background_off {
-  color: white;
+  color: var(--cv_content_text);
   font-family: system-ui;
   font-weight: 200;
+  border: 10px solid transparent;
+}
+
+.cv__href{
+  color: var(--cv_content_text);
+  font-family: system-ui;
+  font-weight: 200;
+  text-decoration: none;
 }
 
 .cv {
-  background: black;
+  background: var(--cv_background-color);
 }
 
 .cv__footer {
@@ -604,6 +646,7 @@ input:checked + .cv__slider:before {
   background: #FFB800;
   font-family: system-ui;
   font-weight: 350;
+  border: 10px solid transparent;
 }
 
 .cv__ref {
@@ -615,6 +658,7 @@ input:checked + .cv__slider:before {
   border-radius: 50%;
   width: 30%;
   height: auto;
+  margin: 20px 30px 20px;
 }
 
 .cv__input {

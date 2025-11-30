@@ -124,4 +124,28 @@ function updateClock() {
 }
 
 updateClock();               
-setInterval(updateClock, 1000);  
+setInterval(updateClock, 1000); 
+
+// swither  switch-dark-theme
+
+const  switch_dark_theme = document.getElementById("switch-dark-theme");
+let flag = 0;
+
+switch_dark_theme.addEventListener("click", change_theme);
+
+function change_theme() {
+  const color = document.documentElement.style;
+
+  if (flag == 0){
+    color.setProperty('--cv_background-color', 'white');
+    color.setProperty('--cv_content_background', '#9f9f9f');
+    color.setProperty('--cv_content_text', 'black');
+    flag = 1;
+  }
+  else if (flag == 1){
+    color.setProperty('--cv_background-color', 'black');
+    color.setProperty('--cv_content_background', '#252525');
+    color.setProperty('--cv_content_text', '#ffffffff');
+    flag = 0;
+  }
+}
