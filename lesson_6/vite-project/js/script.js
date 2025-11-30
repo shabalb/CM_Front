@@ -138,12 +138,14 @@ function change_theme() {
 
   if (flag == 0){
     color.setProperty('--cv_background-color', 'white');
-    color.setProperty('--cv_content_background', '#9f9f9f');
+    color.setProperty('--cv_content_background', '#d9d9d9ff');
     color.setProperty('--cv_content_text', 'black');
+    color.setProperty('--cv_topbar', '#9f9f9f');
     flag = 1;
   }
   else if (flag == 1){
     color.setProperty('--cv_background-color', 'black');
+    color.setProperty('--cv_topbar', 'black');
     color.setProperty('--cv_content_background', '#252525');
     color.setProperty('--cv_content_text', '#ffffffff');
     flag = 0;
