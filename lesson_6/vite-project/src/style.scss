@@ -9,6 +9,8 @@ $cv_background-color: black;
   --cv_content_background: #252525;
   --cv_content_text: white;
   --cv_topbar: black;
+  --cswither_padding_right: 20px;
+  --cswither_padding_left: 20px;
 }
 
 
@@ -300,7 +302,7 @@ $cv_background-color: black;
 .cv__slider {
   position: absolute;
   cursor: pointer;
-  top: 0;
+  top: 0px;
   left: 0;
   right: 0;
   bottom: 0;
@@ -308,7 +310,17 @@ $cv_background-color: black;
   -webkit-transition: .4s;
   transition: .4s;
   border-radius: 34px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding-right: var(--cswither_padding_right);
+  
 }
+
+.theme_icon{
+  z-index: 100;
+}
+
 
 .cv__slider:before {
   position: absolute;
@@ -326,6 +338,7 @@ $cv_background-color: black;
 
 input:checked+.cv__slider {
   background-color: #282828;
+  padding-left: var(--cswither_padding_left);
 }
 
 input:checked+.cv__slider:before {

@@ -117,37 +117,96 @@ window.addEventListener('scroll', () => {
 
 
 function updateClock() {
-  const now = new Date();
-  const formatted = now.toLocaleDateString() + ' ' + now.toLocaleTimeString();
-  document.getElementById('time').textContent = formatted;
-  document.getElementById('time').datetime = formatted;
+    const now = new Date();
+    const formatted = now.toLocaleDateString() + ' ' + now.toLocaleTimeString();
+    document.getElementById('time').textContent = formatted;
+    document.getElementById('time').datetime = formatted;
 }
 
-updateClock();               
-setInterval(updateClock, 1000); 
+updateClock();
+setInterval(updateClock, 1000);
 
 // swither  switch-dark-theme
 
-const  switch_dark_theme = document.getElementById("switch-dark-theme");
+const switch_dark_theme = document.getElementById("switch-dark-theme");
+const switch_icon = document.getElementById("theme_icon");
 let flag = 0;
-
+//change_theme();
+saved_theme();
 switch_dark_theme.addEventListener("click", change_theme);
-
+//light_mode    mode_night
 function change_theme() {
-  const color = document.documentElement.style;
+    const color = document.documentElement.style;
 
-  if (flag == 0){
-    color.setProperty('--cv_background-color', 'white');
-    color.setProperty('--cv_content_background', '#d9d9d9ff');
-    color.setProperty('--cv_content_text', 'black');
-    color.setProperty('--cv_topbar', '#9f9f9f');
-    flag = 1;
-  }
-  else if (flag == 1){
-    color.setProperty('--cv_background-color', 'black');
-    color.setProperty('--cv_topbar', 'black');
-    color.setProperty('--cv_content_background', '#252525');
-    color.setProperty('--cv_content_text', '#ffffffff');
-    flag = 0;
-  }
+    let savedTheme = localStorage.getItem('theme');
+
+    //if (savedTheme === 'light') {
+    //    flag = 1;
+    //}else if (savedTheme === 'night'){
+    //    flag = 0;
+    //}
+
+    if (flag == 0) {
+        color.setProperty('--cv_background-color', 'white');
+        color.setProperty('--cv_content_background', '#d9d9d9ff');
+        color.setProperty('--cv_content_text', 'black');
+        color.setProperty('--cv_topbar', '#9f9f9f');
+        color.setProperty('--cswither_padding_right', '20px');
+        color.setProperty('--cswither_padding_left', '0px');
+        switch_icon.textContent = "mode_night";
+        flag = 1;
+        localStorage.setItem('theme', 'light');
+    }
+    else if (flag == 1) {
+        color.setProperty('--cv_background-color', 'black');
+        color.setProperty('--cv_topbar', 'black');
+        color.setProperty('--cv_content_background', '#252525');
+        color.setProperty('--cv_content_text', '#ffffffff');
+        switch_icon.textContent = "light_mode";
+        color.setProperty('--cswither_padding_right', '0px');
+        color.setProperty('--cswither_padding_left', '26px');
+        flag = 0;
+        localStorage.setItem('theme', 'night');
+    }
+}
+
+
+function saved_theme() {
+    const color = document.documentElement.style;
+
+    let savedTheme = localStorage.getItem('theme');
+
+    if (!savedTheme) {
+        const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+        savedTheme = prefersDark ? "night" : "light";
+    }
+
+    //if (savedTheme === 'light') {
+    //    flag = 0;
+    //}else if (savedTheme === 'night'){
+    //    flag = 1;
+    //}
+
+    if (savedTheme === 'light') {
+        flag = 1;
+        color.setProperty('--cv_background-color', 'white');
+        color.setProperty('--cv_content_background', '#d9d9d9ff');
+        color.setProperty('--cv_content_text', 'black');
+        color.setProperty('--cv_topbar', '#9f9f9f');
+        color.setProperty('--cswither_padding_right', '20px');
+        color.setProperty('--cswither_padding_left', '0px');
+        switch_icon.textContent = "mode_night";
+        switch_dark_theme.checked = false;
+    }
+    else if (savedTheme === 'night') {
+        flag = 0;
+        color.setProperty('--cv_background-color', 'black');
+        color.setProperty('--cv_topbar', 'black');
+        color.setProperty('--cv_content_background', '#252525');
+        color.setProperty('--cv_content_text', '#ffffffff');
+        switch_icon.textContent = "light_mode";
+        color.setProperty('--cswither_padding_right', '0px');
+        color.setProperty('--cswither_padding_left', '26px');
+        switch_dark_theme.checked = true;
+    }
 }
