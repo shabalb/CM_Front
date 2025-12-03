@@ -5,7 +5,6 @@ document.addEventListener('DOMContentLoaded', () => {
     links.forEach(link => {
         link.addEventListener('click', function (e) {
             e.preventDefault();
-
             const targetId = this.getAttribute('href').substring(1);
             const targetElement = document.getElementById(targetId);
             document.documentElement.style.scrollPaddingTop = '60px';
@@ -14,7 +13,6 @@ document.addEventListener('DOMContentLoaded', () => {
                     behavior: 'smooth',
                     block: 'start'
                 });
-
             }
             document.body.classList.remove('nav-is-toggled');
         });
@@ -34,7 +32,6 @@ navExpand.forEach(item => {
     item.querySelector('.nav-back-link')?.addEventListener('click', () => item.classList.remove('active'))
 })
 
-// ---------------------------------------
 // not-so-important stuff starts here
 const ham = document.getElementById('ham')
 ham.addEventListener('click', function () {
@@ -42,23 +39,18 @@ ham.addEventListener('click', function () {
 })
 
 const form = document.getElementsByTagName("form")[0];
-
 const email = document.getElementById("mail");
-const emailError = document.querySelector("#mail + span.error");
-
+const emailError = document.querySelector("#mail + span.error_subtext");
 const namefeedback = document.getElementById("name");
-const nameError = document.querySelector("#name + span.error");
-
-const sendMessage = document.querySelector("span.send");
+const nameError = document.querySelector("#name + span.error_subtext");
+const sendMessage = document.querySelector("span.send_subtext");
 
 email.addEventListener("input", function (event) {
     email.setCustomValidity("");
     namefeedback.setCustomValidity("");
 });
 
-
 form.addEventListener("submit", function (event) {
-
     let isValid = true;
     event.preventDefault();
     if (!email.validity.valid) {
@@ -66,20 +58,19 @@ form.addEventListener("submit", function (event) {
         email.setCustomValidity("");
         isValid = false;
     }
+
     if (namefeedback.validity.valueMissing) {
         nameError.textContent = "Поле должно быть заполнено";
         namefeedback.setCustomValidity("");
-        nameError.className = "error active";
+        nameError.className = "error_subtext active";
         isValid = false;
     }
 
     if (isValid) {
-
         sendMessage.textContent = "Сообщение отправлено";
-        sendMessage.className = "send active";
+        sendMessage.className = "send_subtext active";
     }
 });
-
 
 function showError() {
     if (email.validity.valueMissing) {
@@ -89,8 +80,7 @@ function showError() {
     } else if (email.validity.tooShort) {
         emailError.textContent = `Слишком короткий email-адрес`;
     }
-
-    emailError.className = "error active";
+    emailError.className = "error_subtext active";
 }
 
 const sections = document.querySelectorAll('section');
@@ -98,7 +88,6 @@ const navLinks = document.querySelectorAll('.cv__container_point');
 
 window.addEventListener('scroll', () => {
     let current = '';
-
     sections.forEach(section => {
         const sectionTop = section.offsetTop;
         const sectionHeight = section.offsetHeight;
@@ -115,7 +104,6 @@ window.addEventListener('scroll', () => {
     });
 });
 
-
 function updateClock() {
     const now = new Date();
     const formatted = now.toLocaleDateString() + ' ' + now.toLocaleTimeString();
@@ -126,25 +114,17 @@ function updateClock() {
 updateClock();
 setInterval(updateClock, 1000);
 
-// swither  switch-dark-theme
-
 const switch_dark_theme = document.getElementById("switch-dark-theme");
 const switch_icon = document.getElementById("theme_icon");
 let flag = 0;
-//change_theme();
+
 saved_theme();
+
 switch_dark_theme.addEventListener("click", change_theme);
-//light_mode    mode_night
+
 function change_theme() {
     const color = document.documentElement.style;
-
     let savedTheme = localStorage.getItem('theme');
-
-    //if (savedTheme === 'light') {
-    //    flag = 1;
-    //}else if (savedTheme === 'night'){
-    //    flag = 0;
-    //}
 
     if (flag == 0) {
         color.setProperty('--cv_background-color', 'white');
@@ -170,22 +150,14 @@ function change_theme() {
     }
 }
 
-
 function saved_theme() {
     const color = document.documentElement.style;
-
     let savedTheme = localStorage.getItem('theme');
 
     if (!savedTheme) {
         const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
         savedTheme = prefersDark ? "night" : "light";
     }
-
-    //if (savedTheme === 'light') {
-    //    flag = 0;
-    //}else if (savedTheme === 'night'){
-    //    flag = 1;
-    //}
 
     if (savedTheme === 'light') {
         flag = 1;

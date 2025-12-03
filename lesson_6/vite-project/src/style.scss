@@ -3,7 +3,6 @@
 $primary-color: rgb(0, 0, 0);
 $cv_background-color: black;
 
-
 :root {
   --cv_background-color: black;
   --cv_content_background: #252525;
@@ -12,8 +11,6 @@ $cv_background-color: black;
   --cswither_padding_right: 20px;
   --cswither_padding_left: 20px;
 }
-
-
 
 @media screen and (max-width: 768px) {
 
@@ -29,7 +26,6 @@ $cv_background-color: black;
   $primary-color-tint-4: lighten($primary-color, 40%);
   $primary-color-tint-5: lighten($primary-color, 50%);
   $primary-font: "Fira Sans", Arial, sans-serif;
-
   $link-color: $primary-color;
 
   * {
@@ -43,13 +39,10 @@ $cv_background-color: black;
   body {
     &::after {
       content: '';
-      //position: absolute;
       position: fixed;
       inset: 0;
       z-index: 99;
       background-color: rgba($primary-color-dark, 0.8);
-      //height: 100vh;
-      //width: 100vw;
       transition: 0.4s;
       opacity: 0;
       visibility: hidden;
@@ -92,9 +85,7 @@ $cv_background-color: black;
     }
   }
 
-  // ---------------------------------------
-  // important stuff starts here
-
+  
   $nav-width: 250px;
   $nav-padding: 0.875em 1em;
   $nav-border-color: $primary-color-tint-5;
@@ -168,7 +159,6 @@ $cv_background-color: black;
           background-color: $nav-level-background-color;
         }
 
-
         .nav-back-link {
           display: flex;
           align-items: center;
@@ -201,7 +191,6 @@ $cv_background-color: black;
         }
       }
 
-      // quick example for other level colours
       .nav-expand-content {
         background-color: $nav-level-background-color;
 
@@ -229,9 +218,7 @@ $cv_background-color: black;
   }
 }
 
-/*****************************/
-
-.send {
+.send_subtext {
   color: transparent;
   display: block;
   text-decoration: none;
@@ -239,12 +226,12 @@ $cv_background-color: black;
   font-weight: 200;
 }
 
-.send.active {
+.send_subtext.active {
   padding: 0.3em;
   color: green;
 }
 
-.error {
+.error_subtext {
   color: transparent;
   display: block;
   text-decoration: none;
@@ -252,11 +239,10 @@ $cv_background-color: black;
   font-weight: 200;
 }
 
-.error.active {
+.error_subtext.active {
   padding: 0.3em;
   color: red;
 }
-
 
 .cv__time {
   text-decoration: none;
@@ -274,7 +260,6 @@ $cv_background-color: black;
   padding: 10px 30px;
   width: 7%;
   height: 35px;
-
 }
 
 @media screen and (max-width: 768px) {
@@ -314,13 +299,11 @@ $cv_background-color: black;
   align-items: center;
   justify-content: center;
   padding-right: var(--cswither_padding_right);
-  
 }
 
-.theme_icon{
+.theme_icon {
   z-index: 100;
 }
-
 
 .cv__slider:before {
   position: absolute;
@@ -334,7 +317,6 @@ $cv_background-color: black;
   transition: .4s;
   border-radius: 50%;
 }
-
 
 input:checked+.cv__slider {
   background-color: #282828;
@@ -514,11 +496,8 @@ input:checked+.cv__slider:before {
 }
 
 @media (min-width:1024px) {
-  
-
   .cv__container {
     display: grid;
-    /*grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));*/
     grid-template-columns: 1fr 1fr 0.5fr;
     gap: 0px 0px;
     grid-auto-flow: row;
@@ -636,7 +615,6 @@ input:checked+.cv__slider:before {
   border: 10px solid transparent;
 }
 
-
 .cv__content__background_off {
   color: var(--cv_content_text);
   font-family: system-ui;
@@ -644,7 +622,7 @@ input:checked+.cv__slider:before {
   border: 10px solid transparent;
 }
 
-.cv__href{
+.cv__href {
   color: var(--cv_content_text);
   font-family: system-ui;
   font-weight: 200;
@@ -710,5 +688,3 @@ input:checked+.cv__slider:before {
   display: block;
   margin: 0 auto;
 }
-
-.cv__feedback {}
