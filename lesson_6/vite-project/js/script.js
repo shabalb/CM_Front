@@ -40,10 +40,10 @@ ham.addEventListener('click', function () {
 
 const form = document.getElementsByTagName("form")[0];
 const email = document.getElementById("mail");
-const emailError = document.querySelector("#mail + span.error_subtext");
+const emailError = document.querySelector("#mail + span.error-subtext");
 const namefeedback = document.getElementById("name");
-const nameError = document.querySelector("#name + span.error_subtext");
-const sendMessage = document.querySelector("span.send_subtext");
+const nameError = document.querySelector("#name + span.error-subtext");
+const sendMessage = document.querySelector("span.send-subtext");
 
 email.addEventListener("input", function (event) {
     email.setCustomValidity("");
@@ -62,13 +62,13 @@ form.addEventListener("submit", function (event) {
     if (namefeedback.validity.valueMissing) {
         nameError.textContent = "Поле должно быть заполнено";
         namefeedback.setCustomValidity("");
-        nameError.className = "error_subtext active";
+        nameError.className = "error-subtext active";
         isValid = false;
     }
 
     if (isValid) {
         sendMessage.textContent = "Сообщение отправлено";
-        sendMessage.className = "send_subtext active";
+        sendMessage.className = "send-subtext active";
     }
 });
 
@@ -80,11 +80,11 @@ function showError() {
     } else if (email.validity.tooShort) {
         emailError.textContent = `Слишком короткий email-адрес`;
     }
-    emailError.className = "error_subtext active";
+    emailError.className = "error-subtext active";
 }
 
 const sections = document.querySelectorAll('section');
-const navLinks = document.querySelectorAll('.cv__container_point');
+const navLinks = document.querySelectorAll('.container-point');
 
 window.addEventListener('scroll', () => {
     let current = '';
@@ -115,7 +115,7 @@ updateClock();
 setInterval(updateClock, 1000);
 
 const switch_dark_theme = document.getElementById("switch-dark-theme");
-const switch_icon = document.getElementById("theme_icon");
+const switch_icon = document.getElementById("theme-icon");
 let flag = 0;
 
 saved_theme();
@@ -127,24 +127,24 @@ function change_theme() {
     let savedTheme = localStorage.getItem('theme');
 
     if (flag == 0) {
-        color.setProperty('--cv_background-color', 'white');
-        color.setProperty('--cv_content_background', '#d9d9d9ff');
-        color.setProperty('--cv_content_text', 'black');
-        color.setProperty('--cv_topbar', '#9f9f9f');
-        color.setProperty('--cswither_padding_right', '20px');
-        color.setProperty('--cswither_padding_left', '0px');
+        color.setProperty('--main-background-color', 'white');
+        color.setProperty('--content-background', '#d9d9d9ff');
+        color.setProperty('--content-text', 'black');
+        color.setProperty('--topbar-color', '#9f9f9f');
+        color.setProperty('--cswither-padding-right', '20px');
+        color.setProperty('--cswither-padding-left', '0px');
         switch_icon.textContent = "mode_night";
         flag = 1;
         localStorage.setItem('theme', 'light');
     }
     else if (flag == 1) {
-        color.setProperty('--cv_background-color', 'black');
-        color.setProperty('--cv_topbar', 'black');
-        color.setProperty('--cv_content_background', '#252525');
-        color.setProperty('--cv_content_text', '#ffffffff');
+        color.setProperty('--main-background-color', 'black');
+        color.setProperty('--topbar-color', 'black');
+        color.setProperty('--content-background', '#252525');
+        color.setProperty('--content-text', '#ffffffff');
         switch_icon.textContent = "light_mode";
-        color.setProperty('--cswither_padding_right', '0px');
-        color.setProperty('--cswither_padding_left', '26px');
+        color.setProperty('--cswither-padding-right', '0px');
+        color.setProperty('--cswither-padding-left', '26px');
         flag = 0;
         localStorage.setItem('theme', 'night');
     }
@@ -161,24 +161,24 @@ function saved_theme() {
 
     if (savedTheme === 'light') {
         flag = 1;
-        color.setProperty('--cv_background-color', 'white');
-        color.setProperty('--cv_content_background', '#d9d9d9ff');
-        color.setProperty('--cv_content_text', 'black');
-        color.setProperty('--cv_topbar', '#9f9f9f');
-        color.setProperty('--cswither_padding_right', '20px');
-        color.setProperty('--cswither_padding_left', '0px');
+        color.setProperty('--main-background-color', 'white');
+        color.setProperty('--content-background', '#d9d9d9ff');
+        color.setProperty('--content-text', 'black');
+        color.setProperty('--topbar-color', '#9f9f9f');
+        color.setProperty('--cswither-padding-right', '20px');
+        color.setProperty('--cswither-padding-left', '0px');
         switch_icon.textContent = "mode_night";
         switch_dark_theme.checked = false;
     }
     else if (savedTheme === 'night') {
         flag = 0;
-        color.setProperty('--cv_background-color', 'black');
-        color.setProperty('--cv_topbar', 'black');
-        color.setProperty('--cv_content_background', '#252525');
-        color.setProperty('--cv_content_text', '#ffffffff');
+        color.setProperty('--main-background-color', 'black');
+        color.setProperty('--topbar-color', 'black');
+        color.setProperty('--content-background', '#252525');
+        color.setProperty('--content-text', '#ffffffff');
         switch_icon.textContent = "light_mode";
-        color.setProperty('--cswither_padding_right', '0px');
-        color.setProperty('--cswither_padding_left', '26px');
+        color.setProperty('--cswither-padding-right', '0px');
+        color.setProperty('--cswither-padding-left', '26px');
         switch_dark_theme.checked = true;
     }
 }

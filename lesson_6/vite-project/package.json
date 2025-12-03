@@ -6,13 +6,20 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "lint:css": "stylelint \"**/*.{css,scss}\"",
+    "lint:css:fix": "stylelint \"**/*.{css,scss}\" --fix"
   },
   "devDependencies": {
     "sass-embedded": "^1.93.3",
+    "stylelint": "^16.26.1",
+    "stylelint-config-recommended-scss": "^16.0.2",
+    "stylelint-config-standard": "^39.0.1",
+    "stylelint-scss": "^6.12.1",
     "vite": "^7.2.4"
   },
-  
-  "stylelint.validate": ["css", "scss"]
-  
+  "stylelint.validate": [
+    "css",
+    "scss"
+  ]
 }
