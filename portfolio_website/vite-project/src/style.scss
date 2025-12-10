@@ -536,6 +536,8 @@ input:focus+.switch-slider {
 }
 
 .container-photo {
+  float:center;
+  margin-right:10px;
   grid-area: photo;
   min-width: 100px;
 }
