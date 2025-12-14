@@ -355,32 +355,9 @@ input:focus+.switch-slider {
 
 .container-git {
   display: grid;
-  grid-template: "git1" 1fr "git2" 1fr "git3" 1fr "git4" 1fr "git5" 1fr "git6" 1fr / 1fr;
+  //grid-template: "git1" 1fr "git2" 1fr "git3" 1fr "git4" 1fr "git5" 1fr "git6" 1fr / 1fr;
+  grid-template-columns:  1fr;
   gap: 10px;
-}
-
-.container-git1 {
-  grid-area: git1;
-}
-
-.container-git2 {
-  grid-area: git2;
-}
-
-.container-git3 {
-  grid-area: git3;
-}
-
-.container-git4 {
-  grid-area: git4;
-}
-
-.container-git5 {
-  grid-area: git5;
-}
-
-.container-git6 {
-  grid-area: git6;
 }
 
 .container {
@@ -458,7 +435,8 @@ input:focus+.switch-slider {
 
   .container-git {
     display: grid;
-    grid-template: "git1 git2" 1fr "git3 git4" 1fr "git5 git6" 1fr / 1fr 1fr;
+    //grid-template: "git1 git2" 1fr "git3 git4" 1fr "git5 git6" 1fr / 1fr 1fr;
+    grid-template-columns: repeat(2, 1fr);
     gap: 10px;
   }
 
@@ -482,7 +460,8 @@ input:focus+.switch-slider {
 
   .container-git {
     display: grid;
-    grid-template: "git1 git2 git3" 1fr "git4 git5 git6" 1fr ". . ." 1fr / 1fr 1fr 1fr;
+    //grid-template: "git1 git2 git3" 1fr "git4 git5 git6" 1fr ". . ." 1fr / 1fr 1fr 1fr;
+    grid-template-columns: repeat(3, 1fr);
     gap: 10px;
   }
 }

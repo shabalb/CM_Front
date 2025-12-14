@@ -19,6 +19,7 @@ const seting = new MockSkillService();
         const img = SetImage(skill);
         //body.append(img);
         SetPicture(skill);
+        set.SetRefs(skill);
 })
 
 

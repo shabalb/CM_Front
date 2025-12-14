@@ -8,6 +8,9 @@ export class MockSkillService implements ISkillService{
             refs:[{refgit:'https://github.com/shabalb/Scene2D_',name:'Графический конструктор картинок'},
                   {refgit:'https://github.com/shabalb/PhotoCodeTest',name:'Оптический поток на видео'},
                   {refgit:'https://github.com/shabalb/GatesTask',name:'Асинхронная работа'},
+                  {refgit:'https://github.com/shabalb',name:'GitHub'},
+                  {refgit:'https://github.com/shabalb',name:'GitHub'},
+                  {refgit:'https://github.com/shabalb',name:'GitHub'},
         ]}];
         
     }
