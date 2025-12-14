@@ -1,5 +1,5 @@
 import type { Skills } from './skills.ts';
-import type { ISkillService } from '../services/skillServices.js';
+import type { ISkillService } from '../services/skillServices.ts';
 
 
 export class MockSkillService implements ISkillService{
