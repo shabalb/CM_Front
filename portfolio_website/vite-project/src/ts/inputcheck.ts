@@ -1,9 +1,14 @@
 const form = document.getElementsByTagName("form")[0] as HTMLElement;
 const email = document.getElementById("mail") as HTMLInputElement;
-const emailError = document.querySelector<HTMLElement>("#mail + span.error-subtext");
+const emailError = document.querySelector<HTMLElement>(
+  "#mail + span.error-subtext",
+);
 const namefeedback = document.getElementById("name") as HTMLInputElement;
-const nameError = document.querySelector<HTMLElement>("#name + span.error-subtext");
-const sendMessage = document.querySelector<HTMLInputElement>("span.send-subtext");
+const nameError = document.querySelector<HTMLElement>(
+  "#name + span.error-subtext",
+);
+const sendMessage =
+  document.querySelector<HTMLInputElement>("span.send-subtext");
 
 email?.addEventListener("input", function (event) {
   email?.setCustomValidity("");

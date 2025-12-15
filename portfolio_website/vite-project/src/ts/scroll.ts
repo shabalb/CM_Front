@@ -7,7 +7,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
       const href = this.getAttribute("href");
 
-      if (href==null){
+      if (href == null) {
         return;
       }
       const targetId = href.substring(1);

@@ -295,7 +295,7 @@ $primary-color: rgb(0 0 0);
   padding-right: var(--cswither-padding-right);
 }
 
-.color-plate{
+.color-plate {
   color: var(--content-text);
   text-decoration: none;
   font-family: system-ui;
@@ -317,25 +317,13 @@ $primary-color: rgb(0 0 0);
   width: 34px !important;
   height: 34px !important;
   border-radius: 50% !important;
-  box-shadow:none!important;
+  box-shadow: none !important;
 }
 
 .pickr .pcr-button::after {
   border-radius: 50% !important;
-  background-color: var(--content-background) !important;
-  background-color: var(--pickr-color)!important;
+  background-color: var(--pickr-color) !important;
 }
-
-/* -webkit */
-/*
-input[type="color"]::-webkit-color-swatch-wrapper {
-  padding: 0;    
-}
-
-input[type="color"]::-webkit-color-swatch {
-  border: none;  
-  border-radius: 34px;
-}*///color input
 
 .theme-icon {
   z-index: 100;
@@ -378,7 +366,7 @@ input:focus+.switch-slider {
 @media screen and (width >=768px) {
   .container-point.active {
     background-color: color.adjust($primary-color, $lightness: 30%);
-    
+
   }
 }
 
@@ -400,7 +388,7 @@ input:focus+.switch-slider {
 .container-git {
   display: grid;
   //grid-template: "git1" 1fr "git2" 1fr "git3" 1fr "git4" 1fr "git5" 1fr "git6" 1fr / 1fr;
-  grid-template-columns:  1fr;
+  grid-template-columns: 1fr;
   gap: 10px;
 }
 
@@ -559,8 +547,8 @@ input:focus+.switch-slider {
 }
 
 .container-photo {
-  float:center;
-  margin-right:10px;
+  float: center;
+  margin-right: 10px;
   grid-area: photo;
   min-width: 100px;
 }
