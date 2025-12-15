@@ -378,6 +378,7 @@ input:focus+.switch-slider {
 @media screen and (width >=768px) {
   .container-point.active {
     background-color: color.adjust($primary-color, $lightness: 30%);
+    
   }
 }
 

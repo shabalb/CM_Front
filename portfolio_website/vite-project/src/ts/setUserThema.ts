@@ -7,4 +7,5 @@ MockThemaService.subscribe(thema =>{
     color.setProperty("--content-background", thema.contentBackGrColor);
     color.setProperty("--content-text", thema.text);
     color.setProperty("--topbar-color", thema.barColor);
+    localStorage.setItem("usertheme", thema.mainColor);
 })
