@@ -296,6 +296,10 @@ $primary-color: rgb(0 0 0);
 }
 
 .color-plate{
+  color: var(--content-text);
+  text-decoration: none;
+  font-family: system-ui;
+  font-weight: 200;
   top: 5px;
   left: 90px;
   display: flex;

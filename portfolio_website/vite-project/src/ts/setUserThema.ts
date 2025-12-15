@@ -1,0 +1,10 @@
+import { MockThemaService } from "../models/mockThema";
+import { Thema} from '../models/thema';
+
+MockThemaService.subscribe(thema =>{
+    const color = document.documentElement.style;
+    color.setProperty("--main-background-color", thema.mainColor);
+    color.setProperty("--content-background", thema.contentBackGrColor);
+    color.setProperty("--content-text", thema.text);
+    color.setProperty("--topbar-color", thema.barColor);
+})

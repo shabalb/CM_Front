@@ -1,3 +1,6 @@
+import { MockThemaService } from "../models/mockThema";
+import { Thema} from '../models/thema';
+
 const switch_dark_theme = document.getElementById("switch-dark-theme") as HTMLInputElement;
 const switch_icon = document.getElementById("theme-icon") as HTMLElement;
 let flag = 0;
@@ -21,6 +24,8 @@ function change_theme() {
     flag = 1;
     localStorage.setItem("theme", "light");
     color.setProperty("--pickr-color", "#d9d9d9ff");
+    const btn = document.querySelector(".pcr-button") as HTMLElement;
+    btn?.style.setProperty("--pickr-color", "#d9d9d9ff");
   } else if (flag == 1) {
     color.setProperty("--main-background-color", "black");
     color.setProperty("--topbar-color", "black");
@@ -32,11 +37,16 @@ function change_theme() {
     flag = 0;
     localStorage.setItem("theme", "night");
     color.setProperty("--pickr-color", "#252525");
+    const btn = document.querySelector(".pcr-button") as HTMLElement;
+    btn?.style.setProperty("--pickr-color", "#252525");
   }
 }
 
 function saved_theme() {
   const color = document.documentElement.style;
+
+  
+
   let savedTheme = localStorage.getItem("theme");
 
   if (!savedTheme) {
@@ -57,6 +67,8 @@ function saved_theme() {
     switch_icon.textContent = "mode_night";
     switch_dark_theme.checked = false;
     color.setProperty("--pickr-color", "#d9d9d9ff");
+    const btn = document.querySelector(".pcr-button") as HTMLElement;
+    btn?.style.setProperty("--pickr-color", "#d9d9d9ff");
   } else if (savedTheme === "night") {
     flag = 0;
     color.setProperty("--main-background-color", "black");
@@ -68,5 +80,7 @@ function saved_theme() {
     color.setProperty("--cswither-padding-left", "26px");
     switch_dark_theme.checked = true;
     color.setProperty("--pickr-color", "#252525");
+    const btn = document.querySelector(".pcr-button") as HTMLElement;
+    btn?.style.setProperty("--pickr-color", "#252525");
   }
 }

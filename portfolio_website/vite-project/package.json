@@ -37,6 +37,8 @@
     "scss"
   ],
   "dependencies": {
-    "@simonwep/pickr": "^1.9.1"
+    "@simonwep/pickr": "^1.9.1",
+    "@types/color": "^4.2.0",
+    "color": "^5.0.3"
   }
 }

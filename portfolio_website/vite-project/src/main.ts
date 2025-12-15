@@ -8,8 +8,10 @@ import './ts/switherThems.ts';
 import { MockSkillService } from './models/mockSkills';
 import { SetImage, SetPicture } from './ts/setSkills';
 import * as set from './ts/setSkills';
-import './ts/colorInput.ts'
+import './ts/colorInput.ts';
 //import './ts/colorInputRGB.ts'
+import { MockThemaService } from './models/mockThema';
+import './ts/setUserThema';
 
 
 const body = document.body;
