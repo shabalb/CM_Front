@@ -10,8 +10,14 @@ $primary-color: rgb(0 0 0);
   --content-background: #252525;
   --content-text: white;
   --topbar-color: black;
+  --page-accent: #FFB800;
   --cswither-padding-right: 20px;
   --cswither-padding-left: 20px;
+  --bar-active:color-mix(
+    in srgb,
+    var(--topbar-color),
+    white 10%
+  );
 }
 
 @media screen and (width <=768px) {
@@ -66,7 +72,7 @@ $primary-color: rgb(0 0 0);
 
     .hamburger {
       margin-left: auto;
-      color: #FFB800;
+      color: var(--page-accent);
       cursor: pointer;
     }
   }
@@ -365,7 +371,7 @@ input:focus+.switch-slider {
 
 @media screen and (width >=768px) {
   .container-point.active {
-    background-color: color.adjust($primary-color, $lightness: 30%);
+    background-color: var(--bar-active);
 
   }
 }
@@ -443,11 +449,11 @@ input:focus+.switch-slider {
     text-decoration: none;
     font-size: 18px;
     padding: 5px 10px;
-    border-bottom: 2px solid #FFB800;
+    border-bottom: 2px solid var(--page-accent);
   }
 
   .navbar a:hover {
-    background: #555;
+    background: var(--bar-active);
     border-radius: 4px;
   }
 
@@ -563,7 +569,7 @@ input:focus+.switch-slider {
   font-family: system-ui;
   text-align: center;
   font-weight: 200;
-  color: #FFB800;
+  color: var(--page-accent);
   border-radius: 20px;
 }
 
@@ -571,13 +577,13 @@ input:focus+.switch-slider {
   font-family: system-ui;
   text-align: center;
   font-weight: 200;
-  color: #FFB800;
+  color: var(--page-accent);
   border-radius: 8px;
   border-width: 30px;
 }
 
 .header-color {
-  color: #FFB800;
+  color: var(--page-accent);
   font-weight: 200;
   justify-content: center;
   font-family: system-ui;
@@ -614,7 +620,7 @@ input:focus+.switch-slider {
 
 .footer-color {
   color: black;
-  background: #FFB800;
+  background: var(--page-accent);
   font-family: system-ui;
   font-weight: 350;
   border: 10px solid transparent;
@@ -659,7 +665,7 @@ input:focus+.switch-slider {
 
 .button-send {
   color: black;
-  background: #FFB800;
+  background: var(--page-accent);
   font-family: system-ui;
   font-weight: 350;
   border-radius: 7px;

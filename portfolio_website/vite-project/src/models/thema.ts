@@ -6,6 +6,7 @@ export class Thema {
   contentBackGrColor: string = "#252525";
   text: string = "#ffffffff";
   barColor: string = "black";
+  
   constructor(userColor: string) {
     const userClr = Color(userColor);
     this.default = false;
