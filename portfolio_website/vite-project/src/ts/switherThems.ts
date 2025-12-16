@@ -52,17 +52,11 @@ function saved_theme() {
 
   if (userTheme != null) {
     MockThemaService.savedThema = new Thema(userTheme);
-    color.setProperty(
-      "--main-background-color",
-      MockThemaService.SavedThema.mainColor,
-    );
-    color.setProperty(
-      "--content-background",
-      MockThemaService.SavedThema.contentBackGrColor,
-    );
+    color.setProperty("--main-background-color", MockThemaService.SavedThema.mainColor,);
+    color.setProperty("--content-background",MockThemaService.SavedThema.contentBackGrColor,);
     color.setProperty("--content-text", MockThemaService.SavedThema.text);
     color.setProperty("--topbar-color", MockThemaService.SavedThema.barColor);
-    color.setProperty("--pickr-color", MockThemaService.SavedThema.mainColor);
+    color.setProperty("--pickr-color", MockThemaService.SavedThema.mainColor);//--page-accent
     const btn = document.querySelector(".pcr-button") as HTMLElement;
     btn?.style.setProperty(
       "--pickr-color",

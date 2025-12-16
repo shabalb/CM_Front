@@ -6,5 +6,6 @@ MockThemaService.subscribe((thema) => {
   color.setProperty("--content-background", thema.contentBackGrColor);
   color.setProperty("--content-text", thema.text);
   color.setProperty("--topbar-color", thema.barColor);
+  //color.setProperty("--page-accent", thema.pageAccent);
   localStorage.setItem("usertheme", thema.mainColor);
 });
