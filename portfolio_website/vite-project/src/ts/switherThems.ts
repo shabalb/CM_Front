@@ -13,7 +13,8 @@ switch_dark_theme.addEventListener("click", change_theme);
 
 function change_theme() {
   const color = document.documentElement.style;
-  
+  color.setProperty("--page-accent", "#FFB800");
+  color.setProperty("--text-on-accent", "black");
   if (flag == 0) {
     color.setProperty("--main-background-color", "white");
     color.setProperty("--content-background", "#d9d9d9ff");
@@ -24,9 +25,9 @@ function change_theme() {
     switch_icon.textContent = "mode_night";
     flag = 1;
     localStorage.setItem("theme", "light");
-    color.setProperty("--pickr-color", "#d9d9d9ff");
+    color.setProperty("--pickr-color", "white");
     const btn = document.querySelector(".pcr-button") as HTMLElement;
-    btn?.style.setProperty("--pickr-color", "#d9d9d9ff");
+    btn?.style.setProperty("--pickr-color", "white");
     localStorage.removeItem("usertheme");
   } else if (flag == 1) {
     color.setProperty("--main-background-color", "black");
@@ -38,9 +39,9 @@ function change_theme() {
     color.setProperty("--cswither-padding-left", "26px");
     flag = 0;
     localStorage.setItem("theme", "night");
-    color.setProperty("--pickr-color", "#252525");
+    color.setProperty("--pickr-color", "black");
     const btn = document.querySelector(".pcr-button") as HTMLElement;
-    btn?.style.setProperty("--pickr-color", "#252525");
+    btn?.style.setProperty("--pickr-color", "black");
     localStorage.removeItem("usertheme");
   }
 }
@@ -57,6 +58,8 @@ function saved_theme() {
     color.setProperty("--content-text", MockThemaService.SavedThema.text);
     color.setProperty("--topbar-color", MockThemaService.SavedThema.barColor);
     color.setProperty("--pickr-color", MockThemaService.SavedThema.mainColor);//--page-accent
+    color.setProperty("--page-accent", MockThemaService.SavedThema.pageAccent);
+    color.setProperty("--text-on-accent", MockThemaService.SavedThema.textOnAccent);
     const btn = document.querySelector(".pcr-button") as HTMLElement;
     btn?.style.setProperty(
       "--pickr-color",
@@ -105,9 +108,9 @@ function saved_theme() {
     color.setProperty("--cswither-padding-left", "0px");
     switch_icon.textContent = "mode_night";
     switch_dark_theme.checked = false;
-    color.setProperty("--pickr-color", "#d9d9d9ff");
+    color.setProperty("--pickr-color", "white");
     const btn = document.querySelector(".pcr-button") as HTMLElement;
-    btn?.style.setProperty("--pickr-color", "#d9d9d9ff");
+    btn?.style.setProperty("--pickr-color", "white");
   } else if (savedTheme === "night") {
     flag = 0;
     color.setProperty("--main-background-color", "black");
@@ -118,8 +121,8 @@ function saved_theme() {
     color.setProperty("--cswither-padding-right", "0px");
     color.setProperty("--cswither-padding-left", "26px");
     switch_dark_theme.checked = true;
-    color.setProperty("--pickr-color", "#252525");
+    color.setProperty("--pickr-color", "black");
     const btn = document.querySelector(".pcr-button") as HTMLElement;
-    btn?.style.setProperty("--pickr-color", "#252525");
+    btn?.style.setProperty("--pickr-color", "black");
   }
 }

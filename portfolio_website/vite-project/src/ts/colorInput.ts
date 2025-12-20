@@ -19,7 +19,7 @@ if (el != null) {
         hex: false,
         rgba: false,
         input: false,
-        save: true,
+        save: false,
       },
     },
   });

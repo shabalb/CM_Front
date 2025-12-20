@@ -13,10 +13,11 @@ $primary-color: rgb(0 0 0);
   --page-accent: #FFB800;
   --cswither-padding-right: 20px;
   --cswither-padding-left: 20px;
+  
   --bar-active:color-mix(
     in srgb,
     var(--topbar-color),
-    white 10%
+    white 30%
   );
   --text-on-accent:black;
 }
@@ -303,6 +304,9 @@ $primary-color: rgb(0 0 0);
 }
 
 .color-plate {
+  background-color: var(--bar-active);
+  border-radius: 20px;
+  padding: 0px 0 0px 4px; 
   color: var(--content-text);
   text-decoration: none;
   font-family: system-ui;
@@ -314,6 +318,10 @@ $primary-color: rgb(0 0 0);
   z-index: 105;
   gap: 8px;
   align-items: center;
+}
+
+.plt-text{
+  transform: translateY(-2px);
 }
 
 .pickr .pcr-button::before {
@@ -328,6 +336,12 @@ $primary-color: rgb(0 0 0);
 }
 
 .pickr .pcr-button::after {
+  height: 26px !important;
+  width: 26px !important;
+  left: 4px !important;
+  bottom: 4px !important;
+  top: 4px !important;
+  width: 26px !important;
   border-radius: 50% !important;
   background-color: var(--pickr-color) !important;
 }
@@ -378,8 +392,9 @@ input:focus+.switch-slider {
 }
 
 .grid-item {
-  background-color: #C4C4C4;
-  border: 1px solid #ddd;
+  background-color: var(--content-background);
+  //color: var(--content-text);
+  //border: 1px solid #ddd;
   padding: 20px;
   text-align: center;
   border-radius: 8px;
@@ -389,7 +404,7 @@ input:focus+.switch-slider {
   font-family: system-ui;
   font-weight: 200;
   text-decoration: none;
-  color: black;
+  color: var(--content-text);
 }
 
 .container-git {
@@ -620,7 +635,7 @@ input:focus+.switch-slider {
 }
 
 .footer-color {
-  color: black;
+  color: var(--text-on-accent);
   background: var(--page-accent);
   font-family: system-ui;
   font-weight: 350;
@@ -629,7 +644,7 @@ input:focus+.switch-slider {
 
 .ref-color {
   text-decoration: none;
-  color: black;
+  color: var(--text-on-accent);
 }
 
 .photo {
@@ -665,7 +680,7 @@ input:focus+.switch-slider {
 }
 
 .button-send {
-  color: black;
+  color: var(--text-on-accent);
   background: var(--page-accent);
   font-family: system-ui;
   font-weight: 350;
