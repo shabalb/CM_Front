@@ -30,7 +30,8 @@ import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 `,
     styleUrls:['quiz-discover.component.css'],
     imports:[
-        MatPaginator
+        MatPaginator,
+        MatProgressSpinnerModule
     ]
 })
 export class QuizDiscoverComponent{
