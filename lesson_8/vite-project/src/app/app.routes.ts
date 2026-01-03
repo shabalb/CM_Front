@@ -8,5 +8,17 @@ export const routes: Routes = [{
     children:[{
         path:'discover',
         component: QuizDiscoverComponent,
-    }]
-}];
+    },
+    {
+        path:'',
+        pathMatch:'full',
+        redirectTo:'discover',
+    }
+]
+},
+//{
+   // path:"main",
+    //component:MainLayoutComponent,
+//}
+
+];
