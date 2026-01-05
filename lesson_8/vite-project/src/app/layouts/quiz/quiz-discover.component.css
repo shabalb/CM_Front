@@ -3,3 +3,10 @@
     flex-direction: column;
     gap: 10px;
 }
+.quiz-window{
+    display:flex;
+    height: 100%;
+    margin: 0;
+    flex: 1;
+    justify-content: flex-end;
+}

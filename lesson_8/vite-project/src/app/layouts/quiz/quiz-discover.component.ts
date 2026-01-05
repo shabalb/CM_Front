@@ -7,12 +7,12 @@ import { IPaginationRequest } from "../../models/pagination";
 import {MatPaginator, MatPaginatorModule} from '@angular/material/paginator';
 import { IPagination } from "../../models/pagination";
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
-
+1:11
 @Component ({
     selector:'app-quiz-discover',
     template: `
         @let r = response();
-
+        <div class = "quiz-window">
         @if (r === null) {
             <mat-spinner></mat-spinner>
 
@@ -27,6 +27,7 @@ import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
                   aria-label="Select page">
             </mat-paginator>
         }
+        </div>
 `,
     styleUrls:['quiz-discover.component.css'],
     imports:[
