@@ -7,8 +7,11 @@ import { RouterOutlet } from "@angular/router";
         RouterOutlet
     ],
     template: `
-    <router-outlet />
-    `
+    <div class = "main-layout">
+        <router-outlet></router-outlet>
+    </div>
+    `,
+    styleUrls:['./main-layout.css'],
 })
 export class MainLayoutComponent{
 

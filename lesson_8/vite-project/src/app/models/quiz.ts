@@ -20,8 +20,32 @@ export interface IQuizItemRequest {
     readonly type: QuizItemType;
 }
 
+/*
 export interface IQuizCreateRequest {
     readonly name: string;
     readonly descriotion: string;
     readonly items: readonly IQuizItemRequest[];
+}
+*/
+export interface IQuizDescription{
+    readonly question: string;
+    readonly answer: string;
+}
+
+export interface IQuizCreateRequest {
+    readonly name: string;
+    readonly description: string;
+    readonly items: readonly IQuizItemRequest[];
+}
+
+export interface IQuizCreateSend {
+    readonly name: string;
+    readonly description: readonly IQuizDescription[];
+    readonly items: readonly IQuizItemRequest[];
+}
+
+export interface IQuizDat {
+    readonly id: number;
+    readonly name: string;
+    readonly description: readonly IQuizDescription[];
 }

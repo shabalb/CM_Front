@@ -1,8 +1,8 @@
 import { Observable } from "rxjs";
 import { IPagination, IPaginationRequest } from "../../models/pagination";
-import { IQuiz, IQuizCreateRequest } from "../../models/quiz";
+import { IQuiz, IQuizCreateRequest,IQuizDat, IQuizCreateSend } from "../../models/quiz";
 
 export abstract class QuizService {
-    public abstract getItems(request:IPaginationRequest): Observable<IPagination<IQuiz>>;
-    public abstract create(request: IQuizCreateRequest): Observable<IQuiz>;
+    public abstract getItems(request:IPaginationRequest): Observable<IPagination<IQuizDat>>;
+    public abstract create(request: IQuizCreateSend): Observable<IQuizDat>;
 }

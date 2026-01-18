@@ -1,19 +1,19 @@
 import { QuizService } from "./quiz.service";
 import { IPagination, IPaginationRequest } from "../../models/pagination";
 import { Observable, of } from "rxjs";
-import { IQuiz, IQuizCreateRequest, IQUizItem } from "../../models/quiz";
+import { IQuiz, IQuizCreateRequest, IQuizCreateSend, IQUizItem,IQuizDat,IQuizDescription } from "../../models/quiz";
 
 
 
 export class MockQuizService extends QuizService {
     
-    private readonly _quizes: IQuiz[] = [];
+    private readonly _quizes: IQuizDat[] = [];
     private readonly _quiz_items: IQUizItem[] = [];
     
     private _quiz_id: number = 0;
     private _quiz_item_id: number = 0;
 
-    public getItems (request: IPaginationRequest):Observable<IPagination<IQuiz>>{
+    public getItems (request: IPaginationRequest):Observable<IPagination<IQuizDat>>{
         return of({
             page: request.page,
             page_size: request.page_size,
@@ -21,14 +21,14 @@ export class MockQuizService extends QuizService {
             items: this._quizes.slice((request.page - 1) * request.page_size, request.page * request.page_size ),
         })
     }
-    public override create(request: IQuizCreateRequest): Observable<IQuiz> {
+    public override create(request: IQuizCreateSend): Observable<IQuizDat> {
         
         //const quiz_id = this._quizes.length !== 0 ? this._quizes.map(x => x.id).slice(-1)[0] + 1 : 0;
 
-        const quiz: IQuiz = {
+        const quiz: IQuizDat = {
             id: this._quiz_id,
             name:request.name,
-            description: request.descriotion,
+            description: request.description,
         }
         this._quizes.push(quiz);
 
@@ -47,4 +47,6 @@ export class MockQuizService extends QuizService {
 
         return of( quiz);
     }
+
+    
 }
