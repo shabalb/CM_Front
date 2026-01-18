@@ -2,13 +2,13 @@ import { Component, computed, inject, Signal } from "@angular/core";
 import { QuizService } from "../../services/quiz/quiz.service";
 import { toSignal } from '@angular/core/rxjs-interop'
 import { map } from "rxjs";
-import { IQuiz, IQuizCreateRequest, QuizItemType, IQuizCreateSend, IQuizDescription,IQuizDat } from "../../models/quiz";
+import { IQuiz, IQuizCreateRequest, QuizItemType, IQuizCreateSend, IQuizDescription, IQuizDat } from "../../models/quiz";
 import { IPaginationRequest } from "../../models/pagination";
 import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 import { IPagination } from "../../models/pagination";
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { FormsModule, FormGroup, FormControl, Validators, ReactiveFormsModule } from "@angular/forms";
-import {MatIcon, MatIconModule} from '@angular/material/icon';
+import { MatIcon, MatIconModule } from '@angular/material/icon';
 
 
 @Component({
@@ -50,7 +50,7 @@ import {MatIcon, MatIconModule} from '@angular/material/icon';
                         <label id = "answer-alert" class = "alert" [class.hidden]="!isincorrectAnswer">alert</label>
                     </div>
                 </div>
-                <button mat-button (click)="send()" [hidden]="!isAddingNew" class="button-send">send</button>
+                <button mat-button [hidden]="!isAddingNew" class="button-send">send</button>
             </form>
             </div>
             
@@ -93,7 +93,7 @@ export class QuizDiscoverComponent {
     nameMaxLength = 30;
     questionMaxLength = 300;
     answerMaxLength = 10;
-    
+
 
     quiz_input_form: FormGroup = new FormGroup({
         "quizName": new FormControl("", [Validators.required, Validators.maxLength(this.nameMaxLength)]),
@@ -110,46 +110,62 @@ export class QuizDiscoverComponent {
     showFields() {
         this.isAddingNew = true;
     }
-    send(){
-        if(this.quiz_input_form.get("quizName")?.errors?.["required"]){
+    send() {
+        if (this.quiz_input_form.get("quizName")?.errors?.["required"]) {
             this.isincorrectName = true;
             document.getElementById("name-alert")!.textContent = "требуется имя";
         }
-        if(this.quiz_input_form.get("quizContent")?.errors?.["required"]){
+        if (this.quiz_input_form.get("quizContent")?.errors?.["required"]) {
             this.isincorrectQuestion = true;
             document.getElementById("question-alert")!.textContent = "требуется вопрос";
         }
 
-        if(this.quiz_input_form.get("quizAnswer")?.errors?.["required"]){
+        if (this.quiz_input_form.get("quizAnswer")?.errors?.["required"]) {
             this.isincorrectAnswer = true;
             document.getElementById("answer-alert")!.textContent = "требуется ответ";
         }
 
-        if(this.quiz_input_form.get("quizAnswer")?.errors?.["maxlength"]){
+        if (this.quiz_input_form.get("quizAnswer")?.errors?.["maxlength"]) {
             this.isincorrectAnswer = true;
-            document.getElementById("answer-alert")!.textContent = "превышено ограничение в " + this.answerMaxLength+" символов";
+            document.getElementById("answer-alert")!.textContent = "превышено ограничение в " + this.answerMaxLength + " символов";
         }
-        if(this.quiz_input_form.get("quizContent")?.errors?.["maxlength"]){
+        if (this.quiz_input_form.get("quizContent")?.errors?.["maxlength"]) {
             this.isincorrectQuestion = true;
-            document.getElementById("question-alert")!.textContent = "превышено ограничение в " + this.questionMaxLength+" символов";
+            document.getElementById("question-alert")!.textContent = "превышено ограничение в " + this.questionMaxLength + " символов";
         }
-        if(this.quiz_input_form.get("quizName")?.errors?.["maxlength"]){
+        if (this.quiz_input_form.get("quizName")?.errors?.["maxlength"]) {
             this.isincorrectName = true;
-            document.getElementById("name-alert")!.textContent = "превышено ограничение в " + this.nameMaxLength+" символов";
+            document.getElementById("name-alert")!.textContent = "превышено ограничение в " + this.nameMaxLength + " символов";
         }
-        if(!this.isincorrectName && !this.isincorrectQuestion && !this.isincorrectAnswer){
+        if (!this.isincorrectName && !this.isincorrectQuestion && !this.isincorrectAnswer) {
             const formValue = this.quiz_input_form.value;
             const request: IQuizCreateSend = {
                 name: formValue.name,
                 description: [
-                    {question: formValue.quizContent,
-                    answer: formValue.quizAnswer}
+                    {
+                        question: formValue.quizContent,
+                        answer: formValue.quizAnswer
+                    }
                 ],
-                items:[
-                    {type: QuizItemType.Text}
+                items: [
+                    { type: QuizItemType.Text }
                 ]
             }
-            
+
+            this.service.create(request).subscribe({
+                next: quiz => {
+                    console.log('Отправлено', quiz);
+
+                    this.quiz_input_form.reset({
+                        quizName: '',
+                        quizContent: '',
+                        quizAnswer: ''
+                    });
+                },
+                error: err => {
+                    console.error('Ошибка отправки', err);
+                }
+            })
         }
     }
 }
