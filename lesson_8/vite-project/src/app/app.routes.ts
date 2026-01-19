@@ -2,6 +2,7 @@ import { Routes } from '@angular/router';
 import { MainLayoutComponent } from './layouts/main-layout';
 import { QuizDiscoverComponent } from './layouts/quiz/quiz-discover.component';
 import { ReguisterCreateComponent } from './layouts/reguister/reguister-user.component';
+import { AuthComponent } from './layouts/auth/auth.component';
 
 export const routes: Routes = [{
     path:'',
@@ -18,6 +19,10 @@ export const routes: Routes = [{
     {
         path:'register',
         component: ReguisterCreateComponent,
+    },
+    {
+        path:'auth',
+        component: AuthComponent,
     }
 ]
 },

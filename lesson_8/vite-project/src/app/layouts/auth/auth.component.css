@@ -1,0 +1,31 @@
+.register-form{
+    color: white;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    align-items: center;
+    font-family: system-ui;
+}
+
+.register-page{
+    min-height: 80vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.button{
+    width: 10%;
+    align-self: center;
+    align-items: center;
+    background-color: #FFB800;
+    border-radius: 10px;
+    border-width: 1px;
+}
+.alert{
+    color: rgb(255, 25, 25);
+}
+
+.input-field{
+    padding-bottom: 30px;
+}

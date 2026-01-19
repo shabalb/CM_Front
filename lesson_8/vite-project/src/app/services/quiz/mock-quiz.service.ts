@@ -7,7 +7,7 @@ import { IQuiz, IQuizCreateRequest, IQuizCreateSend, IQUizItem,IQuizDat,IQuizDes
 
 export class MockQuizService extends QuizService {
     
-    private readonly _quizes: IQuizDat[] = [];
+    private readonly _quizes: IQuizDat[] = [{id: 1, name:"quiz",description: [{question:"question",answer:"answer"}]}];
     private readonly _quiz_items: IQUizItem[] = [];
     
     private _quiz_id: number = 0;

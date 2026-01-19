@@ -9,6 +9,8 @@ import { IPagination } from "../../models/pagination";
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { FormsModule, FormGroup, FormControl, Validators, ReactiveFormsModule } from "@angular/forms";
 import { MatIcon, MatIconModule } from '@angular/material/icon';
+import { MatAnchor } from "@angular/material/button";
+import { Router } from '@angular/router';
 
 
 @Component({
@@ -24,58 +26,65 @@ import { MatIcon, MatIconModule } from '@angular/material/icon';
             <mat-spinner></mat-spinner>
 
         } @else {
-            
+            <button mat-button (click)="auth()" class="auth-icon"><mat-icon >account_circle</mat-icon></button>
             <div class = "quiz-list">
                 @for (item of r.items; track item.id) {
                     <div class = "quiz-item">
-                    {{item.name}}
+                        <label class="item-name">
+                            {{item.id}}. {{item.name}}
+                        </label>
+                        <label class="item-question">
+                            {{item.description[0].question}}
+                        </label>
                     </div>
                 }
-            <form [formGroup]="quiz_input_form" novalidate (ngSubmit)="send()" class = "quiz-form">
-                <button mat-button (click)="showFields()" class = "button-add"><mat-icon > add</mat-icon></button>
-                <div  [hidden]="!isAddingNew">
-                    <div class="input-container">
-                        <label>Имя</label>
-                        <input name="name"   formControlName="quizName" class="input-name"/>
-                        <label id = "name-alert" class = "alert" [class.hidden]="!isincorrectName">alert</label>
+                <form [formGroup]="quiz_input_form" novalidate (ngSubmit)="send()" class = "quiz-form">
+                    <button mat-button (click)="showFields()" class = "button-add"><mat-icon > add</mat-icon></button>
+                    <div  [hidden]="!isAddingNew">
+                        <div class="input-container">
+                            <label>Имя</label>
+                            <input name="name"   formControlName="quizName" class="input-name"/>
+                            <label id = "name-alert" class = "alert" [class.hidden]="!isincorrectName">alert</label>
+                        </div>
+                        <div  class="input-container">
+                            <label>Вопрос</label>
+                            <textarea name="question"   formControlName="quizContent" class="input-question" rows = "10"></textarea>
+                            <label id = "question-alert" class = "alert" [class.hidden]="!isincorrectQuestion">alert</label>
+                        </div>
+                        <div class="input-container">
+                            <label>Ответ</label>
+                            <input name="answer"   formControlName="quizAnswer" class="input-answer"/>
+                            <label id = "answer-alert" class = "alert" [class.hidden]="!isincorrectAnswer">alert</label>
+                        </div>
                     </div>
-                    <div  class="input-container">
-                        <label>Вопрос</label>
-                        <textarea name="question"   formControlName="quizContent" class="input-question" rows = "10"></textarea>
-                        <label id = "question-alert" class = "alert" [class.hidden]="!isincorrectQuestion">alert</label>
-                    </div>
-                    <div class="input-container">
-                        <label>Ответ</label>
-                        <input name="answer"   formControlName="quizAnswer" class="input-answer"/>
-                        <label id = "answer-alert" class = "alert" [class.hidden]="!isincorrectAnswer">alert</label>
-                    </div>
-                </div>
-                <button mat-button [hidden]="!isAddingNew" class="button-send">send</button>
-            </form>
+                    <button mat-button [hidden]="!isAddingNew" class="button-send">send</button>
+                </form>
             </div>
-            
+                
             <div class="paginator">
-            <mat-paginator [length]="r.total"
-                  [pageSize]="request.page_size"                  
-                  aria-label="Select page">
-            </mat-paginator>
+                <mat-paginator [length]="r.total"
+                      [pageSize]="request.page_size"                  
+                      aria-label="Select page">
+                </mat-paginator>
             </div>
-        }
+        }   
         </div>
 `,
     styleUrls: ['quiz-discover.component.css'],
     imports: [
-        MatPaginator,
-        MatProgressSpinnerModule,
-        FormsModule,
-        ReactiveFormsModule,
-        MatIconModule,
-        MatIcon
-    ]
+    MatPaginator,
+    MatProgressSpinnerModule,
+    FormsModule,
+    ReactiveFormsModule,
+    MatIconModule,
+    MatIcon,
+    MatAnchor
+]
 
 })
 export class QuizDiscoverComponent {
     private readonly service = inject(QuizService);
+    private readonly router = new Router;
 
 
     protected readonly request: IPaginationRequest = {
@@ -167,5 +176,8 @@ export class QuizDiscoverComponent {
                 }
             })
         }
+    }
+    auth(){
+        this.router.navigate(['/auth']);
     }
 }

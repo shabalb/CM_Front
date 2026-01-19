@@ -12,7 +12,11 @@ body.app-quiz-discover{
     flex: 1 1 auto;
     overflow-y: auto;
     padding: 1px;
-    
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+   
 }
 .quiz-window{
     background-color: #252525;
@@ -29,7 +33,22 @@ body.app-quiz-discover{
 }
 .quiz-item{
     padding: 10px;
-    border-bottom: 5px solid;
+    border: 2px solid white;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    width: 80%;
+    align-items: center;
+    
+}
+
+.item-name{
+    align-items: center;
+}
+
+.item-question{
+    width: 100%;
+    text-align: left;
 }
 
 .paginator{
@@ -86,4 +105,10 @@ body.app-quiz-discover{
 
 .alert{
     color: #fa0000;
+}
+
+.auth-icon{
+    position: fixed;
+    right: 10px;
+    top: 10px;
 }
