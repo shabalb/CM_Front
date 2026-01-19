@@ -7,7 +7,7 @@ import { IPaginationRequest } from "../../models/pagination";
 import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 import { IPagination } from "../../models/pagination";
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
-import { FormsModule, FormGroup, FormControl, Validators, ReactiveFormsModule } from "@angular/forms";
+import { FormsModule, FormGroup, FormControl, Validators, ReactiveFormsModule, FormArray } from "@angular/forms";
 import { MatIcon, MatIconModule } from '@angular/material/icon';
 import { MatAnchor } from "@angular/material/button";
 import { Router } from '@angular/router';
@@ -53,16 +53,31 @@ import { Router } from '@angular/router';
                             <input name="name"   formControlName="quizName" class="input-name"/>
                             <label id = "name-alert" class = "alert" [class.hidden]="!isincorrectName">alert</label>
                         </div>
-                        <div  class="input-container">
-                            <label>Вопрос</label>
-                            <textarea name="question"   formControlName="quizContent" class="input-question" rows = "10"></textarea>
-                            <label id = "question-alert" class = "alert" [class.hidden]="!isincorrectQuestion">alert</label>
-                        </div>
-                        <div class="input-container">
-                            <label>Ответ</label>
-                            <input name="answer"   formControlName="quizAnswer" class="input-answer"/>
-                            <label id = "answer-alert" class = "alert" [class.hidden]="!isincorrectAnswer">alert</label>
-                        </div>
+                        @if (modeControl.value === "text"){
+                            <div  class="input-container">
+                                <label>Вопрос</label>
+                                <textarea name="question"   formControlName="quizContent" class="input-question" rows = "10"></textarea>
+                                <label id = "question-alert" class = "alert" [class.hidden]="!isincorrectQuestion">alert</label>
+                            </div>
+                            <div class="input-container">
+                                <label>Ответ</label>
+                                <input name="answer"   formControlName="quizAnswer" class="input-answer"/>
+                                <label id = "answer-alert" class = "alert" [class.hidden]="!isincorrectAnswer">alert</label>
+                            </div>
+                        }
+                        @if (modeControl.value === "select"){
+                            <div  class="input-container">
+                                <label>Вопрос</label>
+                                <textarea name="question"   formControlName="quizContent" class="input-question" rows = "10"></textarea>
+                                <label id = "question-alert" class = "alert" [class.hidden]="!isincorrectQuestion">alert</label>
+                            </div>
+                            <div class="input-container">
+                                <label>Ответ</label>
+                                <input name="answer"   formControlName="quizAnswer" class="input-answer"/>
+                                <label id = "answer-alert" class = "alert" [class.hidden]="!isincorrectAnswer">alert</label>
+                            </div>
+                            <button mat-button (click)="addVariant()" ><mat-icon > add</mat-icon></button>
+                        }
                     </div>
                     <button mat-button [hidden]="!isAddingNew" class="button-send">send</button>
                 </form>
@@ -113,10 +128,27 @@ export class QuizDiscoverComponent {
 
 
     quiz_input_form: FormGroup = new FormGroup({
-        "quizName": new FormControl("", [Validators.required, Validators.maxLength(this.nameMaxLength)]),
+        quizName: new FormControl("", [Validators.required, Validators.maxLength(this.nameMaxLength)]),
         "quizContent": new FormControl("", [Validators.required, Validators.maxLength(this.questionMaxLength)]),
         "quizAnswer": new FormControl("", [Validators.required, Validators.maxLength(this.answerMaxLength)]),
+        "numberOfVar": new FormControl<number>(1, [Validators.required]),
+        "variants": new FormArray<FormControl<string>>([], [Validators.required]),
+        "answer": new FormControl<number>(1, [Validators.required]),
+    
     });
+
+    get variants(): FormArray<FormControl<string>>{
+        return this.quiz_input_form.get("variants") as FormArray<FormControl<string>>;
+    }
+
+    addVariant(){
+        return this.variants.push(new FormControl<string>("",{nonNullable: true, validators: [Validators.required]}));
+    }
+
+    removeVariant(){
+        this.variants.removeAt(this.variants.length-1);
+    }
+
     isAddingNew: boolean = false;
     isincorrectName: boolean = false;
     isincorrectQuestion: boolean = false;
