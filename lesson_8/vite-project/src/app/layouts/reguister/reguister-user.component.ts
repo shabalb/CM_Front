@@ -1,5 +1,5 @@
-import { Component, computed, inject, Signal } from "@angular/core";
-import { QuizService } from "../../services/quiz/quiz.service";
+import { Component, computed, Inject, inject, Signal } from "@angular/core";
+import { RegisterService } from "../../services/reguister/registr-service";
 import { toSignal } from '@angular/core/rxjs-interop'
 import { map } from "rxjs";
 import { IQuiz, IQuizCreateRequest, QuizItemType, IQuizCreateSend, IQuizDescription, IQuizDat } from "../../models/quiz";
@@ -12,6 +12,9 @@ import {MatFormField, MatInputModule} from '@angular/material/input';
 import { MatIcon, MatIconModule } from '@angular/material/icon';
 import { MatFormFieldModule } from "@angular/material/form-field";
 import { CommonModule } from "@angular/common";
+import { MockRegistrService } from "../../services/reguister/mock-registr.service";
+import { IRegisterRequest } from "../../models/registration";
+
 
 @Component({
     selector: 'reguister-user',
@@ -47,10 +50,15 @@ import { CommonModule } from "@angular/common";
         MatFormField,
         MatFormFieldModule,
         CommonModule
-    ]
+    ],
+    providers: [
+    { provide: RegisterService, useClass: MockRegistrService }
+  ]
 })
 
 export class ReguisterCreateComponent {
+    private readonly service = inject(RegisterService);
+
     isIncorrectLogin = false;
     isIncorrectPassword = false;
     maxLength = 100;
@@ -63,7 +71,13 @@ export class ReguisterCreateComponent {
         "Password": new FormControl("", [Validators.required, Validators.maxLength(this.maxLength)]),
     });
     register() {
-
+        if (!this.password.hasError('required') && !this.login.hasError('required')){
+            const request: IRegisterRequest = {
+                name:this.login.value,
+                password:this.password.value,
+            }
+            this.service.register(request);
+        }
     }
     get password() {
         return this.register_form.get('Password')!;
@@ -71,4 +85,5 @@ export class ReguisterCreateComponent {
     get login() {
         return this.register_form.get('Login')!;
     }
+    
 }
