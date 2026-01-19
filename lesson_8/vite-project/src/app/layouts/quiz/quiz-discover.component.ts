@@ -38,9 +38,16 @@ import { Router } from '@angular/router';
                         </label>
                     </div>
                 }
+                <button mat-button (click)="showFields()" class = "button-add"><mat-icon > add</mat-icon></button>
+                
+
                 <form [formGroup]="quiz_input_form" novalidate (ngSubmit)="send()" class = "quiz-form">
-                    <button mat-button (click)="showFields()" class = "button-add"><mat-icon > add</mat-icon></button>
+                    
                     <div  [hidden]="!isAddingNew">
+                    <select [formControl]="modeControl">
+                        <option value="text">текстовый</option>
+                        <option value="select">выбор</option>
+                    </select>
                         <div class="input-container">
                             <label>Имя</label>
                             <input name="name"   formControlName="quizName" class="input-name"/>
@@ -85,6 +92,7 @@ import { Router } from '@angular/router';
 export class QuizDiscoverComponent {
     private readonly service = inject(QuizService);
     private readonly router = new Router;
+    modeControl = new FormControl<'text' | 'select'>('text');
 
 
     protected readonly request: IPaginationRequest = {
@@ -147,11 +155,13 @@ export class QuizDiscoverComponent {
             document.getElementById("name-alert")!.textContent = "превышено ограничение в " + this.nameMaxLength + " символов";
         }
         if (!this.isincorrectName && !this.isincorrectQuestion && !this.isincorrectAnswer) {
+            
             const formValue = this.quiz_input_form.value;
             const request: IQuizCreateSend = {
                 name: formValue.name,
                 description: [
                     {
+                        type:QuizItemType.Text,
                         question: formValue.quizContent,
                         answer: formValue.quizAnswer
                     }

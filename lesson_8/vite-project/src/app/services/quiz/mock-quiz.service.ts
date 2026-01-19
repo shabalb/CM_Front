@@ -1,13 +1,13 @@
 import { QuizService } from "./quiz.service";
 import { IPagination, IPaginationRequest } from "../../models/pagination";
 import { Observable, of } from "rxjs";
-import { IQuiz, IQuizCreateRequest, IQuizCreateSend, IQUizItem,IQuizDat,IQuizDescription } from "../../models/quiz";
+import { IQuiz, IQuizCreateRequest, IQuizCreateSend, IQUizItem,IQuizDat,IQuizDescription,QuizItemType } from "../../models/quiz";
 
 
 
 export class MockQuizService extends QuizService {
     
-    private readonly _quizes: IQuizDat[] = [{id: 1, name:"quiz",description: [{question:"question",answer:"answer"}]}];
+    private readonly _quizes: IQuizDat[] = [{id: 1, name:"quiz",description: [{type: QuizItemType.Text,question:"question",answer:"answer"}]}];
     private readonly _quiz_items: IQUizItem[] = [];
     
     private _quiz_id: number = 0;

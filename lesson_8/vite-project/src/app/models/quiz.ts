@@ -27,10 +27,28 @@ export interface IQuizCreateRequest {
     readonly items: readonly IQuizItemRequest[];
 }
 */
+/*
 export interface IQuizDescription{
     readonly question: string;
     readonly answer: string;
+}*/
+export interface ITextQuestion {
+    readonly type: QuizItemType.Text;
+    readonly question: string;
+    readonly answer: string;
 }
+
+export interface ISelectQuestion {
+    readonly type: QuizItemType.Select;
+    readonly question: string;
+    readonly options: readonly string[];
+    readonly correctOptionIndex: number;
+}
+
+export type IQuizDescription =
+  | ITextQuestion
+  | ISelectQuestion;
+
 
 export interface IQuizCreateRequest {
     readonly name: string;
