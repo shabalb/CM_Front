@@ -11,6 +11,9 @@ import { FormsModule, FormGroup, FormControl, Validators, ReactiveFormsModule, F
 import { MatIcon, MatIconModule } from '@angular/material/icon';
 import { MatAnchor } from "@angular/material/button";
 import { Router } from '@angular/router';
+import {MatRadioModule} from '@angular/material/radio';
+import {MatCheckboxModule} from '@angular/material/checkbox';
+
 
 
 @Component({
@@ -19,6 +22,7 @@ import { Router } from '@angular/router';
     
     
         @let r = response();
+        
         
         <div class = "quiz-window">
         <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
@@ -44,9 +48,10 @@ import { Router } from '@angular/router';
                 <form [formGroup]="quiz_input_form" novalidate (ngSubmit)="send()" class = "quiz-form">
                     
                     <div  [hidden]="!isAddingNew">
-                    <select [formControl]="modeControl">
+                    <select [formControl]="modeControl" (select)="changeMode()">
                         <option value="text">текстовый</option>
                         <option value="select">выбор</option>
+                        <option value="multyselect">выбор</option>
                     </select>
                         <div class="input-container">
                             <label>Имя</label>
@@ -71,12 +76,67 @@ import { Router } from '@angular/router';
                                 <textarea name="question"   formControlName="quizContent" class="input-question" rows = "10"></textarea>
                                 <label id = "question-alert" class = "alert" [class.hidden]="!isincorrectQuestion">alert</label>
                             </div>
+                            
+                            <label>Варианты</label>
+                            <div formArrayName="answers">
+                                @for (control of variants.controls; let i = $index;  track $index) {
+                                
+                                    
+                                
+                                    <div class="input-answer">
+                                        <mat-radio-button [value]="i+1">{{i+1}}</mat-radio-button>
+                                        
+                                        <input type="text" [formControlName]="i" placeholder="вариант"/>
+
+                                        <button mat-button (click)="removeVariant(i)">
+                                          <mat-icon fontSet="material-icons">clear</mat-icon>
+                                        </button>
+                                    </div>
+                                
+                                }
+                            </div>
+                            <button mat-button (click)="addVariant()" ><mat-icon fontSet="material-icons"> add</mat-icon></button>
+
                             <div class="input-container">
-                                <label>Ответ</label>
-                                <input name="answer"   formControlName="quizAnswer" class="input-answer"/>
+                                <label>Номер ответа</label>
+                                <input name="answer"   formControlName="answerSelect" class="input-answer"/>
                                 <label id = "answer-alert" class = "alert" [class.hidden]="!isincorrectAnswer">alert</label>
                             </div>
-                            <button mat-button (click)="addVariant()" ><mat-icon > add</mat-icon></button>
+
+                            
+                        }
+
+                        @if (modeControl.value === "multyselect"){
+                            <div  class="input-container">
+                                <label>Вопрос</label>
+                                <textarea name="question"   formControlName="quizContent" class="input-question" rows = "10"></textarea>
+                                <label id = "question-alert" class = "alert" [class.hidden]="!isincorrectQuestion">alert</label>
+                            </div>
+                            
+                            <label>Варианты</label>
+                            <div formArrayName="answers">
+                                @for (control of variants.controls; let i = $index;  track $index) {
+                                
+                                  <div class="input-answer">
+                                    <mat-checkbox formControlName="isCorrect"> {{i+1}} </mat-checkbox>
+                                    <input type="text" [formControlName]="i" placeholder="вариант" />
+                                
+                                    <button mat-button (click)="removeVariant(i)">
+                                      <mat-icon fontSet="material-icons">clear</mat-icon>
+                                    </button>
+                                  </div>
+                                
+                                }
+                            </div>
+                            <button mat-button (click)="addVariant()" ><mat-icon fontSet="material-icons"> add</mat-icon></button>
+
+                            <div class="input-container">
+                                <label>Номера ответа</label>
+                                <input name="answer"   formControlName="answerMultySelect" class="input-answer"/>
+                                <label id = "answer-alert" class = "alert" [class.hidden]="!isincorrectAnswer">alert</label>
+                            </div>
+
+                            
                         }
                     </div>
                     <button mat-button [hidden]="!isAddingNew" class="button-send">send</button>
@@ -100,15 +160,21 @@ import { Router } from '@angular/router';
     ReactiveFormsModule,
     MatIconModule,
     MatIcon,
-    MatAnchor
+    MatAnchor,
+    MatRadioModule,
+    MatCheckboxModule
 ]
 
 })
 export class QuizDiscoverComponent {
     private readonly service = inject(QuizService);
     private readonly router = new Router;
-    modeControl = new FormControl<'text' | 'select'>('text');
+    modeControl = new FormControl<'text' | 'select' | 'multyselect'>('text');
+    //value: number;
 
+    changeMode(){
+        this.variants.clear;
+    }
 
     protected readonly request: IPaginationRequest = {
         page: 1,
@@ -131,22 +197,39 @@ export class QuizDiscoverComponent {
         quizName: new FormControl("", [Validators.required, Validators.maxLength(this.nameMaxLength)]),
         "quizContent": new FormControl("", [Validators.required, Validators.maxLength(this.questionMaxLength)]),
         "quizAnswer": new FormControl("", [Validators.required, Validators.maxLength(this.answerMaxLength)]),
-        "numberOfVar": new FormControl<number>(1, [Validators.required]),
+        "numberOfVar": new FormControl<number | null>(null, [Validators.required]),
         "variants": new FormArray<FormControl<string>>([], [Validators.required]),
-        "answer": new FormControl<number>(1, [Validators.required]),
-    
+        "answerSelect": new FormControl<number | null>(null, [Validators.required]),
+        "variantsMultySelect": new FormArray<FormGroup>([]),
+        
     });
 
     get variants(): FormArray<FormControl<string>>{
         return this.quiz_input_form.get("variants") as FormArray<FormControl<string>>;
     }
 
+    get multyVariants(): FormArray<FormGroup>{
+        return this.quiz_input_form.get("variantsMultySelect") as FormArray<FormGroup>;
+    }
+
+    ngOnInit() {
+    this.modeControl!.valueChanges.subscribe(mode => {this.onModeChange();});
+    }
+    onModeChange() {
+        this.variants.clear();
+    }
+
     addVariant(){
         return this.variants.push(new FormControl<string>("",{nonNullable: true, validators: [Validators.required]}));
     }
 
-    removeVariant(){
-        this.variants.removeAt(this.variants.length-1);
+    addMultyVariant(){
+        return this.multyVariants.push(new FormGroup({variant: new FormControl<string>("",{nonNullable: true, validators: [Validators.required]}),
+                                                      carrect: new FormControl(false)}));
+    }
+
+    removeVariant(i:number){
+        this.variants.removeAt(i);
     }
 
     isAddingNew: boolean = false;
@@ -187,36 +270,40 @@ export class QuizDiscoverComponent {
             document.getElementById("name-alert")!.textContent = "превышено ограничение в " + this.nameMaxLength + " символов";
         }
         if (!this.isincorrectName && !this.isincorrectQuestion && !this.isincorrectAnswer) {
-            
-            const formValue = this.quiz_input_form.value;
-            const request: IQuizCreateSend = {
-                name: formValue.name,
-                description: [
-                    {
-                        type:QuizItemType.Text,
-                        question: formValue.quizContent,
-                        answer: formValue.quizAnswer
-                    }
-                ],
-                items: [
-                    { type: QuizItemType.Text }
-                ]
-            }
-
-            this.service.create(request).subscribe({
-                next: quiz => {
-                    console.log('Отправлено', quiz);
-
-                    this.quiz_input_form.reset({
-                        quizName: '',
-                        quizContent: '',
-                        quizAnswer: ''
-                    });
-                },
-                error: err => {
-                    console.error('Ошибка отправки', err);
+            if (this.modeControl.value ==="text"){
+                const formValue = this.quiz_input_form.value;
+                const request: IQuizCreateSend = {
+                    name: formValue.name,
+                    description: [
+                        {
+                            type:QuizItemType.Text,
+                            question: formValue.quizContent,
+                            answer: formValue.quizAnswer
+                        }
+                    ],
+                    items: [
+                        { type: QuizItemType.Text }
+                    ]
                 }
-            })
+
+                this.service.create(request).subscribe({
+                    next: quiz => {
+                        console.log('Отправлено', quiz);
+
+                        this.quiz_input_form.reset({
+                            quizName: '',
+                            quizContent: '',
+                            quizAnswer: ''
+                        });
+                    },
+                    error: err => {
+                        console.error('Ошибка отправки', err);
+                    }
+                })
+            }
+            if (this.modeControl.value ==="select"){
+
+            }
         }
     }
     auth(){

@@ -112,3 +112,7 @@ body.app-quiz-discover{
     right: 10px;
     top: 10px;
 }
+
+.button-add-var{
+    visibility: hidden;
+}
