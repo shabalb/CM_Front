@@ -1,4 +1,4 @@
-import { Component, computed, inject, Signal } from "@angular/core";
+import { Component, computed, inject, signal, Signal } from "@angular/core";
 import { QuizService } from "../../services/quiz/quiz.service";
 import { toSignal } from '@angular/core/rxjs-interop'
 import { map } from "rxjs";
@@ -34,14 +34,26 @@ import { MatInputModule } from "@angular/material/input";
             <button mat-button (click)="auth()" class="auth-icon"><mat-icon >account_circle</mat-icon></button>
             <div class = "quiz-list">
                 @for (item of r.items; track item.id) {
-                    <div class = "quiz-item">
-                        <label class="item-name">
-                            {{item.id}}. {{item.name}}
-                        </label>
-                        <label class="item-question">
-                            {{item.description[0].question}}
-                        </label>
-                    </div>
+                    @if (item.description[0].type == QuizItemType.Text){
+                        <div class = "quiz-item">
+                            <label class="item-name">
+                                {{item.id}}. {{item.name}}
+                            </label>
+                            <label class="item-question">
+                                {{item.description[0].question}}
+                            </label>
+                        </div>
+                    }
+                    @if (item.description[0].type == QuizItemType.Select){
+                        <div class = "quiz-item">
+                            <label class="item-name">
+                                {{item.id}}. {{item.name}}
+                            </label>
+                            <label class="item-question">
+                                {{item.description[0].question}}
+                            </label>
+                        </div>
+                    }
                 }
                 <button mat-button (click)="showFields()" class = "button-add"><mat-icon > add</mat-icon></button>
                 
@@ -165,7 +177,8 @@ export class QuizDiscoverComponent {
     private readonly service = inject(QuizService);
     private readonly router = new Router;
     modeControl = new FormControl<'text' | 'select' | 'multyselect'>('text');
-    //value: number;
+    QuizItemType = QuizItemType;
+    
 
     changeMode(){
         this.variants.clear();
@@ -278,7 +291,7 @@ export class QuizDiscoverComponent {
             if (this.modeControl.value ==="text"){
                 const formValue = this.quiz_input_form.value;
                 const request: IQuizCreateSend = {
-                    name: formValue.name,
+                    name: formValue.quizName,
                     description: [
                         {
                             type:QuizItemType.Text,
@@ -300,16 +313,20 @@ export class QuizDiscoverComponent {
                             quizContent: '',
                             quizAnswer: ''
                         });
+                        
                     },
                     error: err => {
                         console.error('Ошибка отправки', err);
                     }
-                })
+                    
+                });
             }
             if (this.modeControl.value ==="select"){
 
             }
         }
+        //this.response = toSignal(this.service.getItems(this.request),
+        //{ initialValue: null });
     }
     auth(){
         this.router.navigate(['/auth']);
