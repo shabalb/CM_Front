@@ -9,11 +9,10 @@ import { IPagination } from "../../models/pagination";
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { FormsModule, FormGroup, FormControl, Validators, ReactiveFormsModule, FormArray } from "@angular/forms";
 import { MatIcon, MatIconModule } from '@angular/material/icon';
-import { MatAnchor, MatButtonModule } from "@angular/material/button";
+import { MatAnchor } from "@angular/material/button";
 import { Router } from '@angular/router';
 import {MatRadioModule} from '@angular/material/radio';
 import {MatCheckboxModule} from '@angular/material/checkbox';
-import { MatInputModule } from "@angular/material/input";
 
 
 
@@ -49,10 +48,10 @@ import { MatInputModule } from "@angular/material/input";
                 <form [formGroup]="quiz_input_form" novalidate (ngSubmit)="send()" class = "quiz-form">
                     
                     <div  [hidden]="!isAddingNew">
-                    <select [formControl]="modeControl" (select)="changeMode()" class="select-mode">
+                    <select [formControl]="modeControl" (select)="changeMode()">
                         <option value="text">текстовый</option>
                         <option value="select">выбор</option>
-                        <option value="multyselect">выбор несколько</option>
+                        <option value="multyselect">выбор</option>
                     </select>
                         <div class="input-container">
                             <label>Имя</label>
@@ -98,7 +97,11 @@ import { MatInputModule } from "@angular/material/input";
                             </div>
                             <button mat-button (click)="addVariant()" ><mat-icon fontSet="material-icons"> add</mat-icon></button>
 
-                            
+                            <div class="input-container">
+                                <label>Номер ответа</label>
+                                <input name="answer"   formControlName="answerSelect" class="input-answer"/>
+                                <label id = "answer-alert" class = "alert" [class.hidden]="!isincorrectAnswer">alert</label>
+                            </div>
 
                             
                         }
@@ -111,23 +114,27 @@ import { MatInputModule } from "@angular/material/input";
                             </div>
                             
                             <label>Варианты</label>
-                            <div formArrayName="variantsMultySelect">
-                                @for (control of multyVariants.controls; let i = $index;  track $index) {
+                            <div formArrayName="answers">
+                                @for (control of variants.controls; let i = $index;  track $index) {
                                 
-                                  <div class="input-answer" [formGroupName]="i">
-                                    <mat-checkbox formControlName="correct"> {{i+1}} </mat-checkbox>
-                                    <input type="text" formControlName="variant" placeholder="вариант" />
+                                  <div class="input-answer">
+                                    <mat-checkbox formControlName="isCorrect"> {{i+1}} </mat-checkbox>
+                                    <input type="text" [formControlName]="i" placeholder="вариант" />
                                 
-                                    <button mat-button (click)="removeMultyVariant(i)">
+                                    <button mat-button (click)="removeVariant(i)">
                                       <mat-icon fontSet="material-icons">clear</mat-icon>
                                     </button>
                                   </div>
                                 
                                 }
                             </div>
-                            <button mat-button (click)="addMultyVariant()" type = "button" ><mat-icon fontSet="material-icons"> add</mat-icon></button>
+                            <button mat-button (click)="addVariant()" ><mat-icon fontSet="material-icons"> add</mat-icon></button>
 
-                            
+                            <div class="input-container">
+                                <label>Номера ответа</label>
+                                <input name="answer"   formControlName="answerMultySelect" class="input-answer"/>
+                                <label id = "answer-alert" class = "alert" [class.hidden]="!isincorrectAnswer">alert</label>
+                            </div>
 
                             
                         }
@@ -155,9 +162,7 @@ import { MatInputModule } from "@angular/material/input";
     MatIcon,
     MatAnchor,
     MatRadioModule,
-    MatCheckboxModule,
-    MatInputModule,
-    MatButtonModule
+    MatCheckboxModule
 ]
 
 })
@@ -168,8 +173,7 @@ export class QuizDiscoverComponent {
     //value: number;
 
     changeMode(){
-        this.variants.clear();
-        this.multyVariants.clear();
+        this.variants.clear;
     }
 
     protected readonly request: IPaginationRequest = {
@@ -213,7 +217,6 @@ export class QuizDiscoverComponent {
     }
     onModeChange() {
         this.variants.clear();
-        this.multyVariants.clear();
     }
 
     addVariant(){
@@ -221,13 +224,8 @@ export class QuizDiscoverComponent {
     }
 
     addMultyVariant(){
-        
-         return this.multyVariants.push(new FormGroup({variant: new FormControl<string>("",{nonNullable: true, validators: [Validators.required]}),
-                                                       correct: new FormControl(false)}));
-    }
-
-    removeMultyVariant(i:number){
-        this.multyVariants.removeAt(i);
+        return this.multyVariants.push(new FormGroup({variant: new FormControl<string>("",{nonNullable: true, validators: [Validators.required]}),
+                                                      carrect: new FormControl(false)}));
     }
 
     removeVariant(i:number){
@@ -245,35 +243,32 @@ export class QuizDiscoverComponent {
         this.isAddingNew = true;
     }
     send() {
-        if(this.modeControl.value ==="text"){
-            if (this.quiz_input_form.get("quizName")?.errors?.["required"]) {
-                this.isincorrectName = true;
-                document.getElementById("name-alert")!.textContent = "требуется имя";
-            }
-            if (this.quiz_input_form.get("quizContent")?.errors?.["required"]) {
-                this.isincorrectQuestion = true;
-                document.getElementById("question-alert")!.textContent = "требуется вопрос";
-            }
-
-            if (this.quiz_input_form.get("quizAnswer")?.errors?.["required"]) {
-                this.isincorrectAnswer = true;
-                document.getElementById("answer-alert")!.textContent = "требуется ответ";
-            }
-
-            if (this.quiz_input_form.get("quizAnswer")?.errors?.["maxlength"]) {
-                this.isincorrectAnswer = true;
-                document.getElementById("answer-alert")!.textContent = "превышено ограничение в " + this.answerMaxLength + " символов";
-            }
-            if (this.quiz_input_form.get("quizContent")?.errors?.["maxlength"]) {
-                this.isincorrectQuestion = true;
-                document.getElementById("question-alert")!.textContent = "превышено ограничение в " + this.questionMaxLength + " символов";
-            }
-            if (this.quiz_input_form.get("quizName")?.errors?.["maxlength"]) {
-                this.isincorrectName = true;
-                document.getElementById("name-alert")!.textContent = "превышено ограничение в " + this.nameMaxLength + " символов";
-            }
+        if (this.quiz_input_form.get("quizName")?.errors?.["required"]) {
+            this.isincorrectName = true;
+            document.getElementById("name-alert")!.textContent = "требуется имя";
+        }
+        if (this.quiz_input_form.get("quizContent")?.errors?.["required"]) {
+            this.isincorrectQuestion = true;
+            document.getElementById("question-alert")!.textContent = "требуется вопрос";
         }
 
+        if (this.quiz_input_form.get("quizAnswer")?.errors?.["required"]) {
+            this.isincorrectAnswer = true;
+            document.getElementById("answer-alert")!.textContent = "требуется ответ";
+        }
+
+        if (this.quiz_input_form.get("quizAnswer")?.errors?.["maxlength"]) {
+            this.isincorrectAnswer = true;
+            document.getElementById("answer-alert")!.textContent = "превышено ограничение в " + this.answerMaxLength + " символов";
+        }
+        if (this.quiz_input_form.get("quizContent")?.errors?.["maxlength"]) {
+            this.isincorrectQuestion = true;
+            document.getElementById("question-alert")!.textContent = "превышено ограничение в " + this.questionMaxLength + " символов";
+        }
+        if (this.quiz_input_form.get("quizName")?.errors?.["maxlength"]) {
+            this.isincorrectName = true;
+            document.getElementById("name-alert")!.textContent = "превышено ограничение в " + this.nameMaxLength + " символов";
+        }
         if (!this.isincorrectName && !this.isincorrectQuestion && !this.isincorrectAnswer) {
             if (this.modeControl.value ==="text"){
                 const formValue = this.quiz_input_form.value;

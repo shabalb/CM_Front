@@ -116,9 +116,3 @@ body.app-quiz-discover{
 .button-add-var{
     visibility: hidden;
 }
-
-.select-mode {
-    margin-left: 10px;
-    border-radius: 5px;
-    font-family: system-ui;
-}
