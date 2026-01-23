@@ -15,6 +15,8 @@ import {MatRadioModule} from '@angular/material/radio';
 import {MatCheckboxModule} from '@angular/material/checkbox';
 import { MatInputModule } from "@angular/material/input";
 import {MatDatepickerModule} from '@angular/material/datepicker';
+import {MatSliderModule} from '@angular/material/slider';
+
 
 
 
@@ -66,10 +68,52 @@ import {MatDatepickerModule} from '@angular/material/datepicker';
                                 <div class="input-container">
                                     <label>Ответ</label>
                                     @for (variant of item.description[0].options; let i = $index; track $index){
-                                        <input  type = "radio"  formControlName="select" [value]="i" class="input-name"/>
-                                        <label>{{variant}} </label>
+                                        
+                                        <label><input  type = "radio"  formControlName="select" [value]="i" class="input-name"/> {{variant}} </label>
                                     }
                                     
+                                </div>
+                            </form>
+                            <button mat-button class="button-send">send</button>
+                            
+                        </div>
+                    }
+                    @if (item.description[0].type == QuizItemType.SelectMany){
+                        
+                        <div class = "quiz-item">
+                            <label class="item-name">
+                                {{item.id + 1}}. {{item.name}}
+                            </label>
+                            <label class="item-question">
+                                {{item.description[0].question}}
+                            </label>
+                            <form [formGroup]="quiz_send_form.get(item.id)!" novalidate (ngSubmit)="sendAnswer()" class = "quiz-form">1
+                                <div formArrayName="array" class="input-container">
+                                    <label>Ответ</label>
+                                    @for (variant of item.description[0].options; let i = $index; track $index){
+                                        
+                                        <label><input  type = "checkbox"  [formControlName]="i" class="input-name"/> {{variant}} </label>
+                                    }
+                                    
+                                </div>
+                            </form>
+                            <button mat-button class="button-send">send</button>
+                            
+                        </div>
+                    }
+                    @if (item.description[0].type == QuizItemType.Range){
+                        
+                        <div class = "quiz-item">
+                            <label class="item-name">
+                                {{item.id + 1}}. {{item.name}}
+                            </label>
+                            <label class="item-question">
+                                {{item.description[0].question}}
+                            </label>
+                            <form [formGroup]="quiz_send_form.get(item.id)!" novalidate (ngSubmit)="sendAnswer()" class = "quiz-form">1
+                                <div class="input-container">
+                                    <label>Ответ {{quiz_send_form.get(item.id)?.get("numberRange")?.value}}</label>
+                                    <input type="range" formControlName="numberRange" [min]="item.description[0].min" [max]="item.description[0].max" step="1" />
                                 </div>
                             </form>
                             <button mat-button class="button-send">send</button>
@@ -173,7 +217,8 @@ import {MatDatepickerModule} from '@angular/material/datepicker';
     MatCheckboxModule,
     MatInputModule,
     MatButtonModule,
-    MatDatepickerModule
+    MatDatepickerModule,
+    MatSliderModule
 ]
 
 })
@@ -220,11 +265,25 @@ export class QuizDiscoverComponent {
             let input1: FormGroup = new FormGroup({});
             if (question.description[0].type === QuizItemType.Text){
                 input1 = new FormGroup ({text: new FormControl('',Validators.required)});
+                this.quiz_send_form.set(question.id,input1);
             }
             if (question.description[0].type === QuizItemType.Select){
                 input1 = new FormGroup ({select: new FormControl<number|null>(null,Validators.required)});
+                this.quiz_send_form.set(question.id,input1);
             }
-            this.quiz_send_form.set(question.id,input1);
+            if (question.description[0].type === QuizItemType.SelectMany){
+                let inputmany: FormArray = new FormArray<FormControl>([]);
+                for(const opt of question.description[0].options){
+                    inputmany.push(new FormControl(false));
+                }
+                this.quiz_send_form.set(question.id,new FormGroup({array: inputmany}));
+            }
+            if (question.description[0].type === QuizItemType.Range){
+                input1 = new FormGroup ({numberRange: new FormControl<number>((question.description[0].max+question.description[0].min)/2,Validators.required)});
+                //input1 = new FormGroup ({numberRange: new FormControl<number>(question.description[0].max,Validators.required)});
+                this.quiz_send_form.set(question.id,input1);
+            }
+            
         }
         //this.quiz_send_form = currentItems.map(() =>
         //    new FormGroup({
