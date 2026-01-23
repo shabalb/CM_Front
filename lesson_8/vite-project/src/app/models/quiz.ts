@@ -8,6 +8,8 @@ export enum QuizItemType {
     Text = 'text',
     Select = 'select',
     SelectMany = 'select_many',
+    Range = 'range',
+    Date = 'date'
 }
 
 export interface IQUizItem {
@@ -49,10 +51,24 @@ export interface IMultySelectQuestion {
     readonly options: readonly string[];
 }
 
+export interface IRangeQuestion {
+    readonly type: QuizItemType.Range;
+    readonly question: string;
+    readonly max: number;
+    readonly min: number;
+}
+
+export interface IDateQuestion {
+    readonly type: QuizItemType.Date;
+    readonly question: string;
+}
+
 export type IQuizDescription =
   | ITextQuestion
   | ISelectQuestion
-  | IMultySelectQuestion;
+  | IMultySelectQuestion
+  | IRangeQuestion
+  | IDateQuestion;
 
 
 export interface IQuizCreateRequest {

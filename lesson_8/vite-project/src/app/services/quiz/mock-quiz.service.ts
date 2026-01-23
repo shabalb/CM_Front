@@ -7,11 +7,12 @@ import { IQuiz, IQuizCreateRequest, IQuizCreateSend, IQUizItem,IQuizDat,IQuizDes
 
 export class MockQuizService extends QuizService {
     
-    private readonly _quizes: IQuizDat[] = [{id: 0, name:"quiz",description: [{type: QuizItemType.Text,question:"question"}]}];
+    private readonly _quizes: IQuizDat[] = [{id: 0, name:"quiz",description: [{type: QuizItemType.Text,question:"question"}]},
+                                            {id: 1, name:"quizselect",description: [{type: QuizItemType.Select,question:"question",options:["var1","var2"]}]}];
     private readonly _quiz_items: IQUizItem[] = [];
     
-    private _quiz_id: number = 0;
-    private _quiz_item_id: number = 0;
+    private _quiz_id: number = 2;
+    private _quiz_item_id: number = 2;
 
     public getItems (request: IPaginationRequest):Observable<IPagination<IQuizDat>>{
         return of({

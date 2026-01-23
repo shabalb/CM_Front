@@ -14,6 +14,7 @@ import { Router } from '@angular/router';
 import {MatRadioModule} from '@angular/material/radio';
 import {MatCheckboxModule} from '@angular/material/checkbox';
 import { MatInputModule } from "@angular/material/input";
+import {MatDatepickerModule} from '@angular/material/datepicker';
 
 
 
@@ -38,28 +39,41 @@ import { MatInputModule } from "@angular/material/input";
                     @if (item.description[0].type == QuizItemType.Text){
                         <div class = "quiz-item">
                             <label class="item-name">
-                                {{item.id}}. {{item.name}}
+                                {{item.id + 1}}. {{item.name}}
                             </label>
                             <label class="item-question">
                                 {{item.description[0].question}}
                             </label>
-                            <form [formGroup]="quiz_send_form[i]" novalidate (ngSubmit)="sendAnswer()" class = "quiz-form">//////////////////////
+                            <form [formGroup]="quiz_send_form.get(item.id)!" novalidate (ngSubmit)="sendAnswer()" class = "quiz-form">//////////////////////
                                 <div class="input-container">
                                     <label>Ответ</label>
-                                    <input name="name"   formControlName="answer" class="input-name"/>
+                                    <input name="name"   formControlName="text" class="input-name"/>
                                 </div>
                             </form>
                             <button mat-button class="button-send">send</button>
                         </div>
                     }
                     @if (item.description[0].type == QuizItemType.Select){
+                        
                         <div class = "quiz-item">
                             <label class="item-name">
-                                {{item.id}}. {{item.name}}
+                                {{item.id + 1}}. {{item.name}}
                             </label>
                             <label class="item-question">
                                 {{item.description[0].question}}
                             </label>
+                            <form [formGroup]="quiz_send_form.get(item.id)!" novalidate (ngSubmit)="sendAnswer()" class = "quiz-form">//////////////////////
+                                <div class="input-container">
+                                    <label>Ответ</label>
+                                    @for (variant of item.description[0].options; let i = $index; track $index){
+                                        <input  type = "radio"  formControlName="select" [value]="i" class="input-name"/>
+                                        <label>{{variant}} </label>
+                                    }
+                                    
+                                </div>
+                            </form>
+                            <button mat-button class="button-send">send</button>
+                            
                         </div>
                     }
                 }
@@ -73,7 +87,6 @@ import { MatInputModule } from "@angular/material/input";
                     <select [formControl]="modeControl" (select)="changeMode()" class="select-mode">
                         <option value="text">текстовый</option>
                         <option value="select">выбор</option>
-                        
                         <option value="range">диапазон</option>
                         <option value="date">дата</option>
                     </select>
@@ -121,9 +134,9 @@ import { MatInputModule } from "@angular/material/input";
                                 <textarea name="question"   formControlName="quizContent" class="input-question" rows = "10"></textarea>
                                 <label id = "question-alert" class = "alert" [class.hidden]="!isincorrectQuestion">alert</label>
                                 <label> Минимальное значение</label>
-                                <input name="min"   formControlName="quizName" class="input-name"/>
+                                <input name="min"   formControlName="minRange" class="input-name"/>
                                 <label>Максимальное значение</label>
-                                <input name="max"   formControlName="quizName" class="input-name"/>
+                                <input name="max"   formControlName="maxRange" class="input-name"/>
                             </div>
                         }
                         @if (modeControl.value === "date"){
@@ -159,7 +172,8 @@ import { MatInputModule } from "@angular/material/input";
     MatRadioModule,
     MatCheckboxModule,
     MatInputModule,
-    MatButtonModule
+    MatButtonModule,
+    MatDatepickerModule
 ]
 
 })
@@ -195,18 +209,30 @@ export class QuizDiscoverComponent {
     questionMaxLength = 300;
     answerMaxLength = 10;
 
-    quiz_send_form: FormGroup[] = [];
-
+    //quiz_send_form: FormGroup[] = [];
+    quiz_send_form = new Map<number, FormGroup>();
     
 
     readonly initEffect = effect((): void => {
         const currentItems = this.items();
-        this.quiz_send_form = currentItems.map(() =>
-            new FormGroup({
-            answer: new FormControl('', Validators.required)
-        })
-        );
+        
+        for (const question of currentItems){
+            let input1: FormGroup = new FormGroup({});
+            if (question.description[0].type === QuizItemType.Text){
+                input1 = new FormGroup ({text: new FormControl('',Validators.required)});
+            }
+            if (question.description[0].type === QuizItemType.Select){
+                input1 = new FormGroup ({select: new FormControl<number|null>(null,Validators.required)});
+            }
+            this.quiz_send_form.set(question.id,input1);
+        }
+        //this.quiz_send_form = currentItems.map(() =>
+        //    new FormGroup({
+        //    answer: new FormControl<string>('', Validators.required)
+        //})
+        //);
     });
+    //"date": new FormControl<Date >(new Date(), Validators.required),
 
     quiz_input_form: FormGroup = new FormGroup({
         quizName: new FormControl("", [Validators.required, Validators.maxLength(this.nameMaxLength)]),
@@ -216,6 +242,8 @@ export class QuizDiscoverComponent {
         "variants": new FormArray<FormControl<string>>([], [Validators.required]),
         "answerSelect": new FormControl<number | null>(null, [Validators.required]),
         "variantsMultySelect": new FormArray<FormGroup>([]),
+        "minRange": new FormControl<number >(0, Validators.required),
+        "maxRange": new FormControl<number >(0, Validators.required),
         
     });
 
@@ -395,6 +423,74 @@ export class QuizDiscoverComponent {
                         
                     });
                 }
+            }
+            if (this.modeControl.value ==="range"){
+                const formValue = this.quiz_input_form.value;
+                const request: IQuizCreateSend = {
+                        name: formValue.quizName,
+                        description: [
+                            {
+                                type:QuizItemType.Range,
+                                question: formValue.quizContent,
+                                max: formValue.maxRange,
+                                min: formValue.minRange
+                            }
+                        ],
+                        items: [
+                            { type: QuizItemType.Range }
+                        ]
+                    }
+                
+                    this.service.create(request).subscribe({
+                        next: quiz => {
+                            console.log('Отправлено', quiz);
+                        
+                            this.quiz_input_form.reset({
+                                quizName: '',
+                                quizContent: '',
+                                min: '',
+                                max: '',
+                            });
+                            
+                            
+                        },
+                        error: err => {
+                            console.error('Ошибка отправки', err);
+                        }
+                        
+                    });
+            }
+            if (this.modeControl.value ==="date"){
+                const formValue = this.quiz_input_form.value;
+                const request: IQuizCreateSend = {
+                        name: formValue.quizName,
+                        description: [
+                            {
+                                type:QuizItemType.Date,
+                                question: formValue.quizContent,
+                            }
+                        ],
+                        items: [
+                            { type: QuizItemType.Date }
+                        ]
+                    }
+                
+                    this.service.create(request).subscribe({
+                        next: quiz => {
+                            console.log('Отправлено', quiz);
+                        
+                            this.quiz_input_form.reset({
+                                quizName: '',
+                                quizContent: '',
+                            });
+                            
+                            
+                        },
+                        error: err => {
+                            console.error('Ошибка отправки', err);
+                        }
+                        
+                    });
             }
             
         }
