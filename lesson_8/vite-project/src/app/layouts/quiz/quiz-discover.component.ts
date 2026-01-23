@@ -73,7 +73,7 @@ import { MatInputModule } from "@angular/material/input";
                     <select [formControl]="modeControl" (select)="changeMode()" class="select-mode">
                         <option value="text">текстовый</option>
                         <option value="select">выбор</option>
-                        <option value="multyselect">выбор несколько</option>
+                        
                         <option value="range">диапазон</option>
                         <option value="date">дата</option>
                     </select>
@@ -90,6 +90,8 @@ import { MatInputModule } from "@angular/material/input";
                             </div>
                         }
                         @if (modeControl.value === "select"){
+                            <input type="checkbox" (change)="isMultySelect = !isMultySelect">
+                            <label>несколько вариантов</label>
                             <div  class="input-container">
                                 <label>Вопрос</label>
                                 <textarea name="question"   formControlName="quizContent" class="input-question" rows = "10"></textarea>
@@ -97,7 +99,7 @@ import { MatInputModule } from "@angular/material/input";
                             </div>
                             
                             <label>Варианты</label>
-                            <div formArrayName="answers">
+                            <div formArrayName="variants">
                                 @for (control of variants.controls; let i = $index;  track $index) {
                                     <div class="input-answer">
                                         <label>{{i+1}}</label>
@@ -108,32 +110,11 @@ import { MatInputModule } from "@angular/material/input";
                                     </div>
                                 }
                             </div>
-                            <button mat-button (click)="addVariant()" ><mat-icon fontSet="material-icons"> add</mat-icon></button>
+                            <button mat-button (click)="addVariant()" type = "button" ><mat-icon fontSet="material-icons"> add</mat-icon></button>
 
                         }
 
-                        @if (modeControl.value === "multyselect"){
-                            <div  class="input-container">
-                                <label>Вопрос</label>
-                                <textarea name="question"   formControlName="quizContent" class="input-question" rows = "10"></textarea>
-                                <label id = "question-alert" class = "alert" [class.hidden]="!isincorrectQuestion">alert</label>
-                            </div>
-                            
-                            <label>Варианты</label>
-                            <div formArrayName="variantsMultySelect">
-                                @for (control of multyVariants.controls; let i = $index;  track $index) {
-                                    
-                                    <div class="input-answer" [formGroupName]="i">
-                                        <label>{{i+1}}</label>
-                                        <input type="text" formControlName="variant" placeholder="вариант" />
-                                        <button mat-button (click)="removeMultyVariant(i)">
-                                            <mat-icon fontSet="material-icons">clear</mat-icon>
-                                        </button>
-                                    </div>
-                                }
-                            </div>
-                            <button mat-button (click)="addMultyVariant()" type = "button" ><mat-icon fontSet="material-icons"> add</mat-icon></button>
-                        }
+                        
                         @if (modeControl.value === "range"){
                             <div  class="input-container">
                                 <label>Вопрос</label>
@@ -187,6 +168,8 @@ export class QuizDiscoverComponent {
     private readonly router = new Router;
     modeControl = new FormControl<'text' | 'select' | 'multyselect'| 'range' | 'date'>('text');
     QuizItemType = QuizItemType;
+
+    isMultySelect = false;
     
 
     changeMode(){
@@ -297,15 +280,7 @@ export class QuizDiscoverComponent {
                 document.getElementById("question-alert")!.textContent = "требуется вопрос";
             }
 
-            if (this.quiz_input_form.get("quizAnswer")?.errors?.["required"]) {
-                this.isincorrectAnswer = true;
-                document.getElementById("answer-alert")!.textContent = "требуется ответ";
-            }
-
-            if (this.quiz_input_form.get("quizAnswer")?.errors?.["maxlength"]) {
-                this.isincorrectAnswer = true;
-                document.getElementById("answer-alert")!.textContent = "превышено ограничение в " + this.answerMaxLength + " символов";
-            }
+            
             if (this.quiz_input_form.get("quizContent")?.errors?.["maxlength"]) {
                 this.isincorrectQuestion = true;
                 document.getElementById("question-alert")!.textContent = "превышено ограничение в " + this.questionMaxLength + " символов";
@@ -325,7 +300,6 @@ export class QuizDiscoverComponent {
                         {
                             type:QuizItemType.Text,
                             question: formValue.quizContent,
-                            answer: formValue.quizAnswer
                         }
                     ],
                     items: [
@@ -351,8 +325,78 @@ export class QuizDiscoverComponent {
                 });
             }
             if (this.modeControl.value ==="select"){
+                const formValue = this.quiz_input_form.value;
+                const variants: string[] = this.variants.value;
+                if (!this.isMultySelect){
+                    const request: IQuizCreateSend = {
+                        name: formValue.quizName,
+                        description: [
+                            {
+                                type:QuizItemType.Select,
+                                question: formValue.quizContent,
+                                options: variants,
+                            }
+                        ],
+                        items: [
+                            { type: QuizItemType.Select }
+                        ]
+                    }
 
+                    this.service.create(request).subscribe({
+                        next: quiz => {
+                            console.log('Отправлено', quiz);
+
+                            this.quiz_input_form.reset({
+                                quizName: '',
+                                quizContent: '',
+
+                            });
+                            this.multyVariants.controls
+                            .map(control => control.get('variant')?.reset('') );
+
+                        },
+                        error: err => {
+                            console.error('Ошибка отправки', err);
+                        }
+
+                    });
+                }
+                if (this.isMultySelect){
+                    const request: IQuizCreateSend = {
+                        name: formValue.quizName,
+                        description: [
+                            {
+                                type:QuizItemType.SelectMany,
+                                question: formValue.quizContent,
+                                options: variants,
+                            }
+                        ],
+                        items: [
+                            { type: QuizItemType.SelectMany }
+                        ]
+                    }
+                
+                    this.service.create(request).subscribe({
+                        next: quiz => {
+                            console.log('Отправлено', quiz);
+                        
+                            this.quiz_input_form.reset({
+                                quizName: '',
+                                quizContent: '',
+                                
+                            });
+                            this.multyVariants.controls
+                            .map(control => control.get('variant')?.reset('') );
+                            
+                        },
+                        error: err => {
+                            console.error('Ошибка отправки', err);
+                        }
+                        
+                    });
+                }
             }
+            
         }
         //this.response = toSignal(this.service.getItems(this.request),
         //{ initialValue: null });

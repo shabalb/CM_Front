@@ -7,7 +7,7 @@ import { IQuiz, IQuizCreateRequest, IQuizCreateSend, IQUizItem,IQuizDat,IQuizDes
 
 export class MockQuizService extends QuizService {
     
-    private readonly _quizes: IQuizDat[] = [{id: 0, name:"quiz",description: [{type: QuizItemType.Text,question:"question",answer:"answer"}]}];
+    private readonly _quizes: IQuizDat[] = [{id: 0, name:"quiz",description: [{type: QuizItemType.Text,question:"question"}]}];
     private readonly _quiz_items: IQUizItem[] = [];
     
     private _quiz_id: number = 0;

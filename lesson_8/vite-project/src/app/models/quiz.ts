@@ -35,19 +35,24 @@ export interface IQuizDescription{
 export interface ITextQuestion {
     readonly type: QuizItemType.Text;
     readonly question: string;
-    readonly answer: string;
 }
 
 export interface ISelectQuestion {
     readonly type: QuizItemType.Select;
     readonly question: string;
     readonly options: readonly string[];
-    readonly correctOptionIndex: number;
+}
+
+export interface IMultySelectQuestion {
+    readonly type: QuizItemType.SelectMany;
+    readonly question: string;
+    readonly options: readonly string[];
 }
 
 export type IQuizDescription =
   | ITextQuestion
-  | ISelectQuestion;
+  | ISelectQuestion
+  | IMultySelectQuestion;
 
 
 export interface IQuizCreateRequest {
