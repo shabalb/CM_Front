@@ -1,4 +1,4 @@
-import { Component, computed, inject, signal, Signal } from "@angular/core";
+import { Component, computed, inject, signal, Signal,WritableSignal,effect } from "@angular/core";
 import { QuizService } from "../../services/quiz/quiz.service";
 import { toSignal } from '@angular/core/rxjs-interop'
 import { map } from "rxjs";
@@ -33,7 +33,8 @@ import { MatInputModule } from "@angular/material/input";
         } @else {
             <button mat-button (click)="auth()" class="auth-icon"><mat-icon >account_circle</mat-icon></button>
             <div class = "quiz-list">
-                @for (item of r.items; track item.id) {
+                
+                @for (item of r.items; let i = $index; track item.id) {
                     @if (item.description[0].type == QuizItemType.Text){
                         <div class = "quiz-item">
                             <label class="item-name">
@@ -42,6 +43,13 @@ import { MatInputModule } from "@angular/material/input";
                             <label class="item-question">
                                 {{item.description[0].question}}
                             </label>
+                            <form [formGroup]="quiz_send_form[i]" novalidate (ngSubmit)="sendAnswer()" class = "quiz-form">//////////////////////
+                                <div class="input-container">
+                                    <label>Ответ</label>
+                                    <input name="name"   formControlName="answer" class="input-name"/>
+                                </div>
+                            </form>
+                            <button mat-button class="button-send">send</button>
                         </div>
                     }
                     @if (item.description[0].type == QuizItemType.Select){
@@ -55,6 +63,7 @@ import { MatInputModule } from "@angular/material/input";
                         </div>
                     }
                 }
+                
                 <button mat-button (click)="showFields()" class = "button-add"><mat-icon > add</mat-icon></button>
                 
 
@@ -65,6 +74,8 @@ import { MatInputModule } from "@angular/material/input";
                         <option value="text">текстовый</option>
                         <option value="select">выбор</option>
                         <option value="multyselect">выбор несколько</option>
+                        <option value="range">диапазон</option>
+                        <option value="date">дата</option>
                     </select>
                         <div class="input-container">
                             <label>Имя</label>
@@ -77,11 +88,6 @@ import { MatInputModule } from "@angular/material/input";
                                 <textarea name="question"   formControlName="quizContent" class="input-question" rows = "10"></textarea>
                                 <label id = "question-alert" class = "alert" [class.hidden]="!isincorrectQuestion">alert</label>
                             </div>
-                            <div class="input-container">
-                                <label>Ответ</label>
-                                <input name="answer"   formControlName="quizAnswer" class="input-answer"/>
-                                <label id = "answer-alert" class = "alert" [class.hidden]="!isincorrectAnswer">alert</label>
-                            </div>
                         }
                         @if (modeControl.value === "select"){
                             <div  class="input-container">
@@ -93,26 +99,17 @@ import { MatInputModule } from "@angular/material/input";
                             <label>Варианты</label>
                             <div formArrayName="answers">
                                 @for (control of variants.controls; let i = $index;  track $index) {
-                                
-                                    
-                                
                                     <div class="input-answer">
-                                        <mat-radio-button [value]="i+1">{{i+1}}</mat-radio-button>
-                                        
+                                        <label>{{i+1}}</label>
                                         <input type="text" [formControlName]="i" placeholder="вариант"/>
-
                                         <button mat-button (click)="removeVariant(i)">
                                           <mat-icon fontSet="material-icons">clear</mat-icon>
                                         </button>
                                     </div>
-                                
                                 }
                             </div>
                             <button mat-button (click)="addVariant()" ><mat-icon fontSet="material-icons"> add</mat-icon></button>
 
-                            
-
-                            
                         }
 
                         @if (modeControl.value === "multyselect"){
@@ -125,23 +122,35 @@ import { MatInputModule } from "@angular/material/input";
                             <label>Варианты</label>
                             <div formArrayName="variantsMultySelect">
                                 @for (control of multyVariants.controls; let i = $index;  track $index) {
-                                
-                                  <div class="input-answer" [formGroupName]="i">
-                                    <mat-checkbox formControlName="correct"> {{i+1}} </mat-checkbox>
-                                    <input type="text" formControlName="variant" placeholder="вариант" />
-                                
-                                    <button mat-button (click)="removeMultyVariant(i)">
-                                      <mat-icon fontSet="material-icons">clear</mat-icon>
-                                    </button>
-                                  </div>
-                                
+                                    
+                                    <div class="input-answer" [formGroupName]="i">
+                                        <label>{{i+1}}</label>
+                                        <input type="text" formControlName="variant" placeholder="вариант" />
+                                        <button mat-button (click)="removeMultyVariant(i)">
+                                            <mat-icon fontSet="material-icons">clear</mat-icon>
+                                        </button>
+                                    </div>
                                 }
                             </div>
                             <button mat-button (click)="addMultyVariant()" type = "button" ><mat-icon fontSet="material-icons"> add</mat-icon></button>
-
-                            
-
-                            
+                        }
+                        @if (modeControl.value === "range"){
+                            <div  class="input-container">
+                                <label>Вопрос</label>
+                                <textarea name="question"   formControlName="quizContent" class="input-question" rows = "10"></textarea>
+                                <label id = "question-alert" class = "alert" [class.hidden]="!isincorrectQuestion">alert</label>
+                                <label> Минимальное значение</label>
+                                <input name="min"   formControlName="quizName" class="input-name"/>
+                                <label>Максимальное значение</label>
+                                <input name="max"   formControlName="quizName" class="input-name"/>
+                            </div>
+                        }
+                        @if (modeControl.value === "date"){
+                            <div  class="input-container">
+                                <label>Вопрос</label>
+                                <textarea name="question"   formControlName="quizContent" class="input-question" rows = "10"></textarea>
+                                <label id = "question-alert" class = "alert" [class.hidden]="!isincorrectQuestion">alert</label>
+                            </div>
                         }
                     </div>
                     <button mat-button [hidden]="!isAddingNew" class="button-send">send</button>
@@ -176,7 +185,7 @@ import { MatInputModule } from "@angular/material/input";
 export class QuizDiscoverComponent {
     private readonly service = inject(QuizService);
     private readonly router = new Router;
-    modeControl = new FormControl<'text' | 'select' | 'multyselect'>('text');
+    modeControl = new FormControl<'text' | 'select' | 'multyselect'| 'range' | 'date'>('text');
     QuizItemType = QuizItemType;
     
 
@@ -190,17 +199,31 @@ export class QuizDiscoverComponent {
         page_size: 10,
     }
 
-    protected readonly response: Signal<IPagination<IQuizDat> | null> = toSignal(
-        this.service.getItems(this.request),
-        { initialValue: null }
-    )
+    //protected readonly response: Signal<IPagination<IQuizDat> | null> = toSignal(
+    //    this.service.getItems(this.request),
+    //    { initialValue: null }
+    //)
+    protected readonly response: WritableSignal<IPagination<IQuizDat> | null> = signal(null);
 
+    readonly items = computed(() => this.response()?.items ?? []);
 
-    protected readonly items: Signal<readonly IQuizDat[]> = computed(() => this.response()?.items ?? []);
+    //protected readonly items: Signal<readonly IQuizDat[]> = computed(() => this.response()?.items ?? []);
     nameMaxLength = 30;
     questionMaxLength = 300;
     answerMaxLength = 10;
 
+    quiz_send_form: FormGroup[] = [];
+
+    
+
+    readonly initEffect = effect((): void => {
+        const currentItems = this.items();
+        this.quiz_send_form = currentItems.map(() =>
+            new FormGroup({
+            answer: new FormControl('', Validators.required)
+        })
+        );
+    });
 
     quiz_input_form: FormGroup = new FormGroup({
         quizName: new FormControl("", [Validators.required, Validators.maxLength(this.nameMaxLength)]),
@@ -222,7 +245,8 @@ export class QuizDiscoverComponent {
     }
 
     ngOnInit() {
-    this.modeControl!.valueChanges.subscribe(mode => {this.onModeChange();});
+        this.service.getItems(this.request).subscribe(data => this.response.set(data));
+        this.modeControl!.valueChanges.subscribe(mode => {this.onModeChange();});
     }
     onModeChange() {
         this.variants.clear();
@@ -257,6 +281,11 @@ export class QuizDiscoverComponent {
     showFields() {
         this.isAddingNew = true;
     }
+
+    sendAnswer(){
+
+    }
+
     send() {
         if(this.modeControl.value ==="text"){
             if (this.quiz_input_form.get("quizName")?.errors?.["required"]) {
