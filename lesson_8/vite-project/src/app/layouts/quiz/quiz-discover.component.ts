@@ -16,6 +16,7 @@ import {MatCheckboxModule} from '@angular/material/checkbox';
 import { MatInputModule } from "@angular/material/input";
 import {MatDatepickerModule} from '@angular/material/datepicker';
 import {MatSliderModule} from '@angular/material/slider';
+import { MatNativeDateModule } from '@angular/material/core';
 
 
 
@@ -120,6 +121,31 @@ import {MatSliderModule} from '@angular/material/slider';
                             
                         </div>
                     }
+                    @if (item.description[0].type == QuizItemType.Date){
+                        
+                        <div class = "quiz-item">
+                            <label class="item-name">
+                                {{item.id + 1}}. {{item.name}}
+                            </label>
+                            <label class="item-question">
+                                {{item.description[0].question}}
+                            </label>
+                            <form [formGroup]="quiz_send_form.get(item.id)!" novalidate (ngSubmit)="sendAnswer()" class = "quiz-form">1
+                                <div class="input-container">
+                                    <label>Ответ</label>
+                                    <mat-form-field>
+                                        <mat-label>Choose a date</mat-label>
+                                        <input matInput [matDatepicker]="picker" formControlName="date">
+                                        <mat-hint>ДД/ММ/ГГГГ</mat-hint>
+                                        <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+                                        <mat-datepicker #picker></mat-datepicker>
+                                    </mat-form-field>
+                                </div>
+                            </form>
+                            <button mat-button class="button-send">send</button>
+                            
+                        </div>
+                    }
                 }
                 
                 <button mat-button (click)="showFields()" class = "button-add"><mat-icon > add</mat-icon></button>
@@ -218,7 +244,8 @@ import {MatSliderModule} from '@angular/material/slider';
     MatInputModule,
     MatButtonModule,
     MatDatepickerModule,
-    MatSliderModule
+    MatSliderModule,
+    MatNativeDateModule
 ]
 
 })
@@ -281,6 +308,10 @@ export class QuizDiscoverComponent {
             if (question.description[0].type === QuizItemType.Range){
                 input1 = new FormGroup ({numberRange: new FormControl<number>((question.description[0].max+question.description[0].min)/2,Validators.required)});
                 //input1 = new FormGroup ({numberRange: new FormControl<number>(question.description[0].max,Validators.required)});
+                this.quiz_send_form.set(question.id,input1);
+            }
+            if (question.description[0].type === QuizItemType.Date){
+                input1 = new FormGroup ({date: new FormControl<Date|null>(null,Validators.required)});
                 this.quiz_send_form.set(question.id,input1);
             }
             

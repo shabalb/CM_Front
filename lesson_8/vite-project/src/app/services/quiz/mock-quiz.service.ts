@@ -10,11 +10,12 @@ export class MockQuizService extends QuizService {
     private readonly _quizes: IQuizDat[] = [{id: 0, name:"quiz",description: [{type: QuizItemType.Text,question:"question"}]},
                                             {id: 1, name:"quizselect",description: [{type: QuizItemType.Select,question:"question",options:["var1","var2"]}]},
                                             {id: 2, name:"quizmultyselect",description: [{type: QuizItemType.SelectMany,question:"question",options:["var1","var2"]}]},
-                                            {id: 3, name:"quizrange",description: [{type: QuizItemType.Range,question:"question",max:100,min:0}]}];
+                                            {id: 3, name:"quizrange",description: [{type: QuizItemType.Range,question:"question",max:100,min:0}]},
+                                            {id: 4, name:"quizdate",description: [{type: QuizItemType.Date,question:"question"}]}];
     private readonly _quiz_items: IQUizItem[] = [];
     
-    private _quiz_id: number = 4;
-    private _quiz_item_id: number = 4;
+    private _quiz_id: number = 5;
+    private _quiz_item_id: number = 5;
 
     public getItems (request: IPaginationRequest):Observable<IPagination<IQuizDat>>{
         return of({
