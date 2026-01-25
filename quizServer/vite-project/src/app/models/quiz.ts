@@ -2,6 +2,7 @@ export interface IQuiz {
     readonly id: number;
     readonly name: string;
     readonly description: string;
+    readonly items: IQuizItem[];
 }
 
 export enum QuizItemType {
@@ -12,23 +13,62 @@ export enum QuizItemType {
     Date = 'date'
 }
 
-export interface IQUizItem {
+/*
+export interface IQuizItem {
     readonly id: number;
     readonly quiz_id: number;
     readonly type: QuizItemType;
+}*/
+
+
+export type IQuizItem =
+  | ITextItem
+  | ISelectItem
+  | IRangeItem
+  | IDateItem;
+//*/
+
+export interface ITextItem{
+    readonly type: QuizItemType.Text;
+    readonly id: number;
+    readonly quizId: number;
+    readonly placeholder: string; 
 }
 
-export interface IQuizItemRequest {
-    readonly type: QuizItemType;
+export interface ISelectItem{
+    readonly type: QuizItemType.Select | QuizItemType.SelectMany;
+    readonly id: number;
+    readonly quizId: number;
+    readonly options: string[]; 
 }
+
+export interface IRangeItem{
+    readonly type: QuizItemType.Range;
+    readonly id: number;
+    readonly quizId: number;
+    readonly min: number;
+    readonly max: number; 
+}
+export interface IDateItem{
+    readonly type: QuizItemType.Date;
+    readonly id: number;
+    readonly quizId: number; 
+}
+
+
 
 /*
+export interface IQuizItemRequest {
+    readonly type: QuizItemType;
+}//*/
+
+//*
 export type IQuizItemRequest =
   | ITextItemRequest
   | ISelectItemRequest
   | IRangeItemRequest
   | IDateItemRequest;
-*/
+//*/
 
 export interface ITextItemRequest{
     readonly type: QuizItemType.Text;
