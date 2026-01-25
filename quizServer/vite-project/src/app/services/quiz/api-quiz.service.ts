@@ -21,7 +21,7 @@ export class ApiQuizService extends QuizService {
         return this.httpClient.get<IPagination<IQuiz>>(`${this.apiConfig.getUrl()}/api/quizes?pageNumber=${request.page}&pageSize=${request.page_size}`);
     }
     public override create(request: IQuizCreateRequest): Observable<IQuiz> {
-        return this.httpClient.post<IQuiz>(`${this.apiConfig.getUrl()}api/quizes`,request);
+        return this.httpClient.post<IQuiz>(`${this.apiConfig.getUrl()}/api/quizes`,request);
     }
 
     
