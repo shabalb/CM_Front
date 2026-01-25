@@ -1,0 +1,124 @@
+:host{
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+body.app-quiz-discover{
+    background-color: black;
+}
+
+.quiz-list{
+    flex: 1 1 auto;
+    overflow-y: auto;
+    padding: 1px;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+   
+}
+.quiz-window{
+    background-color: #252525;
+    color: white;
+    font-family: system-ui;
+    display:flex;
+    flex: 1;
+    flex-direction: column;
+    
+}
+.quiz-form input,textarea{
+    border-radius: 7px;
+    margin: 10px;
+}
+.quiz-item{
+    padding: 10px;
+    border: 2px solid white;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    width: 80%;
+    align-items: center;
+    
+}
+
+.item-name{
+    align-items: center;
+}
+
+.item-question{
+    width: 100%;
+    text-align: left;
+}
+
+.paginator{
+    flex-shrink: 0;
+    
+}
+.quiz-form{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
+.input-answer{
+    width: 40%;
+}
+
+.input-name{
+    width: 40%;
+}
+
+.input-question{
+    display: flex;
+    flex: 1;
+    height: 1000px;
+    
+}
+
+.input-container{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
+.button-add{
+    width: 20%;
+    align-self: center;
+    background-color: #FFB800;
+    border-radius: 10px;
+    border-width: 1px;
+}
+
+.button-send{
+    width: 10%;
+    align-self: center;
+    align-items: center;
+    background-color: #FFB800;
+    border-radius: 10px;
+    border-width: 1px;
+}
+
+.hidden {
+  visibility: hidden;
+}
+
+.alert{
+    color: #fa0000;
+}
+
+.auth-icon{
+    position: fixed;
+    right: 10px;
+    top: 10px;
+}
+
+.button-add-var{
+    visibility: hidden;
+}
+
+.select-mode {
+    margin-left: 10px;
+    border-radius: 5px;
+    font-family: system-ui;
+}
