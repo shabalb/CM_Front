@@ -23,6 +23,41 @@ export interface IQuizItemRequest {
 }
 
 /*
+export type IQuizItemRequest =
+  | ITextItemRequest
+  | ISelectItemRequest
+  | IRangeItemRequest
+  | IDateItemRequest;
+*/
+
+export interface ITextItemRequest{
+    readonly type: QuizItemType.Text;
+    readonly id: number;
+    readonly quizId: number;
+    readonly placeholder: string; 
+}
+
+export interface ISelectItemRequest{
+    readonly type: QuizItemType.Select | QuizItemType.SelectMany;
+    readonly id: number;
+    readonly quizId: number;
+    readonly options: string[]; 
+}
+
+export interface IRangeItemRequest{
+    readonly type: QuizItemType.Range;
+    readonly id: number;
+    readonly quizId: number;
+    readonly min: number;
+    readonly max: number; 
+}
+export interface IDateItemRequest{
+    readonly type: QuizItemType.Date;
+    readonly id: number;
+    readonly quizId: number; 
+}
+
+/*
 export interface IQuizCreateRequest {
     readonly name: string;
     readonly descriotion: string;
