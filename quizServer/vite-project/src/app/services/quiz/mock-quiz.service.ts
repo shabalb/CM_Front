@@ -32,19 +32,21 @@ export class MockQuizService extends QuizService {
             items: this._quizes.slice((request.page - 1) * request.page_size, request.page * request.page_size ),
         })
     }
-    public override create(request: IQuizCreateSend): Observable<IQuiz> {
+    public override create(request: IQuizCreateRequest): Observable<IQuiz> {
         
         //const quiz_id = this._quizes.length !== 0 ? this._quizes.map(x => x.id).slice(-1)[0] + 1 : 0;
 
         const quiz: IQuiz = {
             id: this._quiz_id,
             name:request.name,
-            description: request.description,
+            description: "",
+            items: [{type:QuizItemType.Text,id:1,quizId:1,placeholder:''}],
         }
         this._quizes.push(quiz);
 
         //let quiz_items_id = this._quiz_items.length !== 0 ? this._quiz_items.map(x => x.id).slice(-1)[0] + 1 : 0;
         
+        /*
         request.items.forEach(item =>{
             const quiz_item:IQUizItem = {
                 ...item,
@@ -55,7 +57,7 @@ export class MockQuizService extends QuizService {
             this._quiz_items.push(quiz_item);
         });
         this._quiz_id++;
-
+        */
         return of( quiz);
     }
 

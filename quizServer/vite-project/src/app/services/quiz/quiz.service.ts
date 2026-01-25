@@ -5,5 +5,5 @@ import { IQuiz, IQuizCreateRequest,IQuizDat, IQuizCreateSend } from "../../model
 export abstract class QuizService {
     //public abstract getItems(request:IPaginationRequest): Observable<IPagination<IQuizDat>>;
     public abstract getItems(request:IPaginationRequest): Observable<IPagination<IQuiz>>;
-    public abstract create(request: IQuizCreateSend): Observable<IQuiz>;
+    public abstract create(request: IQuizCreateRequest): Observable<IQuiz>;
 }

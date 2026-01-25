@@ -20,8 +20,8 @@ export class ApiQuizService extends QuizService {
     public getItems (request: IPaginationRequest):Observable<IPagination<IQuiz>>{
         return this.httpClient.get<IPagination<IQuiz>>(`${this.apiConfig.getUrl()}/api/quizes?pageNumber=${request.page}&pageSize=${request.page_size}`);
     }
-    public override create(request: IQuizCreateSend): Observable<IQuizDat> {
-        return this.httpClient.post<IQuizDat>(`${this.apiConfig.getUrl()}api/quizes`,request);
+    public override create(request: IQuizCreateRequest): Observable<IQuiz> {
+        return this.httpClient.post<IQuiz>(`${this.apiConfig.getUrl()}api/quizes`,request);
     }
 
     

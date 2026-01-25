@@ -39,13 +39,13 @@ import { MatNativeDateModule } from '@angular/material/core';
             <div class = "quiz-list">
                 
                 @for (item of r.items; let i = $index; track item.id) {
-                    @if (item.description[0].type == QuizItemType.Text){
+                    @if (item.items[0].type == QuizItemType.Text){
                         <div class = "quiz-item">
                             <label class="item-name">
                                 {{item.id + 1}}. {{item.name}}
                             </label>
                             <label class="item-question">
-                                {{item.description[0].question}}
+                                {{item.items[0].type}}
                             </label>
                             <form [formGroup]="quiz_send_form.get(item.id)!" novalidate (ngSubmit)="sendAnswer()" class = "quiz-form">//////////////////////
                                 <div class="input-container">
@@ -56,19 +56,19 @@ import { MatNativeDateModule } from '@angular/material/core';
                             <button mat-button class="button-send">send</button>
                         </div>
                     }
-                    @if (item.description[0].type == QuizItemType.Select){
+                    @if (item.items[0].type == QuizItemType.Select){
                         
                         <div class = "quiz-item">
                             <label class="item-name">
                                 {{item.id + 1}}. {{item.name}}
                             </label>
                             <label class="item-question">
-                                {{item.description[0].question}}
+                                {{item.items[0].type}}
                             </label>
                             <form [formGroup]="quiz_send_form.get(item.id)!" novalidate (ngSubmit)="sendAnswer()" class = "quiz-form">//////////////////////
                                 <div class="input-container">
                                     <label>Ответ</label>
-                                    @for (variant of item.description[0].options; let i = $index; track $index){
+                                    @for (variant of item.items[0].options; let i = $index; track $index){
                                         
                                         <label><input  type = "radio"  formControlName="select" [value]="i" class="input-name"/> {{variant}} </label>
                                     }
@@ -79,19 +79,19 @@ import { MatNativeDateModule } from '@angular/material/core';
                             
                         </div>
                     }
-                    @if (item.description[0].type == QuizItemType.SelectMany){
+                    @if (item.items[0].type == QuizItemType.SelectMany){
                         
                         <div class = "quiz-item">
                             <label class="item-name">
                                 {{item.id + 1}}. {{item.name}}
                             </label>
                             <label class="item-question">
-                                {{item.description[0].question}}
+                                {{item.items[0].type}}
                             </label>
                             <form [formGroup]="quiz_send_form.get(item.id)!" novalidate (ngSubmit)="sendAnswer()" class = "quiz-form">1
                                 <div formArrayName="array" class="input-container">
                                     <label>Ответ</label>
-                                    @for (variant of item.description[0].options; let i = $index; track $index){
+                                    @for (variant of item.items[0].options; let i = $index; track $index){
                                         
                                         <label><input  type = "checkbox"  [formControlName]="i" class="input-name"/> {{variant}} </label>
                                     }
@@ -102,33 +102,33 @@ import { MatNativeDateModule } from '@angular/material/core';
                             
                         </div>
                     }
-                    @if (item.description[0].type == QuizItemType.Range){
+                    @if (item.items[0].type == QuizItemType.Range){
                         
                         <div class = "quiz-item">
                             <label class="item-name">
                                 {{item.id + 1}}. {{item.name}}
                             </label>
                             <label class="item-question">
-                                {{item.description[0].question}}
+                                {{item.items[0].type}}
                             </label>
                             <form [formGroup]="quiz_send_form.get(item.id)!" novalidate (ngSubmit)="sendAnswer()" class = "quiz-form">1
                                 <div class="input-container">
                                     <label>Ответ {{quiz_send_form.get(item.id)?.get("numberRange")?.value}}</label>
-                                    <input type="range" formControlName="numberRange" [min]="item.description[0].min" [max]="item.description[0].max" step="1" />
+                                    <input type="range" formControlName="numberRange" [min]="item.items[0].min" [max]="item.items[0].max" step="1" />
                                 </div>
                             </form>
                             <button mat-button class="button-send">send</button>
                             
                         </div>
                     }
-                    @if (item.description[0].type == QuizItemType.Date){
+                    @if (item.items[0].type == QuizItemType.Date){
                         
                         <div class = "quiz-item">
                             <label class="item-name">
                                 {{item.id + 1}}. {{item.name}}
                             </label>
                             <label class="item-question">
-                                {{item.description[0].question}}
+                                {{item.items[0].type}}
                             </label>
                             <form [formGroup]="quiz_send_form.get(item.id)!" novalidate (ngSubmit)="sendAnswer()" class = "quiz-form">1
                                 <div class="input-container">
@@ -272,7 +272,7 @@ export class QuizDiscoverComponent {
     //    this.service.getItems(this.request),
     //    { initialValue: null }
     //)
-    protected readonly response: WritableSignal<IPagination<IQuizDat> | null> = signal(null);
+    protected readonly response: WritableSignal<IPagination<IQuiz> | null> = signal(null);
 
     readonly items = computed(() => this.response()?.items ?? []);
 
@@ -290,27 +290,27 @@ export class QuizDiscoverComponent {
         
         for (const question of currentItems){
             let input1: FormGroup = new FormGroup({});
-            if (question.description[0].type === QuizItemType.Text){
+            if (question.items[0].type === QuizItemType.Text){
                 input1 = new FormGroup ({text: new FormControl('',Validators.required)});
                 this.quiz_send_form.set(question.id,input1);
             }
-            if (question.description[0].type === QuizItemType.Select){
+            if (question.items[0].type === QuizItemType.Select){
                 input1 = new FormGroup ({select: new FormControl<number|null>(null,Validators.required)});
                 this.quiz_send_form.set(question.id,input1);
             }
-            if (question.description[0].type === QuizItemType.SelectMany){
+            if (question.items[0].type === QuizItemType.SelectMany){
                 let inputmany: FormArray = new FormArray<FormControl>([]);
-                for(const opt of question.description[0].options){
+                for(const opt of question.items[0].options){
                     inputmany.push(new FormControl(false));
                 }
                 this.quiz_send_form.set(question.id,new FormGroup({array: inputmany}));
             }
-            if (question.description[0].type === QuizItemType.Range){
-                input1 = new FormGroup ({numberRange: new FormControl<number>((question.description[0].max+question.description[0].min)/2,Validators.required)});
+            if (question.items[0].type === QuizItemType.Range){
+                input1 = new FormGroup ({numberRange: new FormControl<number>((question.items[0].max+question.items[0].min)/2,Validators.required)});
                 //input1 = new FormGroup ({numberRange: new FormControl<number>(question.description[0].max,Validators.required)});
                 this.quiz_send_form.set(question.id,input1);
             }
-            if (question.description[0].type === QuizItemType.Date){
+            if (question.items[0].type === QuizItemType.Date){
                 input1 = new FormGroup ({date: new FormControl<Date|null>(null,Validators.required)});
                 this.quiz_send_form.set(question.id,input1);
             }
@@ -412,16 +412,16 @@ export class QuizDiscoverComponent {
         if (!this.isincorrectName && !this.isincorrectQuestion && !this.isincorrectAnswer) {
             if (this.modeControl.value ==="text"){
                 const formValue = this.quiz_input_form.value;
-                const request: IQuizCreateSend = {
+                const request: IQuizCreateRequest = {
                     name: formValue.quizName,
-                    description: [
+                    description: "",
+                    items: [
                         {
                             type:QuizItemType.Text,
-                            question: formValue.quizContent,
+                            id: 1,
+                            quizId: 1,
+                            placeholder: formValue.quizContent,
                         }
-                    ],
-                    items: [
-                        { type: QuizItemType.Text }
                     ]
                 }
 
@@ -446,17 +446,16 @@ export class QuizDiscoverComponent {
                 const formValue = this.quiz_input_form.value;
                 const variants: string[] = this.variants.value;
                 if (!this.isMultySelect){
-                    const request: IQuizCreateSend = {
+                    const request: IQuizCreateRequest = {
                         name: formValue.quizName,
-                        description: [
+                        description: "",
+                        items: [
                             {
                                 type:QuizItemType.Select,
-                                question: formValue.quizContent,
+                                id: 1,
+                                quizId: 1,
                                 options: variants,
                             }
-                        ],
-                        items: [
-                            { type: QuizItemType.Select }
                         ]
                     }
 
@@ -480,17 +479,16 @@ export class QuizDiscoverComponent {
                     });
                 }
                 if (this.isMultySelect){
-                    const request: IQuizCreateSend = {
+                    const request: IQuizCreateRequest = {
                         name: formValue.quizName,
-                        description: [
+                        description: "",
+                        items: [
                             {
                                 type:QuizItemType.SelectMany,
-                                question: formValue.quizContent,
+                                id: 1,
+                                quizId: 1,
                                 options: variants,
                             }
-                        ],
-                        items: [
-                            { type: QuizItemType.SelectMany }
                         ]
                     }
                 
@@ -516,18 +514,17 @@ export class QuizDiscoverComponent {
             }
             if (this.modeControl.value ==="range"){
                 const formValue = this.quiz_input_form.value;
-                const request: IQuizCreateSend = {
+                const request: IQuizCreateRequest = {
                         name: formValue.quizName,
-                        description: [
+                        description: "",
+                        items: [
                             {
                                 type:QuizItemType.Range,
-                                question: formValue.quizContent,
+                                id: 1,
+                                quizId: 1,
                                 max: formValue.maxRange,
                                 min: formValue.minRange
                             }
-                        ],
-                        items: [
-                            { type: QuizItemType.Range }
                         ]
                     }
                 
@@ -552,16 +549,15 @@ export class QuizDiscoverComponent {
             }
             if (this.modeControl.value ==="date"){
                 const formValue = this.quiz_input_form.value;
-                const request: IQuizCreateSend = {
+                const request: IQuizCreateRequest = {
                         name: formValue.quizName,
-                        description: [
+                        description: "",
+                        items: [
                             {
                                 type:QuizItemType.Date,
-                                question: formValue.quizContent,
+                                id: 1,
+                                quizId: 1,
                             }
-                        ],
-                        items: [
-                            { type: QuizItemType.Date }
                         ]
                     }
                 
