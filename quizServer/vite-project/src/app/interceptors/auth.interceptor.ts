@@ -12,11 +12,11 @@ export const handleAuth: HttpInterceptorFn = (req:HttpRequest<unknown>,next: Htt
         withCredentials:true
     })
 
-    return next(req).pipe(catchError((x:HttpErrorResponse) =>{
+    return next(clonedRequest).pipe(catchError((x:HttpErrorResponse) =>{
         if ( x.status === 401){
             console.log('123');
             authState.loggedIn.set(false);
-            router.navigate(['auth']);
+            router.navigate(['main/authUser']);
             //return of(x.message);
         }
         return throwError(() =>x);

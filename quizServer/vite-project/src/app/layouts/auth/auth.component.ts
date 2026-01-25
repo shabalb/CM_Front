@@ -81,6 +81,8 @@ export class AuthComponent {
             //}
             await firstValueFrom(this.authService.auth({username:this.login.value,password:this.password.value}))
             this.authState.loggedIn.set(true);
+            console.log("loggedin");
+            this.router.navigate(['main/discover']);
         }
     }
     /*
