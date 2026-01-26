@@ -1,6 +1,6 @@
-import { Observable } from "rxjs";
-import { IUser, IAuthRequest, IAuthResponse } from "../../models/auth";
-import { Injectable } from "@angular/core";
+import { Observable } from 'rxjs';
+import { IUser, IAuthRequest, IAuthResponse } from '../../models/auth';
+import { Injectable } from '@angular/core';
 
 
 @Injectable()

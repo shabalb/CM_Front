@@ -13,20 +13,11 @@ export enum QuizItemType {
     Date = 'date'
 }
 
-/*
-export interface IQuizItem {
-    readonly id: number;
-    readonly quiz_id: number;
-    readonly type: QuizItemType;
-}*/
-
-
 export type IQuizItem =
   | ITextItem
   | ISelectItem
   | IRangeItem
   | IDateItem;
-//*/
 
 export interface ITextItem{
     readonly type: QuizItemType.Text;
@@ -55,20 +46,11 @@ export interface IDateItem{
     readonly quizId: number; 
 }
 
-
-
-/*
-export interface IQuizItemRequest {
-    readonly type: QuizItemType;
-}//*/
-
-//*
 export type IQuizItemRequest =
   | ITextItemRequest
   | ISelectItemRequest
   | IRangeItemRequest
   | IDateItemRequest;
-//*/
 
 export interface ITextItemRequest{
     readonly type: QuizItemType.Text;
@@ -97,18 +79,6 @@ export interface IDateItemRequest{
     readonly quizId: number; 
 }
 
-/*
-export interface IQuizCreateRequest {
-    readonly name: string;
-    readonly descriotion: string;
-    readonly items: readonly IQuizItemRequest[];
-}
-*/
-/*
-export interface IQuizDescription{
-    readonly question: string;
-    readonly answer: string;
-}*/
 export interface ITextQuestion {
     readonly type: QuizItemType.Text;
     readonly question: string;

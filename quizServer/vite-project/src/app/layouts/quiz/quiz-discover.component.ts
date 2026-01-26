@@ -1,49 +1,37 @@
-import { Component, computed, inject, signal, Signal,WritableSignal,effect } from "@angular/core";
-import { QuizService } from "../../services/quiz/quiz.service";
-import { toSignal } from '@angular/core/rxjs-interop'
-import { map } from "rxjs";
-import { IQuiz, IQuizCreateRequest, QuizItemType, IQuizCreateSend, IQuizDescription, IQuizDat } from "../../models/quiz";
-import { IPaginationRequest } from "../../models/pagination";
-import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
-import { IPagination } from "../../models/pagination";
+import { Component, computed, inject, signal, WritableSignal,effect, OnInit } from '@angular/core';
+import { QuizService } from '../../services/quiz/quiz.service';
+import { IQuiz, IQuizCreateRequest, QuizItemType } from '../../models/quiz';
+import { IPaginationRequest } from '../../models/pagination';
+import { MatPaginator } from '@angular/material/paginator';
+import { IPagination } from '../../models/pagination';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
-import { FormsModule, FormGroup, FormControl, Validators, ReactiveFormsModule, FormArray } from "@angular/forms";
+import { FormsModule, FormGroup, FormControl, Validators, ReactiveFormsModule, FormArray } from '@angular/forms';
 import { MatIcon, MatIconModule } from '@angular/material/icon';
-import { MatAnchor, MatButtonModule } from "@angular/material/button";
+import { MatAnchor, MatButtonModule } from '@angular/material/button';
 import { Router } from '@angular/router';
 import {MatRadioModule} from '@angular/material/radio';
 import {MatCheckboxModule} from '@angular/material/checkbox';
-import { MatInputModule } from "@angular/material/input";
+import { MatInputModule } from '@angular/material/input';
 import {MatDatepickerModule} from '@angular/material/datepicker';
 import {MatSliderModule} from '@angular/material/slider';
 import { MatNativeDateModule } from '@angular/material/core';
-import { subscribe } from "node:diagnostics_channel";
-
-
-
 
 @Component({
     selector: 'app-quiz-discover',
     template: `
-    
-    
         @let r = response();
-        
-        
         <div class = "quiz-window">
         <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
         @if (r === null) {
             <mat-spinner></mat-spinner>
-
         } @else {
             <button mat-button (click)="auth()" class="auth-icon"><mat-icon >account_circle</mat-icon></button>
             <div class = "quiz-list">
-                
                 @for (item of r.items; let i = $index; track item.id) {
                     @if (item.items[0].type == QuizItemType.Text){
                         <div class = "quiz-item">
                             <label class="item-name">
-                                {{item.id - 1 }}. {{item.name}}
+                                {{item.id }}. {{item.name}}
                             </label>
                             <label class="item-question">
                                 {{item.items[0].type}}
@@ -61,7 +49,7 @@ import { subscribe } from "node:diagnostics_channel";
                         
                         <div class = "quiz-item">
                             <label class="item-name">
-                                {{item.id - 1}}. {{item.name}}
+                                {{item.id }}. {{item.name}}
                             </label>
                             <label class="item-question">
                                 {{item.items[0].type}}
@@ -70,21 +58,18 @@ import { subscribe } from "node:diagnostics_channel";
                                 <div class="input-container">
                                     <label>Ответ</label>
                                     @for (variant of item.items[0].options; let i = $index; track $index){
-                                        
                                         <label><input  type = "radio"  formControlName="select" [value]="i" class="input-name"/> {{variant}} </label>
                                     }
-                                    
                                 </div>
                             </form>
                             <button mat-button class="button-send">send</button>
-                            
                         </div>
                     }
                     @if (item.items[0].type == QuizItemType.SelectMany){
                         
                         <div class = "quiz-item">
                             <label class="item-name">
-                                {{item.id - 1}}. {{item.name}}
+                                {{item.id }}. {{item.name}}
                             </label>
                             <label class="item-question">
                                 {{item.items[0].type}}
@@ -93,21 +78,19 @@ import { subscribe } from "node:diagnostics_channel";
                                 <div formArrayName="array" class="input-container">
                                     <label>Ответ</label>
                                     @for (variant of item.items[0].options; let i = $index; track $index){
-                                        
                                         <label><input  type = "checkbox"  [formControlName]="i" class="input-name"/> {{variant}} </label>
                                     }
                                     
                                 </div>
                             </form>
                             <button mat-button class="button-send">send</button>
-                            
                         </div>
                     }
                     @if (item.items[0].type == QuizItemType.Range){
                         
                         <div class = "quiz-item">
                             <label class="item-name">
-                                {{item.id - 1}}. {{item.name}}
+                                {{item.id }}. {{item.name}}
                             </label>
                             <label class="item-question">
                                 {{item.items[0].type}}
@@ -119,14 +102,12 @@ import { subscribe } from "node:diagnostics_channel";
                                 </div>
                             </form>
                             <button mat-button class="button-send">send</button>
-                            
                         </div>
                     }
                     @if (item.items[0].type == QuizItemType.Date){
-                        
                         <div class = "quiz-item">
                             <label class="item-name">
-                                {{item.id - 1}}. {{item.name}}
+                                {{item.id }}. {{item.name}}
                             </label>
                             <label class="item-question">
                                 {{item.items[0].type}}
@@ -144,14 +125,12 @@ import { subscribe } from "node:diagnostics_channel";
                                 </div>
                             </form>
                             <button mat-button class="button-send">send</button>
-                            
                         </div>
                     }
                 }
                 
                 <button mat-button (click)="showFields()" class = "button-add"><mat-icon > add</mat-icon></button>
-                
-
+        
                 <form [formGroup]="quiz_input_form" novalidate (ngSubmit)="send()" class = "quiz-form">
                     
                     <div  [hidden]="!isAddingNew">
@@ -198,7 +177,6 @@ import { subscribe } from "node:diagnostics_channel";
 
                         }
 
-                        
                         @if (modeControl.value === "range"){
                             <div  class="input-container">
                                 <label>Вопрос</label>
@@ -250,14 +228,12 @@ import { subscribe } from "node:diagnostics_channel";
 ]
 
 })
-export class QuizDiscoverComponent {
+export class QuizDiscoverComponent implements OnInit {
     private readonly service = inject(QuizService);
     private readonly router = new Router;
     modeControl = new FormControl<'text' | 'select' | 'multyselect'| 'range' | 'date'>('text');
     QuizItemType = QuizItemType;
-
     isMultySelect = false;
-    
 
     changeMode(){
         this.variants.clear();
@@ -267,25 +243,18 @@ export class QuizDiscoverComponent {
     protected readonly request: IPaginationRequest = {
         page: 1,
         page_size: 10,
-    }
+    };
 
-    //protected readonly response: Signal<IPagination<IQuizDat> | null> = toSignal(
-    //    this.service.getItems(this.request),
-    //    { initialValue: null }
-    //)
     protected readonly response: WritableSignal<IPagination<IQuiz> | null> = signal(null);
 
     readonly items = computed(() => this.response()?.items ?? []);
 
-    //protected readonly items: Signal<readonly IQuizDat[]> = computed(() => this.response()?.items ?? []);
     nameMaxLength = 30;
     questionMaxLength = 300;
     answerMaxLength = 10;
 
-    //quiz_send_form: FormGroup[] = [];
     quiz_send_form = new Map<number, FormGroup>();
     
-
     readonly initEffect = effect((): void => {
         const currentItems = this.items();
         
@@ -300,7 +269,7 @@ export class QuizDiscoverComponent {
                 this.quiz_send_form.set(question.id,input1);
             }
             if (question.items[0].type === QuizItemType.SelectMany){
-                let inputmany: FormArray = new FormArray<FormControl>([]);
+                const inputmany: FormArray = new FormArray<FormControl>([]);
                 for(const opt of question.items[0].options){
                     inputmany.push(new FormControl(false));
                 }
@@ -308,7 +277,6 @@ export class QuizDiscoverComponent {
             }
             if (question.items[0].type === QuizItemType.Range){
                 input1 = new FormGroup ({numberRange: new FormControl<number>((question.items[0].max+question.items[0].min)/2,Validators.required)});
-                //input1 = new FormGroup ({numberRange: new FormControl<number>(question.description[0].max,Validators.required)});
                 this.quiz_send_form.set(question.id,input1);
             }
             if (question.items[0].type === QuizItemType.Date){
@@ -317,33 +285,27 @@ export class QuizDiscoverComponent {
             }
             
         }
-        //this.quiz_send_form = currentItems.map(() =>
-        //    new FormGroup({
-        //    answer: new FormControl<string>('', Validators.required)
-        //})
-        //);
     });
-    //"date": new FormControl<Date >(new Date(), Validators.required),
-
+    
     quiz_input_form: FormGroup = new FormGroup({
-        quizName: new FormControl("", [Validators.required, Validators.maxLength(this.nameMaxLength)]),
-        "quizContent": new FormControl("", [Validators.required, Validators.maxLength(this.questionMaxLength)]),
-        "quizAnswer": new FormControl("", [Validators.required, Validators.maxLength(this.answerMaxLength)]),
-        "numberOfVar": new FormControl<number | null>(null, [Validators.required]),
-        "variants": new FormArray<FormControl<string>>([], [Validators.required]),
-        "answerSelect": new FormControl<number | null>(null, [Validators.required]),
-        "variantsMultySelect": new FormArray<FormGroup>([]),
-        "minRange": new FormControl<number >(0, Validators.required),
-        "maxRange": new FormControl<number >(0, Validators.required),
+        quizName: new FormControl('', [Validators.required, Validators.maxLength(this.nameMaxLength)]),
+        'quizContent': new FormControl('', [Validators.required, Validators.maxLength(this.questionMaxLength)]),
+        'quizAnswer': new FormControl('', [Validators.required, Validators.maxLength(this.answerMaxLength)]),
+        'numberOfVar': new FormControl<number | null>(null, [Validators.required]),
+        'variants': new FormArray<FormControl<string>>([], [Validators.required]),
+        'answerSelect': new FormControl<number | null>(null, [Validators.required]),
+        'variantsMultySelect': new FormArray<FormGroup>([]),
+        'minRange': new FormControl<number >(0, Validators.required),
+        'maxRange': new FormControl<number >(0, Validators.required),
         
     });
 
     get variants(): FormArray<FormControl<string>>{
-        return this.quiz_input_form.get("variants") as FormArray<FormControl<string>>;
+        return this.quiz_input_form.get('variants') as FormArray<FormControl<string>>;
     }
 
     get multyVariants(): FormArray<FormGroup>{
-        return this.quiz_input_form.get("variantsMultySelect") as FormArray<FormGroup>;
+        return this.quiz_input_form.get('variantsMultySelect') as FormArray<FormGroup>;
     }
 
     ngOnInit() {
@@ -356,12 +318,12 @@ export class QuizDiscoverComponent {
     }
 
     addVariant(){
-        return this.variants.push(new FormControl<string>("",{nonNullable: true, validators: [Validators.required]}));
+        return this.variants.push(new FormControl<string>('',{nonNullable: true, validators: [Validators.required]}));
     }
 
     addMultyVariant(){
         
-         return this.multyVariants.push(new FormGroup({variant: new FormControl<string>("",{nonNullable: true, validators: [Validators.required]}),
+         return this.multyVariants.push(new FormGroup({variant: new FormControl<string>('',{nonNullable: true, validators: [Validators.required]}),
                                                        correct: new FormControl(false)}));
     }
 
@@ -385,37 +347,35 @@ export class QuizDiscoverComponent {
     }
 
     sendAnswer(){
-
     }
 
     send() {
-        if(this.modeControl.value ==="text"){
-            if (this.quiz_input_form.get("quizName")?.errors?.["required"]) {
+        if(this.modeControl.value ==='text'){
+            if (this.quiz_input_form.get('quizName')?.errors?.['required']) {
                 this.isincorrectName = true;
-                document.getElementById("name-alert")!.textContent = "требуется имя";
+                document.getElementById('name-alert')!.textContent = 'требуется имя';
             }
-            if (this.quiz_input_form.get("quizContent")?.errors?.["required"]) {
+            if (this.quiz_input_form.get('quizContent')?.errors?.['required']) {
                 this.isincorrectQuestion = true;
-                document.getElementById("question-alert")!.textContent = "требуется вопрос";
+                document.getElementById('question-alert')!.textContent = 'требуется вопрос';
             }
 
-            
-            if (this.quiz_input_form.get("quizContent")?.errors?.["maxlength"]) {
+            if (this.quiz_input_form.get('quizContent')?.errors?.['maxlength']) {
                 this.isincorrectQuestion = true;
-                document.getElementById("question-alert")!.textContent = "превышено ограничение в " + this.questionMaxLength + " символов";
+                document.getElementById('question-alert')!.textContent = 'превышено ограничение в ' + this.questionMaxLength + ' символов';
             }
-            if (this.quiz_input_form.get("quizName")?.errors?.["maxlength"]) {
+            if (this.quiz_input_form.get('quizName')?.errors?.['maxlength']) {
                 this.isincorrectName = true;
-                document.getElementById("name-alert")!.textContent = "превышено ограничение в " + this.nameMaxLength + " символов";
+                document.getElementById('name-alert')!.textContent = 'превышено ограничение в ' + this.nameMaxLength + ' символов';
             }
         }
 
         if (!this.isincorrectName && !this.isincorrectQuestion && !this.isincorrectAnswer) {
-            if (this.modeControl.value ==="text"){
+            if (this.modeControl.value ==='text'){
                 const formValue = this.quiz_input_form.value;
                 const request: IQuizCreateRequest = {
                     name: formValue.quizName,
-                    description: "",
+                    description: '',
                     items: [
                         {
                             type:QuizItemType.Text,
@@ -424,7 +384,7 @@ export class QuizDiscoverComponent {
                             placeholder: formValue.quizContent,
                         }
                     ]
-                }
+                };
 
                 this.service.create(request).subscribe({
                     next: quiz => {
@@ -438,9 +398,6 @@ export class QuizDiscoverComponent {
                             quizContent: '',
                             quizAnswer: ''
                         });
-
-                        
-                        
                     },
                     error: err => {
                         console.error('Ошибка отправки', err);
@@ -448,13 +405,13 @@ export class QuizDiscoverComponent {
                     
                 });
             }
-            if (this.modeControl.value ==="select"){
+            if (this.modeControl.value ==='select'){
                 const formValue = this.quiz_input_form.value;
                 const variants: string[] = this.variants.value;
                 if (!this.isMultySelect){
                     const request: IQuizCreateRequest = {
                         name: formValue.quizName,
-                        description: "",
+                        description: '',
                         items: [
                             {
                                 type:QuizItemType.Select,
@@ -463,7 +420,7 @@ export class QuizDiscoverComponent {
                                 options: variants,
                             }
                         ]
-                    }
+                    };
 
                     this.service.create(request).subscribe({
                         next: quiz => {
@@ -483,13 +440,12 @@ export class QuizDiscoverComponent {
                         error: err => {
                             console.error('Ошибка отправки', err);
                         }
-
                     });
                 }
                 if (this.isMultySelect){
                     const request: IQuizCreateRequest = {
                         name: formValue.quizName,
-                        description: "",
+                        description: '',
                         items: [
                             {
                                 type:QuizItemType.SelectMany,
@@ -498,7 +454,7 @@ export class QuizDiscoverComponent {
                                 options: variants,
                             }
                         ]
-                    }
+                    };
                 
                     this.service.create(request).subscribe({
                         next: quiz => {
@@ -513,7 +469,6 @@ export class QuizDiscoverComponent {
                             });
                             this.multyVariants.controls
                             .map(control => control.get('variant')?.reset('') );
-                            
                         },
                         error: err => {
                             console.error('Ошибка отправки', err);
@@ -522,11 +477,11 @@ export class QuizDiscoverComponent {
                     });
                 }
             }
-            if (this.modeControl.value ==="range"){
+            if (this.modeControl.value ==='range'){
                 const formValue = this.quiz_input_form.value;
                 const request: IQuizCreateRequest = {
                         name: formValue.quizName,
-                        description: "",
+                        description: '',
                         items: [
                             {
                                 type:QuizItemType.Range,
@@ -536,8 +491,7 @@ export class QuizDiscoverComponent {
                                 min: formValue.minRange
                             }
                         ]
-                    }
-                
+                    };
                     this.service.create(request).subscribe({
                         next: quiz => {
                             console.log('Отправлено', quiz);
@@ -550,8 +504,6 @@ export class QuizDiscoverComponent {
                                 min: '',
                                 max: '',
                             });
-                            
-                            
                         },
                         error: err => {
                             console.error('Ошибка отправки', err);
@@ -559,11 +511,11 @@ export class QuizDiscoverComponent {
                         
                     });
             }
-            if (this.modeControl.value ==="date"){
+            if (this.modeControl.value ==='date'){
                 const formValue = this.quiz_input_form.value;
                 const request: IQuizCreateRequest = {
                         name: formValue.quizName,
-                        description: "",
+                        description: '',
                         items: [
                             {
                                 type:QuizItemType.Date,
@@ -571,7 +523,7 @@ export class QuizDiscoverComponent {
                                 quizId: 1,
                             }
                         ]
-                    }
+                    };
                 
                     this.service.create(request).subscribe({
                         next: quiz => {
@@ -583,8 +535,6 @@ export class QuizDiscoverComponent {
                                 quizName: '',
                                 quizContent: '',
                             });
-                            //subscribe(data => this.response.set(data))
-                            
                         },
                         error: err => {
                             console.error('Ошибка отправки', err);
@@ -592,10 +542,7 @@ export class QuizDiscoverComponent {
                         
                     });
             }
-            
         }
-        //this.response = toSignal(this.service.getItems(this.request),
-        //{ initialValue: null });
     }
     auth(){
         this.router.navigate(['/auth']);

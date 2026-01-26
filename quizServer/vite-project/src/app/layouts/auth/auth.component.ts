@@ -1,18 +1,13 @@
-import { Component, computed, Inject, inject, Signal } from "@angular/core";
-import { AuthService } from "../../services/auth/auth.service";
-import { toSignal } from '@angular/core/rxjs-interop'
-import { firstValueFrom, map } from "rxjs";
-import { FormsModule, FormGroup, FormControl, Validators, ReactiveFormsModule } from "@angular/forms";
+import { Component, inject} from '@angular/core';
+import { AuthService } from '../../services/auth/auth.service';
+import { firstValueFrom } from 'rxjs';
+import { FormsModule, FormGroup, FormControl, Validators, ReactiveFormsModule } from '@angular/forms';
 import {MatFormField, MatInputModule} from '@angular/material/input';
-import { MatIcon, MatIconModule } from '@angular/material/icon';
-import { MatFormFieldModule } from "@angular/material/form-field";
-import { CommonModule } from "@angular/common";
-import { MockAuthService } from "../../services/auth/mock-auth.service";
-import { IAuthRequest } from "../../models/auth";
-import { response } from "express";
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
-import { ApiAuthService } from "../../services/auth/apiAuth.service";
-import { AuthState } from "../../states/auth.state";
+import { ApiAuthService } from '../../services/auth/apiAuth.service';
+import { AuthState } from '../../states/auth.state';
 
 
 @Component({
@@ -69,48 +64,23 @@ export class AuthComponent {
     isIncorrectLogin = false;
     isIncorrectPassword = false;
     signIn_form: FormGroup = new FormGroup({
-        "Login": new FormControl("", [Validators.required]),
-        "Password": new FormControl("", [Validators.required]),
+        'Login': new FormControl('', [Validators.required]),
+        'Password': new FormControl('', [Validators.required]),
     });
 
     protected async auth() {
         if (!this.password.hasError('required') && !this.login.hasError('required')){
-            //const request: IAuthRequest = {
-            //    name:this.login.value,
-            //    password:this.password.value,
-            //}
-            await firstValueFrom(this.authService.auth({username:this.login.value,password:this.password.value}))
+            await firstValueFrom(this.authService.auth({username:this.login.value,password:this.password.value}));
             this.authState.loggedIn.set(true);
-            console.log("loggedin");
+            console.log('loggedin');
             this.router.navigate(['main/discover']);
         }
     }
-    /*
-    auth() {
-        if (!this.password.hasError('required') && !this.login.hasError('required')){
-            const request: IAuthRequest = {
-                name:this.login.value,
-                password:this.password.value,
-            }
-            this.service.auth(request).subscribe({
-                next: res => {
-                    if (!res.passed){
-                        this.password.setErrors({invalidPassword: true});
-                    }else{
-                        console.log('Вход выполнен:', res.user);
-                        this.router.navigate(['/discover']);
-                    }
-                
-                
-            }})
-            
-        }
-    }*/
+    
     get password() {
         return this.signIn_form.get('Password')!;
     }
     get login() {
         return this.signIn_form.get('Login')!;
     }
-    
 }

@@ -1,7 +1,6 @@
 import { Routes } from '@angular/router';
 import { MainLayoutComponent } from './layouts/main-layout';
 import { QuizDiscoverComponent } from './layouts/quiz/quiz-discover.component';
-import { ReguisterCreateComponent } from './layouts/reguister/reguister-user.component';
 import { AuthComponent } from './layouts/auth/auth.component';
 import { authGuard, nonAuthGuard } from './quards/auth.guard';
 import { loginComponent } from './layouts/auth/login/login.component';
@@ -48,5 +47,4 @@ export const routes: Routes = [
     path:'**',
     redirectTo:'auth',
 }
-
 ];

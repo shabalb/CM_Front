@@ -1,19 +1,11 @@
-import { Component, computed, Inject, inject, Signal } from "@angular/core";
-import { RegisterService } from "../../services/reguister/registr-service";
-import { toSignal } from '@angular/core/rxjs-interop'
-import { map } from "rxjs";
-import { IQuiz, IQuizCreateRequest, QuizItemType, IQuizCreateSend, IQuizDescription, IQuizDat } from "../../models/quiz";
-import { IPaginationRequest } from "../../models/pagination";
-import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
-import { IPagination } from "../../models/pagination";
-import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
-import { FormsModule, FormGroup, FormControl, Validators, ReactiveFormsModule } from "@angular/forms";
+import { Component, inject} from '@angular/core';
+import { RegisterService } from '../../services/reguister/registr-service';
+import { FormsModule, FormGroup, FormControl, Validators, ReactiveFormsModule } from '@angular/forms';
 import {MatFormField, MatInputModule} from '@angular/material/input';
-import { MatIcon, MatIconModule } from '@angular/material/icon';
-import { MatFormFieldModule } from "@angular/material/form-field";
-import { CommonModule } from "@angular/common";
-import { MockRegistrService } from "../../services/reguister/mock-registr.service";
-import { IRegisterRequest } from "../../models/registration";
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { CommonModule } from '@angular/common';
+import { MockRegistrService } from '../../services/reguister/mock-registr.service';
+import { IRegisterRequest } from '../../models/registration';
 
 
 @Component({
@@ -63,19 +55,19 @@ export class ReguisterCreateComponent {
     isIncorrectPassword = false;
     maxLength = 100;
     register_form: FormGroup = new FormGroup({
-        "Login": new FormControl("", [Validators.required, Validators.maxLength(this.maxLength)]),
-        "Password": new FormControl("", [Validators.required, Validators.maxLength(this.maxLength)]),
+        'Login': new FormControl('', [Validators.required, Validators.maxLength(this.maxLength)]),
+        'Password': new FormControl('', [Validators.required, Validators.maxLength(this.maxLength)]),
     });
     signIn_form: FormGroup = new FormGroup({
-        "Login": new FormControl("", [Validators.required, Validators.maxLength(this.maxLength)]),
-        "Password": new FormControl("", [Validators.required, Validators.maxLength(this.maxLength)]),
+        'Login': new FormControl('', [Validators.required, Validators.maxLength(this.maxLength)]),
+        'Password': new FormControl('', [Validators.required, Validators.maxLength(this.maxLength)]),
     });
     register() {
         if (!this.password.hasError('required') && !this.login.hasError('required')){
             const request: IRegisterRequest = {
                 name:this.login.value,
                 password:this.password.value,
-            }
+            };
             this.service.register(request);
         }
     }

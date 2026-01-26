@@ -1,8 +1,7 @@
-import { RegisterService } from "./registr-service";
-import { Observable, of } from "rxjs";
-import { IUser, IRegisterRequest } from "../../models/registration";
-import { Injectable } from "@angular/core";
-import { Console } from "console";
+import { RegisterService } from './registr-service';
+import { Observable, of } from 'rxjs';
+import { IUser, IRegisterRequest } from '../../models/registration';
+import { Injectable } from '@angular/core';
 
 @Injectable()
 export class MockRegistrService extends RegisterService{
@@ -13,9 +12,9 @@ export class MockRegistrService extends RegisterService{
             id:this.userId++,
             name: request.name,
             password:request.password,
-        }
+        };
         this.users.push(user);
-        console.log("регистрация");
+        console.log('регистрация');
         return of(user);
     }
     public override getUsers(request: number): Observable<IUser[]> {
