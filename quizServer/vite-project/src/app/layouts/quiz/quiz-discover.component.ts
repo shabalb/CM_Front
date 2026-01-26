@@ -17,6 +17,7 @@ import { MatInputModule } from "@angular/material/input";
 import {MatDatepickerModule} from '@angular/material/datepicker';
 import {MatSliderModule} from '@angular/material/slider';
 import { MatNativeDateModule } from '@angular/material/core';
+import { subscribe } from "node:diagnostics_channel";
 
 
 
@@ -42,12 +43,12 @@ import { MatNativeDateModule } from '@angular/material/core';
                     @if (item.items[0].type == QuizItemType.Text){
                         <div class = "quiz-item">
                             <label class="item-name">
-                                {{item.id + 1}}. {{item.name}}
+                                {{item.id - 1 }}. {{item.name}}
                             </label>
                             <label class="item-question">
                                 {{item.items[0].type}}
                             </label>
-                            <form [formGroup]="quiz_send_form.get(item.id)!" novalidate (ngSubmit)="sendAnswer()" class = "quiz-form">//////////////////////
+                            <form [formGroup]="quiz_send_form.get(item.id)!" novalidate (ngSubmit)="sendAnswer()" class = "quiz-form">
                                 <div class="input-container">
                                     <label>Ответ</label>
                                     <input name="name"   formControlName="text" class="input-name"/>
@@ -60,12 +61,12 @@ import { MatNativeDateModule } from '@angular/material/core';
                         
                         <div class = "quiz-item">
                             <label class="item-name">
-                                {{item.id + 1}}. {{item.name}}
+                                {{item.id - 1}}. {{item.name}}
                             </label>
                             <label class="item-question">
                                 {{item.items[0].type}}
                             </label>
-                            <form [formGroup]="quiz_send_form.get(item.id)!" novalidate (ngSubmit)="sendAnswer()" class = "quiz-form">//////////////////////
+                            <form [formGroup]="quiz_send_form.get(item.id)!" novalidate (ngSubmit)="sendAnswer()" class = "quiz-form">
                                 <div class="input-container">
                                     <label>Ответ</label>
                                     @for (variant of item.items[0].options; let i = $index; track $index){
@@ -83,12 +84,12 @@ import { MatNativeDateModule } from '@angular/material/core';
                         
                         <div class = "quiz-item">
                             <label class="item-name">
-                                {{item.id + 1}}. {{item.name}}
+                                {{item.id - 1}}. {{item.name}}
                             </label>
                             <label class="item-question">
                                 {{item.items[0].type}}
                             </label>
-                            <form [formGroup]="quiz_send_form.get(item.id)!" novalidate (ngSubmit)="sendAnswer()" class = "quiz-form">1
+                            <form [formGroup]="quiz_send_form.get(item.id)!" novalidate (ngSubmit)="sendAnswer()" class = "quiz-form">
                                 <div formArrayName="array" class="input-container">
                                     <label>Ответ</label>
                                     @for (variant of item.items[0].options; let i = $index; track $index){
@@ -106,12 +107,12 @@ import { MatNativeDateModule } from '@angular/material/core';
                         
                         <div class = "quiz-item">
                             <label class="item-name">
-                                {{item.id + 1}}. {{item.name}}
+                                {{item.id - 1}}. {{item.name}}
                             </label>
                             <label class="item-question">
                                 {{item.items[0].type}}
                             </label>
-                            <form [formGroup]="quiz_send_form.get(item.id)!" novalidate (ngSubmit)="sendAnswer()" class = "quiz-form">1
+                            <form [formGroup]="quiz_send_form.get(item.id)!" novalidate (ngSubmit)="sendAnswer()" class = "quiz-form">
                                 <div class="input-container">
                                     <label>Ответ {{quiz_send_form.get(item.id)?.get("numberRange")?.value}}</label>
                                     <input type="range" formControlName="numberRange" [min]="item.items[0].min" [max]="item.items[0].max" step="1" />
@@ -125,12 +126,12 @@ import { MatNativeDateModule } from '@angular/material/core';
                         
                         <div class = "quiz-item">
                             <label class="item-name">
-                                {{item.id + 1}}. {{item.name}}
+                                {{item.id - 1}}. {{item.name}}
                             </label>
                             <label class="item-question">
                                 {{item.items[0].type}}
                             </label>
-                            <form [formGroup]="quiz_send_form.get(item.id)!" novalidate (ngSubmit)="sendAnswer()" class = "quiz-form">1
+                            <form [formGroup]="quiz_send_form.get(item.id)!" novalidate (ngSubmit)="sendAnswer()" class = "quiz-form">
                                 <div class="input-container">
                                     <label>Ответ</label>
                                     <mat-form-field>
@@ -429,11 +430,16 @@ export class QuizDiscoverComponent {
                     next: quiz => {
                         console.log('Отправлено', quiz);
 
+                        this.service.getItems(this.request).subscribe
+                        (data => this.response.set(data));
+
                         this.quiz_input_form.reset({
                             quizName: '',
                             quizContent: '',
                             quizAnswer: ''
                         });
+
+                        
                         
                     },
                     error: err => {
@@ -462,6 +468,8 @@ export class QuizDiscoverComponent {
                     this.service.create(request).subscribe({
                         next: quiz => {
                             console.log('Отправлено', quiz);
+                            this.service.getItems(this.request).subscribe
+                            (data => this.response.set(data));
 
                             this.quiz_input_form.reset({
                                 quizName: '',
@@ -495,7 +503,9 @@ export class QuizDiscoverComponent {
                     this.service.create(request).subscribe({
                         next: quiz => {
                             console.log('Отправлено', quiz);
-                        
+                            this.service.getItems(this.request).subscribe
+                            (data => this.response.set(data));
+
                             this.quiz_input_form.reset({
                                 quizName: '',
                                 quizContent: '',
@@ -531,7 +541,9 @@ export class QuizDiscoverComponent {
                     this.service.create(request).subscribe({
                         next: quiz => {
                             console.log('Отправлено', quiz);
-                        
+                            this.service.getItems(this.request).subscribe
+                            (data => this.response.set(data));
+
                             this.quiz_input_form.reset({
                                 quizName: '',
                                 quizContent: '',
@@ -564,12 +576,14 @@ export class QuizDiscoverComponent {
                     this.service.create(request).subscribe({
                         next: quiz => {
                             console.log('Отправлено', quiz);
-                        
+                            this.service.getItems(this.request).subscribe
+                            (data => this.response.set(data));
+
                             this.quiz_input_form.reset({
                                 quizName: '',
                                 quizContent: '',
                             });
-                            
+                            //subscribe(data => this.response.set(data))
                             
                         },
                         error: err => {
