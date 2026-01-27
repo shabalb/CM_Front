@@ -5,6 +5,11 @@ export interface IUser {
 }
 
 export interface IRegisterRequest {
-  name: string;
+  username: string;
   password: string; 
+}
+
+export interface IRegisterResponse {
+  id: number;
+  username: string;
 }

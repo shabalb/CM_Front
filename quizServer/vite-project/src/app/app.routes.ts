@@ -4,6 +4,7 @@ import { QuizDiscoverComponent } from './layouts/quiz/quiz-discover.component';
 import { AuthComponent } from './layouts/auth/auth.component';
 import { authGuard, nonAuthGuard } from './quards/auth.guard';
 import { loginComponent } from './layouts/auth/login/login.component';
+import { ReguisterCreateComponent } from './layouts/reguister/reguister-user.component';
 
 export const routes: Routes = [
     {
@@ -32,11 +33,11 @@ export const routes: Routes = [
         pathMatch:'full',
         redirectTo:'discover',
     },
-    /*
+    //*
     {
         path:'register',
         component: ReguisterCreateComponent,
-    },*/
+    },//*/
     {
         path:'authUser',
         component: AuthComponent,

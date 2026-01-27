@@ -1,11 +1,12 @@
 import { Component, inject} from '@angular/core';
 import { RegisterService } from '../../services/reguister/registr-service';
 import { FormsModule, FormGroup, FormControl, Validators, ReactiveFormsModule } from '@angular/forms';
-import {MatFormField, MatInputModule} from '@angular/material/input';
+import { MatFormField, MatInputModule} from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { CommonModule } from '@angular/common';
-import { MockRegistrService } from '../../services/reguister/mock-registr.service';
 import { IRegisterRequest } from '../../models/registration';
+import { Router } from '@angular/router';
+import { ApiRegisterService } from '../../services/reguister/api-registr.service';
 
 
 @Component({
@@ -44,12 +45,18 @@ import { IRegisterRequest } from '../../models/registration';
         CommonModule
     ],
     providers: [
-    { provide: RegisterService, useClass: MockRegistrService }
+    { provide: RegisterService, useClass: ApiRegisterService }
   ]
 })
 
 export class ReguisterCreateComponent {
     private readonly service = inject(RegisterService);
+    private readonly router = new Router;
+    private readonly authService = inject(ApiRegisterService);
+    //private readonly authState = inject(AuthState);
+
+
+    //private readonly service = inject(RegisterService);
 
     isIncorrectLogin = false;
     isIncorrectPassword = false;
@@ -65,10 +72,10 @@ export class ReguisterCreateComponent {
     register() {
         if (!this.password.hasError('required') && !this.login.hasError('required')){
             const request: IRegisterRequest = {
-                name:this.login.value,
+                username:this.login.value,
                 password:this.password.value,
             };
-            this.service.register(request);
+            console.log(this.service.register(request));
         }
     }
     get password() {
