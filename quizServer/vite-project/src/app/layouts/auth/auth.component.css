@@ -29,3 +29,12 @@
 .input-field{
     padding-bottom: 30px;
 }
+
+.auth-icon{
+    position: fixed;
+    right: 10px;
+    top: 10px;
+    background-color: #FFB800;
+    border-radius: 10px;
+    border-width: 1px;
+}

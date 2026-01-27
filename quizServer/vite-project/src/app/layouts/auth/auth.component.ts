@@ -14,7 +14,9 @@ import { AuthState } from '../../states/auth.state';
     selector: 'auth-user',
     template: `
     <div class = "register-page">
+        <button (click)="redirectRegister()" class="auth-icon">Регистрация</button>
         <form [formGroup]="signIn_form" novalidate (ngSubmit)="auth()" class = "register-form">
+            
             <label>Авторизация</label>
             <mat-form-field>
                 <mat-label>Имя пользователя</mat-label>
@@ -75,6 +77,10 @@ export class AuthComponent {
             console.log('loggedin');
             this.router.navigate(['main/discover']);
         }
+    }
+    
+    redirectRegister(){
+        this.router.navigate(['auth/register']);
     }
     
     get password() {

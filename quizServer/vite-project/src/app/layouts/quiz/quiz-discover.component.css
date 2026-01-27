@@ -122,3 +122,8 @@ body.app-quiz-discover{
     border-radius: 5px;
     font-family: system-ui;
 }
+
+.input-radio{
+    display: flex;
+    
+}

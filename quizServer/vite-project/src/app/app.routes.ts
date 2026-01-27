@@ -10,10 +10,13 @@ export const routes: Routes = [
     {
         path: 'auth',
         canActivate: [nonAuthGuard],
-        component: AuthComponent,
+        component: loginComponent,
         children:[{
             path: 'login',
             component: AuthComponent//loginComponent,
+        },{
+            path: 'register',
+            component: ReguisterCreateComponent//loginComponent,
         },{
             path:'',
             pathMatch:'full',

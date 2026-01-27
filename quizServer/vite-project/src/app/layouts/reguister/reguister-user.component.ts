@@ -75,7 +75,7 @@ export class ReguisterCreateComponent {
                 username:this.login.value,
                 password:this.password.value,
             };
-            console.log(this.service.register(request));
+            this.service.register(request);
         }
     }
     get password() {

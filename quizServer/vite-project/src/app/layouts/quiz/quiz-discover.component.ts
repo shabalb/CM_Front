@@ -52,13 +52,13 @@ import { MatNativeDateModule } from '@angular/material/core';
                                 {{item.id }}. {{item.name}}
                             </label>
                             <label class="item-question">
-                                {{item.items[0].type}}
+                                {{item.description}}
                             </label>
                             <form [formGroup]="quiz_send_form.get(item.id)!" novalidate (ngSubmit)="sendAnswer()" class = "quiz-form">
                                 <div class="input-container">
                                     <label>Ответ</label>
                                     @for (variant of item.items[0].options; let i = $index; track $index){
-                                        <label><input  type = "radio"  formControlName="select" [value]="i" class="input-name"/> {{variant}} </label>
+                                        <label ><input  type = "radio"  formControlName="select" [value]="i" /> {{variant}} </label>
                                     }
                                 </div>
                             </form>
@@ -72,13 +72,13 @@ import { MatNativeDateModule } from '@angular/material/core';
                                 {{item.id }}. {{item.name}}
                             </label>
                             <label class="item-question">
-                                {{item.items[0].type}}
+                                {{item.description}}
                             </label>
                             <form [formGroup]="quiz_send_form.get(item.id)!" novalidate (ngSubmit)="sendAnswer()" class = "quiz-form">
                                 <div formArrayName="array" class="input-container">
                                     <label>Ответ</label>
                                     @for (variant of item.items[0].options; let i = $index; track $index){
-                                        <label><input  type = "checkbox"  [formControlName]="i" class="input-name"/> {{variant}} </label>
+                                        <label><input  type = "checkbox"  [formControlName]="i" /> {{variant}} </label>
                                     }
                                     
                                 </div>
@@ -93,7 +93,7 @@ import { MatNativeDateModule } from '@angular/material/core';
                                 {{item.id }}. {{item.name}}
                             </label>
                             <label class="item-question">
-                                {{item.items[0].type}}
+                                {{item.description}}
                             </label>
                             <form [formGroup]="quiz_send_form.get(item.id)!" novalidate (ngSubmit)="sendAnswer()" class = "quiz-form">
                                 <div class="input-container">
@@ -110,7 +110,7 @@ import { MatNativeDateModule } from '@angular/material/core';
                                 {{item.id }}. {{item.name}}
                             </label>
                             <label class="item-question">
-                                {{item.items[0].type}}
+                                {{item.description}}
                             </label>
                             <form [formGroup]="quiz_send_form.get(item.id)!" novalidate (ngSubmit)="sendAnswer()" class = "quiz-form">
                                 <div class="input-container">
@@ -411,7 +411,7 @@ export class QuizDiscoverComponent implements OnInit {
                 if (!this.isMultySelect){
                     const request: IQuizCreateRequest = {
                         name: formValue.quizName,
-                        description: '',
+                        description: formValue.quizContent,
                         items: [
                             {
                                 type:QuizItemType.Select,
@@ -445,7 +445,7 @@ export class QuizDiscoverComponent implements OnInit {
                 if (this.isMultySelect){
                     const request: IQuizCreateRequest = {
                         name: formValue.quizName,
-                        description: '',
+                        description: formValue.quizContent,
                         items: [
                             {
                                 type:QuizItemType.SelectMany,
@@ -481,7 +481,7 @@ export class QuizDiscoverComponent implements OnInit {
                 const formValue = this.quiz_input_form.value;
                 const request: IQuizCreateRequest = {
                         name: formValue.quizName,
-                        description: '',
+                        description: formValue.quizContent,
                         items: [
                             {
                                 type:QuizItemType.Range,
@@ -515,7 +515,7 @@ export class QuizDiscoverComponent implements OnInit {
                 const formValue = this.quiz_input_form.value;
                 const request: IQuizCreateRequest = {
                         name: formValue.quizName,
-                        description: '',
+                        description: formValue.quizContent,
                         items: [
                             {
                                 type:QuizItemType.Date,
