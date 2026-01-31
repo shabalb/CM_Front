@@ -1,5 +1,5 @@
 import { APP_INITIALIZER, ApplicationConfig, inject, provideAppInitializer, provideBrowserGlobalErrorListeners, Provider } from '@angular/core';
-import { provideRouter } from '@angular/router';
+import { provideRouter, Router } from '@angular/router';
 import { routes } from './app.routes';
 import { provideClientHydration, withEventReplay } from '@angular/platform-browser';
 import { QuizService } from './services/quiz/quiz.service';
@@ -32,8 +32,11 @@ export const appConfig: ApplicationConfig = {
     provideHttpClient(withInterceptors([handleAuth])),
     /*
     provideAppInitializer(() => {
+      const router = inject(Router);
       const server = inject(ApiAuthService);
       const request = firstValueFrom( server.checkAuth());
+      console.log("cathed in config");
+      router.navigate(['auth/login']);
       return request;
     }),//*/
     ...services,
