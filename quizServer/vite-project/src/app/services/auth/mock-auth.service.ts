@@ -1,6 +1,6 @@
 import { AuthService } from './auth.service';
 import { Observable, of } from 'rxjs';
-import { IUser, IAuthRequest, IAuthResponse } from '../../models/auth';
+import { IUser, IAuthRequest, IAuthResponse, ICheckAuthResponse } from '../../models/auth';
 import { Injectable } from '@angular/core';
 
 @Injectable()
@@ -31,5 +31,8 @@ export class MockAuthService extends AuthService{
     }
     public override getUsers(request: number): Observable<IUser[]> {
         return of(this.users);
+    }
+    public override checkAuth(): Observable<ICheckAuthResponse> {
+        return of({id: 1});
     }
 }

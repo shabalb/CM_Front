@@ -25,6 +25,7 @@ body.app-quiz-discover{
     display:flex;
     flex: 1;
     flex-direction: column;
+    font-size: 16px;
     
 }
 .quiz-form input,textarea{
@@ -58,7 +59,7 @@ body.app-quiz-discover{
 .quiz-form{
     display: flex;
     flex-direction: column;
-    width: 100%;
+    width: 80%;
 }
 
 .input-answer{
@@ -83,15 +84,23 @@ body.app-quiz-discover{
 }
 
 .button-add{
-    width: 20%;
+    display: flex;
+    width: 35px;
+    height: 35px;
     align-self: center;
     background-color: #FFB800;
     border-radius: 10px;
     border-width: 1px;
+    align-items: center;
+    justify-content: center;
+}
+.button-add mat-icon {
+  margin-left: 7px;
 }
 
 .button-send{
-    width: 10%;
+    width: 90px;
+    height: 28px;
     align-self: center;
     align-items: center;
     background-color: #FFB800;
@@ -126,4 +135,9 @@ body.app-quiz-discover{
 .input-radio{
     display: flex;
     
+}
+
+.hide-field{
+    display: flex;
+    justify-self: end;
 }

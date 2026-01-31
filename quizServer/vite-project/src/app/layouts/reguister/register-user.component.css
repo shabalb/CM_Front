@@ -12,15 +12,18 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    font-size: 18px;
 }
 
 .button{
-    width: 25%;
+    width: 190px;
+    height: 30px;
     align-self: center;
     align-items: center;
     background-color: #FFB800;
     border-radius: 10px;
     border-width: 1px;
+    font-size: 18px;
 }
 .alert{
     color: rgb(255, 25, 25);

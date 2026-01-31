@@ -42,7 +42,7 @@ import { MatNativeDateModule } from '@angular/material/core';
                                     <input name="name"   formControlName="text" class="input-name"/>
                                 </div>
                             </form>
-                            <button mat-button class="button-send">send</button>
+                            <button mat-button class="button-send">Отправить</button>
                         </div>
                     }
                     @if (item.items[0].type == QuizItemType.Select){
@@ -62,7 +62,7 @@ import { MatNativeDateModule } from '@angular/material/core';
                                     }
                                 </div>
                             </form>
-                            <button mat-button class="button-send">send</button>
+                            <button mat-button class="button-send">Отправить</button>
                         </div>
                     }
                     @if (item.items[0].type == QuizItemType.SelectMany){
@@ -83,7 +83,7 @@ import { MatNativeDateModule } from '@angular/material/core';
                                     
                                 </div>
                             </form>
-                            <button mat-button class="button-send">send</button>
+                            <button mat-button class="button-send">Отправить</button>
                         </div>
                     }
                     @if (item.items[0].type == QuizItemType.Range){
@@ -101,7 +101,7 @@ import { MatNativeDateModule } from '@angular/material/core';
                                     <input type="range" formControlName="numberRange" [min]="item.items[0].min" [max]="item.items[0].max" step="1" />
                                 </div>
                             </form>
-                            <button mat-button class="button-send">send</button>
+                            <button mat-button class="button-send">Отправить</button>
                         </div>
                     }
                     @if (item.items[0].type == QuizItemType.Date){
@@ -124,15 +124,15 @@ import { MatNativeDateModule } from '@angular/material/core';
                                     </mat-form-field>
                                 </div>
                             </form>
-                            <button mat-button class="button-send">send</button>
+                            <button mat-button class="button-send">Отправить</button>
                         </div>
                     }
                 }
                 
-                <button mat-button (click)="showFields()" class = "button-add"><mat-icon > add</mat-icon></button>
-        
+                
                 <form [formGroup]="quiz_input_form" novalidate (ngSubmit)="send()" class = "quiz-form">
-                    
+                    <button mat-button type = "button" (click)="showFields()" class = "button-add"><mat-icon >add</mat-icon></button>
+        
                     <div  [hidden]="!isAddingNew">
                     <label> Тип вопроса </label>
                     <select [formControl]="modeControl" (select)="changeMode()" class="select-mode">
@@ -141,6 +141,9 @@ import { MatNativeDateModule } from '@angular/material/core';
                         <option value="range">диапазон</option>
                         <option value="date">дата</option>
                     </select>
+                    <button mat-button (click)="hideFields()" class = "hide-field">
+                        <mat-icon fontSet="material-icons">clear</mat-icon>
+                    </button>
                         <div class="input-container">
                             <label>Имя</label>
                             <input name="name"   formControlName="quizName" class="input-name"/>
@@ -197,7 +200,7 @@ import { MatNativeDateModule } from '@angular/material/core';
                             </div>
                         }
                     </div>
-                    <button mat-button [hidden]="!isAddingNew" class="button-send">send</button>
+                    <button mat-button [hidden]="!isAddingNew" class="button-send">Создать</button>
                 </form>
             </div>
                 
@@ -239,6 +242,9 @@ export class QuizDiscoverComponent implements OnInit {
     changeMode(){
         this.variants.clear();
         this.multyVariants.clear();
+        this.isincorrectQuestion = true;
+        this.isincorrectName = true;
+        this.isincorrectAnswer = true;
     }
 
     protected readonly request: IPaginationRequest = {
@@ -345,6 +351,10 @@ export class QuizDiscoverComponent implements OnInit {
     }
     showFields() {
         this.isAddingNew = true;
+    }
+
+    hideFields() {
+        this.isAddingNew = false;
     }
 
     sendAnswer(){

@@ -10,6 +10,10 @@ export interface IAuthRequest {
 }
 
 export interface IAuthResponse {
-    user: IUser;
-    passed: boolean;
+  user: IUser;
+  passed: boolean;
+}
+
+export interface ICheckAuthResponse{
+  id: number;
 }

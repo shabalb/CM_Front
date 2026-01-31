@@ -12,15 +12,18 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    font-size: 18px;
 }
 
 .button{
-    width: 10%;
+    width: 110px;
+    height: 30px;
     align-self: center;
     align-items: center;
     background-color: #FFB800;
     border-radius: 10px;
     border-width: 1px;
+    font-size: 2ch;
 }
 .alert{
     color: rgb(255, 25, 25);
@@ -32,9 +35,12 @@
 
 .auth-icon{
     position: fixed;
+    width: 130px;
+    height: 30px;
     right: 10px;
     top: 10px;
     background-color: #FFB800;
     border-radius: 10px;
     border-width: 1px;
+    font-size: 2ch;
 }

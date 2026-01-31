@@ -1,4 +1,4 @@
-import { ApplicationConfig, provideBrowserGlobalErrorListeners, Provider } from '@angular/core';
+import { APP_INITIALIZER, ApplicationConfig, inject, provideAppInitializer, provideBrowserGlobalErrorListeners, Provider } from '@angular/core';
 import { provideRouter } from '@angular/router';
 import { routes } from './app.routes';
 import { provideClientHydration, withEventReplay } from '@angular/platform-browser';
@@ -10,6 +10,7 @@ import { ApiQuizService } from './services/quiz/api-quiz.service';
 import { handleAuth } from './interceptors/auth.interceptor';
 import { AuthService } from './services/auth/auth.service';
 import { ApiAuthService } from './services/auth/apiAuth.service';
+import { firstValueFrom } from 'rxjs';
 
 const services:Provider[] = [{
   provide: QuizService,
@@ -29,6 +30,12 @@ export const appConfig: ApplicationConfig = {
     provideRouter(routes),
     provideClientHydration(withEventReplay()),
     provideHttpClient(withInterceptors([handleAuth])),
+    /*
+    provideAppInitializer(() => {
+      const server = inject(ApiAuthService);
+      const request = firstValueFrom( server.checkAuth());
+      return request;
+    }),//*/
     ...services,
   ]
 };

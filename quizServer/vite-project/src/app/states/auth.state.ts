@@ -1,4 +1,5 @@
-import { Injectable, signal } from '@angular/core';
+import { inject, Injectable, signal } from '@angular/core';
+import { ApiAuthService } from '../services/auth/apiAuth.service';
 
 @Injectable({providedIn: 'root'})
 export class AuthState{
