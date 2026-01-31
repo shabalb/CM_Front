@@ -134,6 +134,7 @@ import { MatNativeDateModule } from '@angular/material/core';
                 <form [formGroup]="quiz_input_form" novalidate (ngSubmit)="send()" class = "quiz-form">
                     
                     <div  [hidden]="!isAddingNew">
+                    <label> Тип вопроса </label>
                     <select [formControl]="modeControl" (select)="changeMode()" class="select-mode">
                         <option value="text">текстовый</option>
                         <option value="select">выбор</option>

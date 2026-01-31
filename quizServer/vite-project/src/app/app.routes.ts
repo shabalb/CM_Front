@@ -25,7 +25,7 @@ export const routes: Routes = [
     },
     {
     path:'main',
-    canActivate: [authGuard],
+    //canActivate: [authGuard],
     component: MainLayoutComponent,
     children:[{
         path:'discover',

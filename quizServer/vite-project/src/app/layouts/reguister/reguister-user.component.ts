@@ -7,6 +7,7 @@ import { CommonModule } from '@angular/common';
 import { IRegisterRequest } from '../../models/registration';
 import { Router } from '@angular/router';
 import { ApiRegisterService } from '../../services/reguister/api-registr.service';
+import { firstValueFrom } from 'rxjs';
 
 
 @Component({
@@ -69,13 +70,16 @@ export class ReguisterCreateComponent {
         'Login': new FormControl('', [Validators.required, Validators.maxLength(this.maxLength)]),
         'Password': new FormControl('', [Validators.required, Validators.maxLength(this.maxLength)]),
     });
-    register() {
+    protected async register() {
         if (!this.password.hasError('required') && !this.login.hasError('required')){
             const request: IRegisterRequest = {
                 username:this.login.value,
                 password:this.password.value,
             };
-            this.service.register(request);
+            console.log(this.password.value);
+            const registered = await firstValueFrom( this.service.register(request));
+            console.log(registered);
+            this.router.navigate(['auth/login']);
         }
     }
     get password() {

@@ -12,6 +12,7 @@ export class ApiRegisterService extends RegisterService{
     private users: IUser[] = [{id:1,name:'user',password:'1'}];
     
     public override register(request:IRegisterRequest): Observable<IRegisterResponse>{
+        console.log("sended register");
         return this.httpClient.post<IRegisterResponse>(`${this.apiConfig.getUrl()}/api/auth/register`,request);
     }
     public override getUsers(request: number): Observable<IUser[]> {
