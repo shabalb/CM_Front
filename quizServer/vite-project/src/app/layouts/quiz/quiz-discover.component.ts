@@ -177,6 +177,7 @@ import { MatNativeDateModule } from '@angular/material/core';
                                     </div>
                                 }
                             </div>
+                            <label id = "variant-alert" class = "alert" [class.hidden]="!isenoughVar">alert</label>
                             <button mat-button (click)="addVariant()" type = "button" ><mat-icon fontSet="material-icons"> add</mat-icon></button>
 
                         }
@@ -190,6 +191,7 @@ import { MatNativeDateModule } from '@angular/material/core';
                                 <input name="min"   formControlName="minRange" class="input-name"/>
                                 <label>Максимальное значение</label>
                                 <input name="max"   formControlName="maxRange" class="input-name"/>
+                                <label id = "range-alert" class = "alert" [class.hidden]="!isincorrectRange">alert</label>
                             </div>
                         }
                         @if (modeControl.value === "date"){
@@ -346,6 +348,8 @@ export class QuizDiscoverComponent implements OnInit {
     isincorrectName: boolean = false;
     isincorrectQuestion: boolean = false;
     isincorrectAnswer: boolean = false;
+    isenoughVar: boolean = false;
+    isincorrectRange: boolean = false;
     submit() {
         console.log(1);
     }
@@ -361,27 +365,42 @@ export class QuizDiscoverComponent implements OnInit {
     }
 
     send() {
-        if(this.modeControl.value ==='text'){
-            if (this.quiz_input_form.get('quizName')?.errors?.['required']) {
-                this.isincorrectName = true;
-                document.getElementById('name-alert')!.textContent = 'требуется имя';
-            }
-            if (this.quiz_input_form.get('quizContent')?.errors?.['required']) {
-                this.isincorrectQuestion = true;
-                document.getElementById('question-alert')!.textContent = 'требуется вопрос';
-            }
+        this.isincorrectName = false;
+        this.isincorrectQuestion = false;
+        this.isenoughVar = false;
+        this.isincorrectRange = false;
+        if (this.quiz_input_form.get('quizName')?.errors?.['required']) {
+            this.isincorrectName = true;
+            document.getElementById('name-alert')!.textContent = 'требуется имя';
+        }
+        if (this.quiz_input_form.get('quizContent')?.errors?.['required']) {
+            this.isincorrectQuestion = true;
+            document.getElementById('question-alert')!.textContent = 'требуется вопрос';
+        }
+        if (this.quiz_input_form.get('quizContent')?.errors?.['maxlength']) {
+            this.isincorrectQuestion = true;
+            document.getElementById('question-alert')!.textContent = 'превышено ограничение в ' + this.questionMaxLength + ' символов';
+        }
+        if (this.quiz_input_form.get('quizName')?.errors?.['maxlength']) {
+            this.isincorrectName = true;
+            document.getElementById('name-alert')!.textContent = 'превышено ограничение в ' + this.nameMaxLength + ' символов';
+        }
 
-            if (this.quiz_input_form.get('quizContent')?.errors?.['maxlength']) {
-                this.isincorrectQuestion = true;
-                document.getElementById('question-alert')!.textContent = 'превышено ограничение в ' + this.questionMaxLength + ' символов';
-            }
-            if (this.quiz_input_form.get('quizName')?.errors?.['maxlength']) {
-                this.isincorrectName = true;
-                document.getElementById('name-alert')!.textContent = 'превышено ограничение в ' + this.nameMaxLength + ' символов';
+        if (this.modeControl.value === 'select'){
+            if (this.variants.controls.length < 2){
+                this.isenoughVar = true;
+                document.getElementById('variant-alert')!.textContent = 'недостаточно вариантов';
             }
         }
 
-        if (!this.isincorrectName && !this.isincorrectQuestion && !this.isincorrectAnswer) {
+        if (this.modeControl.value === 'range'){
+            if (this.quiz_input_form.get('minRange')?.errors?.['required'] || this.quiz_input_form.get('maxRange')?.errors?.['required']) {
+                this.isincorrectName = true;
+                document.getElementById('range-alert')!.textContent = 'некорректный диапазон';
+            }
+        }
+
+        if (!this.isincorrectName && !this.isincorrectQuestion && !this.isincorrectAnswer && !this.isincorrectRange && !this.isenoughVar) {
             if (this.modeControl.value ==='text'){
                 const formValue = this.quiz_input_form.value;
                 const request: IQuizCreateRequest = {

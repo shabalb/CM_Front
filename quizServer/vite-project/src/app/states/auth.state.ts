@@ -3,5 +3,5 @@ import { ApiAuthService } from '../services/auth/apiAuth.service';
 
 @Injectable({providedIn: 'root'})
 export class AuthState{
-    public readonly loggedIn = signal(false);
+    public readonly loggedIn = signal<boolean>(false);
 }

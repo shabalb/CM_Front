@@ -32,11 +32,11 @@ export const appConfig: ApplicationConfig = {
     provideHttpClient(withInterceptors([handleAuth])),
     /*
     provideAppInitializer(() => {
-      const router = inject(Router);
+      //const router = inject(Router);
       const server = inject(ApiAuthService);
       const request = firstValueFrom( server.checkAuth());
       console.log("cathed in config");
-      router.navigate(['auth/login']);
+      //router.navigate(['auth/login']);
       return request;
     }),//*/
     ...services,

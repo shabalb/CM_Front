@@ -1,5 +1,5 @@
 import { AuthService } from './auth.service';
-import { catchError, Observable, of, tap } from 'rxjs';
+import { catchError, Observable, of, retry, tap } from 'rxjs';
 import { IUser, IAuthRequest, IAuthResponse, ICheckAuthResponse } from '../../models/auth';
 import { inject, Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
@@ -23,10 +23,18 @@ export class ApiAuthService extends AuthService{
     public override checkAuth(): Observable<ICheckAuthResponse> {
         return this.httpClient.get<ICheckAuthResponse>(`${this.apiConfig.getUrl()}/api/auth/me`, {
         withCredentials: true 
-        }).pipe(tap(() => this.authState.loggedIn.set(true)),
+        }).pipe(tap(() => {
+            console.log("setted true")
+            this.authState.loggedIn.set(true)
+        }),
+        //*
+        retry({
+            count: 3,
+            delay:300,
+        }),//*/
         catchError(() => {
             this.authState.loggedIn.set(false);
-            console.log("catched in auth");
+            console.log("catched in auth");                                                                   
             return of ({id:-1});
         })
         );
