@@ -16,7 +16,7 @@ export const handleAuth: HttpInterceptorFn = (req:HttpRequest<unknown>,next: Htt
         if ( x.status === 401){
             console.log('123');
             authState.loggedIn.set(false);
-            router.navigate(['auth/login']);
+            //router.navigate(['auth/login']);
         }
         return throwError(() =>x);
     }));

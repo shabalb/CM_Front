@@ -1,7 +1,6 @@
-import { inject, Injectable, signal } from '@angular/core';
-import { ApiAuthService } from '../services/auth/apiAuth.service';
+import { Injectable, signal } from '@angular/core';
 
 @Injectable({providedIn: 'root'})
 export class AuthState{
-    public readonly loggedIn = signal<boolean>(false);
+    public readonly loggedIn = signal<boolean | null>(null);
 }
